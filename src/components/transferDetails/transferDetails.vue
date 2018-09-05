@@ -1,7 +1,5 @@
 <template>
   <div>
-    <my-topSearch></my-topSearch>
-    <my-toggle :nowIndex=1></my-toggle>
     <div class="goods-container">
       <div class="goods-banner">
         <img class="show-img" :src="activeImg" alt="">
@@ -226,8 +224,6 @@
 <script>
   import axios from "axios";
   import {baseURL, cardURL} from '@/common/js/public.js';
-  import myTopSearch from "../topSearch/topSearch"
-  import myToggle from "../toggle/toggle"
   import myProgressBar from "../progressBar/progressBar"
   import utils from "@/common/js/utils.js";
   
@@ -502,8 +498,6 @@
     watch: {},
     computed: {},
     components: {
-      myTopSearch,
-      myToggle,
       myProgressBar,
     },
   }

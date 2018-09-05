@@ -1,11 +1,9 @@
 <template>
   <div class="nav_content">
-
     <div class="nav_content_title">
       <span>安全中心</span>
       <span>建议您启动全部安全设置，以保障账户及资金安全</span>
     </div>
-
     <div class="nav_content_table">
       <table>
         <tbody>
@@ -45,9 +43,7 @@
         </tbody>
       </table>
     </div>
-
     <div class="safe_dialog">
-
       <el-dialog title="修改登录密码" :visible.sync="modifyPassword">
         <el-form :model="formPwd" :rules="rules" ref="formPwd">
           <el-form-item label="旧密码" :label-width="formLabelWidth" prop="old">
@@ -67,7 +63,6 @@
           </button>
         </div>
       </el-dialog>
-
       <el-dialog title="实名认证" :visible.sync="realNameAuthentication" class="auth_box">
         <div class="auth_title">
           <img src="./images/not.png" alt="">
@@ -90,7 +85,6 @@
           <button @click="submitAuth">提交</button>
         </div>
       </el-dialog>
-
       <el-dialog title="修改绑定手机" :visible.sync="phoneVerification">
         <el-form :model="formPhone" :rules="rules" ref="formPhone">
           <div v-show="bindPhone">
@@ -106,7 +100,6 @@
               <button type="button" @click="getCode(1)" class="send_btn" v-if="codeValue">发送</button>
               <div class="second_count" v-else>倒计时&nbsp;({{second}})</div>
             </el-form-item>
-
             <div slot="footer" class="dialog-footer padding_phone">
               <button @click="nextStep">下一步</button>
             </div>
@@ -124,14 +117,12 @@
               <button type="button" @click="getCode(2)" class="send_btn" v-if="codeValue2">发送</button>
               <div class="second_count" v-else>倒计时&nbsp;({{second2}})</div>
             </el-form-item>
-
             <div slot="footer" class="dialog-footer padding_phone">
               <button @click="submitPhone">提交</button>
             </div>
           </div>
         </el-form>
       </el-dialog>
-
       <el-dialog title="绑定钱包地址" :visible.sync="dialogFormVisible">
         <el-form :model="formBindWallet" :rules="rules" ref="formBindWallet" class="bindWallet">
           <el-form-item label="请输入钱包地址" :label-width="formLabelWidth" prop="wallet_address">
@@ -142,12 +133,10 @@
             <img :src="captcha" @click="getCaptcha" alt="">
           </el-form-item>
         </el-form>
-
         <div slot="footer" class="dialog-footer">
           <button @click="sunmitBindWallet">提交</button>
         </div>
       </el-dialog>
-
       <el-dialog title="修改钱包地址" :visible.sync="dialogFormVisible2">
         <el-form :model="formModifyWallet" :rules="rules" ref="formModifyWallet" class="bindWallet">
           <el-form-item label="请输入钱包地址" :label-width="formLabelWidth" prop="wallet_address">
@@ -158,19 +147,15 @@
             <img :src="captcha" @click="getCaptcha" alt="">
           </el-form-item>
         </el-form>
-
         <div slot="footer" class="dialog-footer">
           <button @click="sunmitModifyWallet">提交</button>
         </div>
       </el-dialog>
     </div>
-
-
   </div>
 </template>
 
 <script>
-  import myTopSearch from "../topSearch/topSearch";
   import axios from "axios";
   import {baseURL} from '@/common/js/public.js';
   const querystring = require('querystring');
@@ -178,6 +163,7 @@
   export default{
     inject:['reload'],
     name: "securityCenter",
+    components: {},
     data(){
       //Element-ui自定义校验
       var validateRenew = (rule, value, callback) => {
@@ -418,7 +404,6 @@
             type:3 //1-注册，2-修改密码, 3-登录
           })
         }).then(res => {
-          console.log(res)
         }).catch(error => {
           console.log(error);
         })
@@ -464,10 +449,7 @@
                     method: 'get',
                     url: `${baseURL}/v1/sms/${this.userInfo.phone}/code/${this.formPhone.code}`
                   }).then(res => {
-
-
                     this.bindPhone =false;
-
                   }).catch(error => {
                     console.log(error);
                     this.errorMsgCode = '短信验证码错误'
@@ -486,9 +468,6 @@
             return false;
           }
         })
-
-
-
       },
       submitPhone(){
         this.formPhone.phone = this.userInfo.phone;
@@ -508,7 +487,6 @@
                 method: 'get',
                 url: `${baseURL}/v1/sms/+86${this.formPhone.inputPhone}/code/${this.formPhone.new_code}`
               }).then(res => {
-
                 axios({
                   method: 'post',
                   url: `${baseURL}/v1/users/${this.userInfo._id}/phone`,
@@ -519,8 +497,6 @@
                 }).catch(error => {
                   console.log(error);
                 })
-
-
               }).catch(error => {
                 console.log(error);
                 this.errorMsgCode = '短信验证码错误'
@@ -534,9 +510,7 @@
             return false;
           }
         })
-
       },
-
       //绑定钱包地址
       sunmitBindWallet(){
         //校验input是否有值
@@ -603,13 +577,7 @@
           }
         })
       }
-
-
-
     },
-    components: {
-      myTopSearch
-    }
   }
 </script>
 <style scoped>

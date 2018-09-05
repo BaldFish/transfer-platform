@@ -30,9 +30,10 @@
 <script>
   import axios from "axios";
   import {baseURL, cardURL} from '@/common/js/public.js';
-  
+
   export default {
     name: "topSearch",
+    components: {},
     data() {
       return {
         options: [{
@@ -121,7 +122,6 @@
         this.$store.commit("changeSearch", searchObj);
       },
     },
-    components: {},
   }
 </script>
 
@@ -262,7 +262,7 @@
       vertical-align middle
     }
   }
-  
+
   .el-input.my_input {
     display inline-block
     width 476px

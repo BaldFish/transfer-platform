@@ -1,15 +1,14 @@
 <template>
   <div>
-    <div class="forget_psw_header">
-      <section>
-        <img src="./images/forget_psw_logo.png" alt="">
-        <p>已有账号，立即<router-link to="/login" class="to_login">登录</router-link></p>
-      </section>
-    </div>
-    <div class="forget_psw_nav">
-       <div class="psw_nav_details">
-          当前位置：<router-link to="/home" class="to_home">首页</router-link> > 找回密码
-       </div>
+    <div class="site_box">
+      <div class="site">
+        <ul>
+          <li>当前位置 ：</li>
+          <li><a href="/">首页</a></li>
+          <li>&nbsp;>&nbsp;</li>
+          <li><a href="/forgetPassword">找回密码</a></li>
+        </ul>
+      </div>
     </div>
     <div class="forget_psw_body">
       <div class="forget_psw_content">
@@ -92,9 +91,6 @@
 
       </div>
     </div>
-
-
-
   </div>
 </template>
 
@@ -104,6 +100,8 @@
   const querystring = require('querystring');
 
   export default{
+    name: "forgetPassword",
+    components: {},
     data(){
       return {
         codeValue:true,
@@ -270,40 +268,6 @@
   }
 </script>
 <style scoped>
-  .forget_psw_header{
-    height:130px;
-    background-color: #f3f3f3;
-    width:100%;
-  }
-  .forget_psw_header section{
-    width:1212px;
-    margin:0 auto;
-    padding-top: 36px;
-  }
-  .forget_psw_header section p{
-    float: right;
-    margin-top: 42px;
-    font-size: 16px;
-    color: #222222;
-  }
-  .to_login{
-    color: #c6351e;
-  }
-  .forget_psw_nav{
-    width: 100%;
-    height: 40px;
-    background-color: #7d7d7d;
-    font-size: 20px;
-    color: #ffffff;
-  }
-  .to_home{
-    color: #ffffff;
-  }
-  .psw_nav_details{
-    width:1212px;
-    margin: 0 auto;
-    line-height: 40px;
-  }
   .forget_psw_body{
     background-color: #f3f3f3;
     width:100%;
@@ -479,5 +443,30 @@
     left: 390px;
     color: #c6351e;
     display: inline-block;
+  }
+</style>
+<style scoped lang="stylus">
+  .site_box {
+    margin 0 auto
+    width 100%
+    background-color: #e7e7e7;
+    .site {
+      width 1212px
+      height 34px
+      line-height 34px
+      margin 0 auto
+      ul {
+        padding-left 8px
+        font-size 0
+        li {
+          vertical-align top
+          display inline-block
+          font-size 14px
+          a{
+            color: #666666;
+          }
+        }
+      }
+    }
   }
 </style>

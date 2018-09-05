@@ -1,7 +1,5 @@
 <template>
   <div class="seller">
-    <my-topSearch></my-topSearch>
-    <my-toggle></my-toggle>
     <div class="presentation_bg">
       <div class="presentation_box">
         <div class="logo">
@@ -40,15 +38,11 @@
   import _ from "lodash";
   import {baseURL, cardURL} from '@/common/js/public.js';
   import utils from "@/common/js/utils.js";
-  import myTopSearch from "../topSearch/topSearch"
-  import myToggle from "../toggle/toggle"
   import myProgressBar from "../progressBar/progressBar"
   
   export default {
     name: "seller",
     components: {
-      myTopSearch,
-      myToggle,
       myProgressBar,
     },
     data() {

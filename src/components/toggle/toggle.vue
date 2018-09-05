@@ -1,7 +1,7 @@
 <template>
   <div class="toggle">
     <ul>
-      <li v-for="(item,index) of toggleParam" @click="toggle(index)" :class="{active:index===toggleIndex}">{{item}}</li>
+      <li v-for="(item,index) of toggleParam" @click="toggle(index)" :class="{active:index!==toggleIndex}">{{item}}</li>
     </ul>
   </div>
 </template>

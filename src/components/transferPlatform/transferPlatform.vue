@@ -1,9 +1,8 @@
 <template>
   <div class="transferPlatform">
-    <my-topSearch></my-topSearch>
-    <my-toggle :toggleIndex="toggleIndex"></my-toggle>
     <div class="carousel">
-      <el-carousel :interval="3000" arrow="never" indicator-position="none">
+      <!--<el-carousel :interval="3000" arrow="never" indicator-position="none">-->
+      <el-carousel :interval="3000" arrow="always">
         <el-carousel-item v-for="item in bannerList" :key="item.link_url">
           <a :href="item.link_url"><img :src="item.picture_url" alt=""></a>
         </el-carousel-item>
@@ -46,15 +45,11 @@
   import _ from "lodash";
   import {baseURL, cardURL} from '@/common/js/public.js';
   import utils from "@/common/js/utils.js";
-  import myTopSearch from "../topSearch/topSearch"
-  import myToggle from "../toggle/toggle"
   import myProgressBar from "../progressBar/progressBar"
   
   export default {
     name: "transferPlatform",
     components: {
-      myTopSearch,
-      myToggle,
       myProgressBar,
     },
     data() {

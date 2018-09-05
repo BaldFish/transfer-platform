@@ -7,11 +7,11 @@
       </p>
       <p>可信币：0.00</p>
     </div>
-    
+
     <div class="nav_content_title">
       <span>已购资产</span>
     </div>
-    
+
     <div class="no_assets_content">
       <div class="no_assets_box">
         <img src="./images/empty.png" alt="">
@@ -19,21 +19,18 @@
         <router-link to="" class="to_buy">去购买 ></router-link>
       </div>
     </div>
-    
+
   </div>
 </template>
 
 <script>
-  import myTopSearch from "../topSearch/topSearch"
   export default{
     name: "noAssets",
+    components: {},
     data(){
       return {
       }
     },
-    components: {
-      myTopSearch
-    }
   }
 </script>
 <style scoped>

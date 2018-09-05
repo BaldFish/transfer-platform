@@ -1,13 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import myHome from '@/components/home/home'
-import myMoreReport from '@/components/moreReport/moreReport'
-import myMoreCase from '@/components/moreCase/moreCase'
-import myCaseDetails from '@/components/caseDetails/caseDetails'
-import myCaseSource from '@/components/caseSource/caseSource'
-import myMoreFacility from '@/components/moreFacility/moreFacility'
-import myFacilityDetails from '@/components/facilityDetails/facilityDetails'
-import myFacilitySource from '@/components/facilitySource/facilitySource'
 import myLogin from '@/components/login/login'
 import myForgetPassword from '@/components/forgetPassword/forgetPassword'
 import myRegister from '@/components/register/register'
@@ -19,16 +12,11 @@ import myNoAssets from '@/components/noAssets/noAssets'
 import myCheckOrder from '@/components/checkOrder/checkOrder'
 import myOrderHistory from '@/components/orderHistory/orderHistory'
 import mySecurityCenter from '@/components/securityCenter/securityCenter'
-import mySearchReport from '@/components/searchReport/searchReport'
-import mySearchCase from '@/components/searchCase/searchCase'
-import mySearchFacility from '@/components/searchFacility/searchFacility'
 import myPublicityPage from '@/components/publicityPage/publicityPage'
 import myTransferPlatform from '@/components/transferPlatform/transferPlatform'
-import myInfoPublicity from '@/components/infoPublicity/infoPublicity'
 import myYuanBeanPage from '@/components/yuanBeanPage/yuanBeanPage'
 import mySeller from '@/components/seller/seller'
 import myTransferDetails from '@/components/transferDetails/transferDetails'
-import myReportDetails from '@/components/reportDetails/reportDetails'
 Vue.use(Router);
 
 export default new Router({
@@ -42,41 +30,6 @@ export default new Router({
       path: '/home',
       name: 'home',
       component: myHome
-    },
-    {
-      path: '/moreReport',
-      name: 'moreReport',
-      component: myMoreReport
-    },
-    {
-      path: '/moreCase',
-      name: 'moreCase',
-      component: myMoreCase
-    },
-    {
-      path: '/caseDetails',
-      name: 'caseDetails',
-      component: myCaseDetails
-    },
-    {
-      path: '/caseSource',
-      name: 'caseSource',
-      component: myCaseSource
-    },
-    {
-      path: '/moreFacility',
-      name: 'moreFacility',
-      component: myMoreFacility
-    },
-    {
-      path: '/facilityDetails',
-      name: 'facilityDetails',
-      component: myFacilityDetails
-    },
-    {
-      path: '/facilitySource',
-      name: 'facilitySource',
-      component: myFacilitySource
     },
     {
       path: '/login',
@@ -139,21 +92,6 @@ export default new Router({
       ]
     },
     {
-      path: '/searchReport',
-      name: 'searchReport',
-      component: mySearchReport
-    },
-    {
-      path: '/searchCase',
-      name: 'searchCase',
-      component: mySearchCase
-    },
-    {
-      path: '/searchFacility',
-      name: 'searchFacility',
-      component: mySearchFacility
-    },
-    {
       path: '/publicityPage',
       name: 'publicityPage',
       component: myPublicityPage
@@ -169,11 +107,6 @@ export default new Router({
       component: myTransferPlatform
     },
     {
-      path: '/infoPublicity',
-      name: 'infoPublicity',
-      component: myInfoPublicity
-    },
-    {
       path: '/seller',
       name: 'seller',
       component: mySeller
@@ -182,11 +115,6 @@ export default new Router({
       path: '/transferDetails',
       name: 'transferDetails',
       component: myTransferDetails
-    },
-    {
-      path: '/reportDetails',
-      name: 'reportDetails',
-      component: myReportDetails
     },
   ]
 })

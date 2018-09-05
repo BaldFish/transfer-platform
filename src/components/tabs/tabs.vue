@@ -1,7 +1,5 @@
 <template>
   <div class="tabs">
-    <my-topSearch></my-topSearch>
-    <my-toggle :toggleIndex="toggleIndex"></my-toggle>
     <div class="nav_body">
       <div class="nav_mid">
         <nav class="nav_tab">
@@ -39,12 +37,13 @@
 </template>
 
 <script>
-  import myTopSearch from "../topSearch/topSearch"
-  import myToggle from "../toggle/toggle"
   import myPaging from "../paging/paging"
   import {baseURL,cardURL} from '@/common/js/public.js';
   export default {
     name: "tabs",
+    components: {
+      myPaging,
+    },
     data() {
       return {
         toggleIndex: 0,
@@ -54,14 +53,9 @@
     },
     mounted() {
     },
-    methods: {},
     watch: {},
     computed: {},
-    components: {
-      myTopSearch,
-      myPaging,
-      myToggle
-    },
+    methods: {},
   }
 </script>
 

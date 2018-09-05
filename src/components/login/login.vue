@@ -1,14 +1,16 @@
 <template>
   <div class="login-container">
-    <div class="login-header">
-      <div class="login-header-cont">
-        <router-link to="/home">
-          <img src="./images/login_header.png" alt="">
-        </router-link>
-      </div>
-    </div>
-    <my-toggle :toggleIndex="toggleIndex"></my-toggle>
     <div class="login-content">
+      <div class="site_box">
+        <div class="site">
+          <ul>
+            <li>当前位置 ：</li>
+            <li><a href="/">首页</a></li>
+            <li>&nbsp;>&nbsp;</li>
+            <li><a href="/login">登录</a></li>
+          </ul>
+        </div>
+      </div>
       <div class="content-box">
         <div class="content-mid">
           <img src="./images/login_content.png" alt="">
@@ -77,8 +79,6 @@
       </div>
     </div>
   </div>
-  <!--    </div>
-    </div>-->
 </template>
 
 <script>
@@ -372,26 +372,6 @@
   }
 </script>
 <style scoped>
-  .login-header {
-    width: 100%;
-    height: 122px;
-    background-color: #f3f3f3;
-    //border-bottom: 4px solid #c7361e;
-  }
-
-  .login-header-cont {
-    width: 1200px;
-    margin: 0 auto;
-    height: 100%;
-  }
-
-  .login-header-cont img {
-    width: 280px;
-    height: 58px;
-    display: inline-block;
-    margin-top: 34px;
-  }
-
   .login-content {
     background: url("./images/login_bg.png") no-repeat center;
     background-size: 100% 100%;
@@ -610,5 +590,30 @@
 
   .error_top {
     top: 3px;
+  }
+</style>
+<style scoped lang="stylus">
+  .site_box {
+    margin 0 auto
+    width 100%
+    background-color: #e7e7e7;
+    .site {
+      width 1212px
+      height 34px
+      line-height 34px
+      margin 0 auto
+      ul {
+        padding-left 8px
+        font-size 0
+        li {
+          vertical-align top
+          display inline-block
+          font-size 14px
+          a{
+            color: #666666;
+          }
+        }
+      }
+    }
   }
 </style>

@@ -73,12 +73,13 @@
   import axios from "axios";
   import {baseURL} from '@/common/js/public.js';
   import utils from "@/common/js/utils.js";
-  
+
   const querystring = require('querystring');
-  
+
   export default {
     inject: ['reload'],
     name: "orderHistory",
+    components: {},
     data() {
       return {
         options: [{
@@ -293,7 +294,7 @@
         }
       }
     }
-    
+
     .nav_content_table {
       box-sizing border-box
       margin-top: 12px;
@@ -380,7 +381,7 @@
               margin-left: 14px;
             }
           }
-          
+
           .img_lastTd {
             p:last-child {
               margin-top: 10px;
@@ -390,13 +391,13 @@
         }
       }
     }
-    
+
     .paging {
       width: 1080px;
       margin: 0 auto;
       text-align: center
     }
-    
+
   }
 </style>
 <style lang="stylus">
@@ -417,7 +418,7 @@
       span {
         color #c6351e;
       }
-      
+
     }
   }
 

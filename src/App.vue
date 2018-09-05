@@ -17,6 +17,35 @@
         </div>
       </div>
     </div>
+    <div class="login-header" v-if="isShowLogin">
+      <div class="login-header-cont">
+        <router-link to="/home">
+          <img src="./common/images/login_header.png" alt="">
+        </router-link>
+      </div>
+    </div>
+    <div class="forget_psw_header" v-if="isShowRegister">
+      <section>
+        <router-link to="/home">
+          <img src="./common/images/register_logo.png" alt="">
+        </router-link>
+        <p>已有账号，立即
+          <router-link to="/login" class="to_login">登录</router-link>
+        </p>
+      </section>
+    </div>
+    <div class="forget_psw_header" v-if="isShowForgetPassword">
+      <section>
+        <router-link to="/home">
+          <img src="./common/images/forget_psw_logo.png" alt="">
+        </router-link>
+        <p>已有账号，立即
+          <router-link to="/login" class="to_login">登录</router-link>
+        </p>
+      </section>
+    </div>
+    <my-topSearch v-if="isShowTopSearch"></my-topSearch>
+    <my-toggle :toggleIndex="toggleIndex"></my-toggle>
     <div class="main_wrap">
       <router-view class="main" v-if="isRouterAlive"></router-view>
     </div>
@@ -58,12 +87,17 @@
 </template>
 
 <script>
-  import "./common/stylus/index.styl";
+  import "@/common/stylus/index.styl";
   import {baseURL, cardURL} from '@/common/js/public.js';
-  import axios from "axios";
-  
+  import myTopSearch from "@/components/topSearch/topSearch"
+  import myToggle from "@/components/toggle/toggle"
+
   export default {
     name: 'App',
+    components: {
+      myTopSearch,
+      myToggle,
+    },
     provide() {
       return {
         reload: this.reload
@@ -75,6 +109,11 @@
         switchover: false,
         isLogin: false,
         userName: "",
+        toggleIndex: 0,
+        isShowTopSearch: false,
+        isShowLogin: false,
+        isShowRegister: false,
+        isShowForgetPassword: false,
       }
     },
     beforeMount() {
@@ -84,6 +123,7 @@
       } else {
         this.isLogin = false
       }
+      this.changTop()
     },
     beforeUpdate() {
       if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
@@ -92,8 +132,34 @@
       } else {
         this.isLogin = false
       }
+      this.changTop()
     },
+    computed: {},
+    watch: {},
     methods: {
+      changTop() {
+        if (this.$route.path == "/login") {
+          this.isShowTopSearch = false;
+          this.isShowLogin = true;
+          this.isShowRegister = false;
+          this.isShowForgetPassword = false;
+        } else if (this.$route.path == "/register") {
+          this.isShowTopSearch = false;
+          this.isShowLogin = false;
+          this.isShowRegister = true;
+          this.isShowForgetPassword = false;
+        } else if (this.$route.path == "/forgetPassword") {
+          this.isShowTopSearch = false;
+          this.isShowLogin = false;
+          this.isShowRegister = false;
+          this.isShowForgetPassword = true;
+        } else {
+          this.isShowTopSearch = true;
+          this.isShowLogin = false;
+          this.isShowRegister = false;
+          this.isShowForgetPassword = false;
+        }
+      },
       reload() {
         this.isRouterAlive = false;
         this.$nextTick(() => {
@@ -117,13 +183,13 @@
   }
 </script>
 
-<style lang="stylus">
+<style scoped lang="stylus">
   #app {
     min-height: 98vh;
     display: flex;
     flex-direction: column;
   }
-  
+
   .head-wrap {
     width: 100%;
     min-width 1212px
@@ -170,7 +236,44 @@
       }
     }
   }
-  
+
+  .login-header {
+    width: 100%;
+    height: 130px;
+    background-color: #f3f3f3;
+    .login-header-cont {
+      width: 1200px;
+      margin: 0 auto;
+      height: 100%;
+      padding-top 36px
+      img {
+        width: 280px;
+        height: 58px;
+        display: inline-block;
+      }
+    }
+  }
+
+  .forget_psw_header {
+    width: 100%;
+    height: 130px;
+    background-color: #f3f3f3;
+    section {
+      width: 1200px;
+      margin: 0 auto;
+      padding-top: 36px;
+      p {
+        float: right;
+        margin-top: 36px;
+        font-size: 16px;
+        color: #222222;
+        .to_login {
+          color: #c6351e;
+        }
+      }
+    }
+  }
+
   .main_wrap {
     flex: 1;
     box-sizing: border-box;
@@ -179,7 +282,7 @@
     min-width 1212px
     background-color #f3f3f3
   }
-  
+
   .footer-wrap {
     width 100%
     min-width 1212px

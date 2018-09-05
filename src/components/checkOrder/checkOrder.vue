@@ -19,7 +19,7 @@
         <tbody>
         <tr class="img_tbody">
           <td @click="turnDetails(buyInfoObj.apikey,buyInfoObj.assetid,buyInfoObj.packageId)"><img :src="buyInfoObj.asseturl" alt=""
-                                                                               v-if="buyInfoObj.apikey==='5ae04522cff7cb000194f2f4'">{{buyInfoObj.assetname}}</td>
+                                                                                                   v-if="buyInfoObj.apikey==='5ae04522cff7cb000194f2f4'">{{buyInfoObj.assetname}}</td>
           <td>{{buyInfoObj.sell_type}}</td>
           <td>{{buyInfoObj.count}}</td>
           <td>{{total}}</td>
@@ -122,16 +122,13 @@
 <script>
   import axios from "axios";
   import {baseURL, cardURL} from '@/common/js/public.js';
-  import myTopSearch from "../topSearch/topSearch"
   import {BigNumber} from 'bignumber.js';
-  
+
   const querystring = require('querystring');
-  
+
   export default {
     name: "checkOrder",
-    components: {
-      myTopSearch
-    },
+    components: {},
     data() {
       return {
         paymentInfo: {},
@@ -352,7 +349,7 @@
     width: 1080px;
     float: right;
   }
-  
+
   .nav_content_title {
     width: 1078px;
     height: 50px;
@@ -362,57 +359,57 @@
     font-size: 18px;
     color: #222222;
   }
-  
+
   .nav_content_title span {
     padding-left: 20px;
   }
-  
+
   .nav_content_table {
     margin-top: 12px;
     width: 1078px;
     background-color: #ffffff;
     border: solid 1px #bfbfbf;
   }
-  
+
   .nav_content_table thead th {
     font-size: 16px;
     color: #222222;
   }
-  
+
   .nav_content_table tbody td {
     font-size: 14px;
     color: #666666;
   }
-  
+
   .nav_content_table tbody tr {
     border-bottom: 1px solid #d2d2d2;
     text-align: center;
     height: 90px;
   }
-  
+
   .nav_content_table tbody tr td {
     vertical-align: middle;
   }
-  
+
   .nav_content_table tbody tr:last-child {
     border-bottom: none;
   }
-  
+
   .no_img_thead {
     height: 50px;
     line-height: 50px;
   }
-  
+
   .no_img_thead th:nth-child(1) {
     width: 480px;
     text-align: left;
     padding-left: 46px;
   }
-  
+
   .no_img_thead th {
     width: 154px;
   }
-  
+
   .th_classify th {
     width: 1080px;
     height: 40px;
@@ -421,13 +418,13 @@
     line-height: 40px;
     padding-left: 46px;
   }
-  
+
   .no_img_tbody td:nth-child(1) {
     text-align: left;
     padding-left: 46px;
     line-height: 20px;
   }
-  
+
   .quick_buy_td button {
     width: 64px;
     height: 28px;
@@ -440,12 +437,12 @@
     color: #c6351e;
     margin: 0 30px;
   }
-  
+
   .img_thead {
     height: 50px;
     line-height: 50px;
   }
-  
+
   .img_thead th:first-child {
     padding-left: 46px;
     text-align: left;
@@ -454,13 +451,13 @@
   .img_thead th {
     width: 150px;
   }
-  
+
   .img_tbody td:nth-child(1) {
     padding-left: 46px;
     text-align: left;
     cursor: pointer;
   }
-  
+
   .img_tbody td:nth-child(1) img {
     width: 54px;
     height: 54px;
@@ -469,7 +466,7 @@
     vertical-align: middle;
     margin-right: 46px;
   }
-  
+
   .order_amount {
     text-align: right;
     font-size: 18px;
@@ -477,7 +474,7 @@
     margin-top: 20px;
     margin-bottom: 60px;
   }
-  
+
   .order_amount span {
     color: #c6351e;
   }

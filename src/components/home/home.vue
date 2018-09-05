@@ -1,7 +1,5 @@
 <template>
   <div class="home">
-    <my-topSearch></my-topSearch>
-    <my-toggle :toggleIndex="toggleIndex"></my-toggle>
     <div class="carousel">
       <el-carousel :interval="3000" arrow="always">
         <el-carousel-item v-for="item in bannerList" :key="item.link_url">
@@ -164,15 +162,10 @@
   import _ from "lodash";
   import {baseURL, cardURL} from '@/common/js/public.js';
   import utils from "@/common/js/utils.js";
-  import myTopSearch from "../topSearch/topSearch"
-  import myToggle from "../toggle/toggle"
-  
+
   export default {
     name: "home",
-    components: {
-      myTopSearch,
-      myToggle,
-    },
+    components: {},
     data() {
       return {
         reportPage:1,
@@ -191,7 +184,6 @@
           {link_url: 'javascript:void(0)', picture_url: require('./images/banner.png')},
           {link_url: '/publicityPage', picture_url: require('./images/banner_002.png')},
         ],
-        toggleIndex: 0,
       }
     },
     mounted() {
@@ -839,9 +831,9 @@
           }
         }
       }
-      
+
     }
-    
+
   }
 </style>
 <style lang="stylus">
@@ -889,5 +881,5 @@
       }
     }
   }
-  
+
 </style>

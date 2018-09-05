@@ -1,32 +1,5 @@
 <template>
   <div>
-    <div class="forget_psw_header">
-      <section>
-        <img src="./images/register_logo.png" alt="">
-        <p>已有账号，立即<router-link to="/login" class="to_login">登录</router-link></p>
-      </section>
-    </div>
-    <!--<div class="forget_psw_nav">
-      <div class="site_box">
-        <div class="site">
-          <ul>
-            <li>当前位置 ：</li>
-            <li><a href="/">首页</a></li>
-            <li>&nbsp;>&nbsp;</li>
-            <li><a href="/moreCase">登录</a></li>
-            <li>&nbsp;>&nbsp;</li>
-            <li>注册</li>
-          </ul>
-        </div>
-      </div>
-      <div class="psw_nav_details">
-        当前位置：
-        <router-link to="/home" class="to_home">首页</router-link> >
-        <router-link to="/login" class="to_home">登录</router-link> >
-        免费注册
-      </div>
-    </div>-->
-    <my-toggle :toggleIndex="toggleIndex"></my-toggle>
     <div class="forget_psw_body">
       <div class="site_box">
         <div class="site">
@@ -152,14 +125,11 @@
 <script>
   import axios from "axios";
   import {baseURL} from '@/common/js/public.js';
-  import myToggle from "../toggle/toggle"
   const querystring = require('querystring');
 
   export default{
     name: "login",
-    components: {
-      myToggle,
-    },
+    components: {},
     data(){
       return {
         toggleIndex: 0,
@@ -381,40 +351,6 @@
   }
 </script>
 <style scoped>
-  .forget_psw_header{
-    height:130px;
-    background-color: #f3f3f3;
-    width:100%;
-  }
-  .forget_psw_header section{
-    width:1212px;
-    margin:0 auto;
-    padding-top: 36px;
-  }
-  .forget_psw_header section p{
-    float: right;
-    margin-top: 42px;
-    font-size: 16px;
-    color: #222222;
-  }
-  .to_login{
-    color: #c6351e;
-  }
-  .forget_psw_nav{
-    width: 100%;
-    height: 40px;
-    background-color: #7d7d7d;
-    font-size: 20px;
-    color: #ffffff;
-  }
-  .to_home{
-    color: #ffffff;
-  }
-  .psw_nav_details{
-    width:1212px;
-    margin: 0 auto;
-    line-height: 40px;
-  }
   .forget_psw_body{
     background-color: #f3f3f3;
     width:100%;
