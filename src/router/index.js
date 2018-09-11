@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import myHome from '@/components/home/home'
 import myLogin from '@/components/login/login'
 import myForgetPassword from '@/components/forgetPassword/forgetPassword'
 import myRegister from '@/components/register/register'
@@ -12,9 +11,7 @@ import myNoAssets from '@/components/noAssets/noAssets'
 import myCheckOrder from '@/components/checkOrder/checkOrder'
 import myOrderHistory from '@/components/orderHistory/orderHistory'
 import mySecurityCenter from '@/components/securityCenter/securityCenter'
-import myPublicityPage from '@/components/publicityPage/publicityPage'
 import myTransferPlatform from '@/components/transferPlatform/transferPlatform'
-import myYuanBeanPage from '@/components/yuanBeanPage/yuanBeanPage'
 import mySeller from '@/components/seller/seller'
 import myTransferDetails from '@/components/transferDetails/transferDetails'
 Vue.use(Router);
@@ -24,12 +21,7 @@ export default new Router({
   routes: [
     {
       path: "/",
-      redirect: "/home"
-    },
-    {
-      path: '/home',
-      name: 'home',
-      component: myHome
+      redirect: "/transferPlatform"
     },
     {
       path: '/login',
@@ -90,16 +82,6 @@ export default new Router({
           component: myCheckOrder
         },
       ]
-    },
-    {
-      path: '/publicityPage',
-      name: 'publicityPage',
-      component: myPublicityPage
-    },
-    {
-      path: '/yuanBeanPage',
-      name: 'yuanBeanPage',
-      component: myYuanBeanPage
     },
     {
       path: '/transferPlatform',

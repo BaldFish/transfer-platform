@@ -13,12 +13,12 @@
           <th>小计</th>
         </tr>
         <tr class="th_classify">
-          <th colspan="6">{{buyInfoObj.apiname}}</th>
+          <th colspan="6">{{buyInfoObj.assetname}}</th>
         </tr>
         </thead>
         <tbody>
         <tr class="img_tbody">
-          <td @click="turnDetails(buyInfoObj.apikey,buyInfoObj.assetid,buyInfoObj.packageId)"><img :src="buyInfoObj.asseturl" alt=""
+          <td @click="turnDetails(buyInfoObj.apikey,buyInfoObj.asset_id,buyInfoObj.package_id)"><img :src="buyInfoObj.asset_url" alt=""
                                                                                                    v-if="buyInfoObj.apikey==='5ae04522cff7cb000194f2f4'">{{buyInfoObj.assetname}}</td>
           <td>{{buyInfoObj.sell_type}}</td>
           <td>{{buyInfoObj.count}}</td>
@@ -55,10 +55,10 @@
               <input class="pay_radio" type="radio" name="pay" value=0 v-model="value">
               <span class="pay_radioInput"></span>可信积分
             </label>
-            <label class="pay_label">
+            <!--<label class="pay_label">
               <input class="pay_radio" type="radio" name="pay" value="20" v-model="value">
               <span class="pay_radioInput"></span>支付宝
-            </label>
+            </label>-->
           </span>
         </div>
         <p>可使用可信积分，进行等价交易。</p>
@@ -132,7 +132,7 @@
     data() {
       return {
         paymentInfo: {},
-        orderNum: "",
+        order_id: "",
         userId: "",
         token: "",
         id: "",
@@ -152,7 +152,7 @@
         this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
         this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
         if (JSON.parse(sessionStorage.getItem("buyInfoObj"))) {
-          this.orderNum = JSON.parse(sessionStorage.getItem("buyInfoObj")).orderNum
+          this.order_id = JSON.parse(sessionStorage.getItem("buyInfoObj")).id
         }
         this.acquireOrderInfo();
         this.acquireUserInfo();
@@ -173,14 +173,14 @@
       acquireOrderInfo() {
         axios({
           method: "GET",
-          url: `${baseURL}/v1/order/detail/${this.orderNum}`,
+          url: `${cardURL}/v1/assets-transfer/record/detail/${this.order_id}`,
           headers: {
             "Content-Type": "application/json",
           }
         }).then((res) => {
           this.buyInfoObj = res.data;
-          this.orderNum = this.buyInfoObj.orderNum;
-          if (this.buyInfoObj.orderStatus === 2) {
+          this.order_id = this.buyInfoObj.id;
+          if (this.buyInfoObj.order_status === 2) {
             this.next = 3
           }
         }).catch((err) => {
@@ -193,20 +193,21 @@
           //防止长时间未点击确认支付或在其它浏览器支付完成，支付前获取订单最新支付状态
           axios({
             method: "GET",
-            url: `${baseURL}/v1/order/detail/${this.orderNum}`,
+            url: `${cardURL}/v1/assets-transfer/record/detail/${this.order_id}`,
             headers: {
               "Content-Type": "application/json",
             }
           }).then((res) => {
-            if (res.data.orderStatus === 0) {
+            if (res.data.order_status === 0) {
               return
-            } else if (res.data.orderStatus === 1) {
+            } else if (res.data.order_status === 1) {
               //如果支付状态是未支付，根据支付方式请求支付信息
               axios({
                 method: "POST",
-                url: `${baseURL}/v1/order/pay/${this.orderNum}`,
+                url: `${cardURL}/v1/assets-transfer/record/pay`,
                 data: querystring.stringify({
-                  pay_method: this.value
+                  pay_method: this.value,
+                  order_id:this.order_id
                 })
               }).then((res) => {
                 if (this.value === 30 || 10 || 20) {
@@ -220,7 +221,7 @@
               }).catch((err) => {
                 console.log(err);
               });
-            } else if (res.data.orderStatus === 2) {
+            } else if (res.data.order_status === 2) {
               clearTimeout(this.timer);
               this.next = 3
             }
@@ -235,21 +236,21 @@
       acquireOrderStatus() {
         axios({
           method: "GET",
-          url: `${baseURL}/v1/order/detail/${this.orderNum}`,
+          url: `${cardURL}/v1/assets-transfer/record/detail/${this.order_id}`,
           headers: {
             "Content-Type": "application/json",
           }
         }).then((res) => {
-          if (res.data.orderStatus === 0) {
+          if (res.data.order_status === 0) {
             clearTimeout(this.timer);
             return
-          } else if (res.data.orderStatus === 1) {
+          } else if (res.data.order_status === 1) {
             clearTimeout(this.timer);
             let that = this;
             this.timer = window.setTimeout(function () {
               that.acquireOrderStatus()
             }, 5000);
-          } else if (res.data.orderStatus === 2) {
+          } else if (res.data.order_status === 2) {
             clearTimeout(this.timer);
             this.next = 3
           }

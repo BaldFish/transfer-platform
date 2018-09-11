@@ -363,7 +363,7 @@
         }).then((res) => {
           res.data.phone = res.data.phone.substr(3, 3) + "***" + res.data.phone.substr(10, 4);
           window.sessionStorage.setItem("userName", JSON.stringify(res.data));
-          this.$router.push("/home")
+          this.$router.push("/transferPlatform")
         }).catch((err) => {
           console.log(err);
         });

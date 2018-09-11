@@ -114,7 +114,7 @@
           </div>
           <img src="./images/success.png" class="sc_bg" alt="">
           <div class="success_to_home">
-            <router-link to="/home"></router-link>
+            <router-link to="/transferPlatform"></router-link>
           </div>
         </section>
       </div>

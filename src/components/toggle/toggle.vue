@@ -30,7 +30,7 @@
     methods: {
       toggle(index){
         if(index===0){
-          this.$router.push("/home")
+          this.$router.push("/")
         }else if(index===1){
           this.$router.push("/transferPlatform")
         }

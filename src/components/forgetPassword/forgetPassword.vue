@@ -85,7 +85,7 @@
           <div class="title">
             <span class="caption"><span class="line line-l"></span>请牢记您的密码<span class="line line-r"></span></span>
           </div>
-          <div class="next_btn step_two_three"><router-link to="/home">返回首页</router-link></div>
+          <div class="next_btn step_two_three"><router-link to="/transferPlatform">返回首页</router-link></div>
         </section>
 
 

@@ -19,14 +19,14 @@
     </div>
     <div class="login-header" v-if="isShowLogin">
       <div class="login-header-cont">
-        <router-link to="/home">
+        <router-link to="/transferPlatform">
           <img src="./common/images/login_header.png" alt="">
         </router-link>
       </div>
     </div>
     <div class="forget_psw_header" v-if="isShowRegister">
       <section>
-        <router-link to="/home">
+        <router-link to="/transferPlatform">
           <img src="./common/images/register_logo.png" alt="">
         </router-link>
         <p>已有账号，立即
@@ -36,7 +36,7 @@
     </div>
     <div class="forget_psw_header" v-if="isShowForgetPassword">
       <section>
-        <router-link to="/home">
+        <router-link to="/transferPlatform">
           <img src="./common/images/forget_psw_logo.png" alt="">
         </router-link>
         <p>已有账号，立即

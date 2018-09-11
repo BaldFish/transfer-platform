@@ -26,13 +26,13 @@
       <div class="pay_type">支付方式：{{item.pay_method_value}}</div>
       <div class="table_title">
         <span>{{item.apiname}}</span>
-        <span>订单号： {{item.orderNum}}</span>
+        <span>订单号： {{item.id}}</span>
         <span>下单日期：{{item.created_at}}</span>
       </div>
       <table>
         <tr class="img_tbody">
           <td v-if="item.apikey!=='5a6be74a55aaf50001a5e250||5b18a5b9cff7cb000194f2f7'" @click="turnDetails(item.apikey,item.assetid,item.packageId)">
-            <img :src="item.asseturl" alt="">
+            <img :src="item.asset_url" alt="">
             <p>{{item.assetname}}</p>
           </td>
           <td v-if="item.apikey==='5a6be74a55aaf50001a5e250||5b18a5b9cff7cb000194f2f7'" @click="turnDetails(item.apikey,item.assetid,item.packageId)">
@@ -44,13 +44,13 @@
             <img src="./images/currency.png" alt="" class="icon_currency">
             {{item.price}}
           </td>
-          <td class="img_lastTd" v-if="item.orderStatus === 2">
+          <td class="img_lastTd" v-if="item.order_status === 2">
             <p>已完成</p>
             <router-link to=""><p>查阅</p></router-link>
           </td>
-          <td class="no_img_lastTd" v-if="item.orderStatus === 1">
+          <td class="no_img_lastTd" v-if="item.order_status === 1">
             <p>未完成</p>
-            <router-link to="" @click.native="pay(item.orderNum)">去支付 ></router-link>
+            <router-link to="" @click.native="pay(item.id)">去支付 ></router-link>
           </td>
         </tr>
       </table>
@@ -71,7 +71,7 @@
 <script>
   import "../../common/stylus/paging.styl";
   import axios from "axios";
-  import {baseURL} from '@/common/js/public.js';
+  import {baseURL, cardURL} from '@/common/js/public.js';
   import utils from "@/common/js/utils.js";
 
   const querystring = require('querystring');
@@ -122,7 +122,7 @@
         let loginInfo = JSON.parse(sessionStorage.getItem("loginInfo"));
         axios({
           method: 'get',
-          url: `${baseURL}/v1/order/list/${loginInfo.user_id}?page=${this.currentPage}&limit=${this.limit}&begin=${this.begin}&end=${this.end}`,
+          url: `${cardURL}/v1/assets-transfer/record/orderlist/${loginInfo.user_id}?page=${this.currentPage}&limit=${this.limit}&begin=${this.begin}&end=${this.end}`,
         }).then(res => {
           for (let v of res.data.data) {
             v.created_at = utils.formatDate(new Date(v.created_at), "yyyy-MM-dd hh:mm:ss");
@@ -203,7 +203,7 @@
       pay(val) {
         if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
           let buyInfoObj = _.find(this.dataList, function (o) {
-            return o.orderNum === val
+            return o.id === val
           });
           this.getPay(buyInfoObj);
           this.$router.push("/checkOrder")
@@ -213,6 +213,15 @@
         this.$store.commit("changeBuy", val);
       },
       turnDetails(apiKey, assetId,packageId) {
+
+          /*if (apiKey === "5ae04522cff7cb000194f2f4") {
+            this.getPropertyDetails(assetId)
+            //this.$router.push("/caseDetails");
+            window.open("/transferDetails", "_blank");
+          }*/
+
+
+
         if(packageId===""){
           if (apiKey === "5a6be74a55aaf50001a5e250") {
             this.getCaseDetails(assetId);
@@ -241,7 +250,7 @@
       },
       getPropertyDetails(val){
         this.$store.commit("changePropertyDetails", _.find(this.dataList, function (o) {
-          return o.packageId === val
+          return o.assetid === val
         }));
         //this.$router.push("/transferDetails")
         window.open("/transferDetails","_blank")

@@ -39,7 +39,7 @@
           <td colspan="5">维修设备</td>
         </tr>
         <tr class="content_tbody" v-for="(item,index) of facilityList" :key="item.id">
-          <td @click="turnDetails(item.apikey,item.assetid)"><span><img :src="item.asseturl" alt=""></span>{{item.assetname}}</td>
+          <td @click="turnDetails(item.apikey,item.assetid)"><span><img :src="item.asset_url" alt=""></span>{{item.assetname}}</td>
           <td>{{item.sell_type}}</td>
           <td>{{item.count}}</td>
           <td>{{item.price}}</td>
@@ -191,7 +191,7 @@
       acquireAssetList() {
         axios({
           method: "GET",
-          url: `${baseURL}/v1/order/list/pay/${this.userId}?page=${this.currentPage}&limit=${this.pageSize}`,
+          url: `${cardURL}/v1/assets-transfer/record/orderlist/payed/${this.userId}?page=${this.currentPage}&limit=${this.pageSize}`,
           headers: {
             "Content-Type": "application/json",
           }

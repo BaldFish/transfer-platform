@@ -111,7 +111,7 @@
           </thead>
           <tbody>
           <tr v-for="item in recordList">
-            <td>{{item.created_by}}</td>
+            <td>{{item.userid}}</td>
             <td>{{item.assetname}}</td>
             <td>{{item.count}}</td>
             <td>{{item.price}}元</td>
@@ -192,7 +192,7 @@
           <div v-for="(item,index) of usageRecord" :key="item.id">
             <p>
               <label>"资产ID" :</label>
-              <span>"{{item.asset_id}}",</span>
+              <span>"{{item.assetid}}",</span>
             </p>
             <p>
               <label>"记录名称" :</label>
@@ -357,7 +357,7 @@
         val.isChecked = true;
         axios({
           method: "GET",
-          url: `${cardURL}/v1/assets-transfer/asset/id/${val.id}/${val.apikey}`,
+          url: `${cardURL}/v1/assets-transfer/asset/detail/${val.assetid}/${val.apikey}`,
           headers: {
             "Content-Type": "application/json",
           }
@@ -373,12 +373,12 @@
         if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
           let buyInfoObj = val;
           this.apiKey = buyInfoObj.apikey;
-          this.assetId = buyInfoObj.id;
+          this.assetId = buyInfoObj.assetid;
           this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
           let data = {};
-          data.account = this.userId;
+          data.userid = this.userId;
           data.apikey = this.apiKey;
-          data.asset_id = this.assetId;
+          data.assetid = this.assetId;
           data.count = this.num;
           axios({
             method: "POST",
@@ -440,7 +440,8 @@
       checkAssetsDetail(item) {
         this.dialogTableVisible = true;
         let apiKey = item.apiKey;
-        let id = item.id;
+        let id = item.assetid;
+
         //let apiKey = "5ae04522cff7cb000194f2f4";
         //let id = "9f93a461-4ece-46ea-8ff3-2b921289ab74";
         this.acquireAssetDetails(apiKey, id);
