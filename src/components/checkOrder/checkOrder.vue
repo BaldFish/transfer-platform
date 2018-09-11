@@ -18,8 +18,8 @@
         </thead>
         <tbody>
         <tr class="img_tbody">
-          <td @click="turnDetails(buyInfoObj.apikey,buyInfoObj.asset_id,buyInfoObj.package_id)"><img :src="buyInfoObj.asset_url" alt=""
-                                                                                                   v-if="buyInfoObj.apikey==='5ae04522cff7cb000194f2f4'">{{buyInfoObj.assetname}}</td>
+          <td @click="turnDetails(buyInfoObj.apikey,buyInfoObj.assetid)"><img :src="buyInfoObj.asset_url" alt=""
+                                                                               v-if="buyInfoObj.apikey==='5ae04522cff7cb000194f2f4'">{{buyInfoObj.assetname}}</td>
           <td>{{buyInfoObj.sell_type}}</td>
           <td>{{buyInfoObj.count}}</td>
           <td>{{total}}</td>
@@ -314,21 +314,10 @@
         }).catch(() => {
         });
       },
-      turnDetails(apiKey, assetId,packageId) {
-        if(packageId===""){
-          if (apiKey === "5a6be74a55aaf50001a5e250") {
-            this.getCaseDetails(assetId);
-            //this.$router.push("/caseDetails");
-            window.open("/caseDetails","_blank");
-          } else if (apiKey === "5ae04522cff7cb000194f2f4") {
-            this.getFacilityDetails(assetId);
-            //this.$router.push("/facilityDetails");
-            window.open("/facilityDetails","_blank");
-          }else if(apiKey === "5b18a5b9cff7cb000194f2f7"){
-            window.open("/reportDetails", "_blank");
-          }
-        }else{
-          this.getPropertyDetails(packageId);
+      turnDetails(apiKey, assetId) {
+        if (apiKey === "5ae04522cff7cb000194f2f4") {
+          this.buyInfoObj.id=this.buyInfoObj.package_id
+          this.getPropertyDetails();
         }
       },
       getCaseDetails(val) {
@@ -336,6 +325,9 @@
       },
       getFacilityDetails(val) {
         this.$store.commit("changeFacilityDetails", this.buyInfoObj);
+      },
+      getReportDetails(val) {
+        this.$store.commit("changeReportDetails", this.buyInfoObj);
       },
       getPropertyDetails(val){
         this.$store.commit("changePropertyDetails", this.buyInfoObj);

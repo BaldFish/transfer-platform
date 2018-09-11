@@ -245,7 +245,7 @@
         goodsList: [],
         activeImg: require('./images/02.png'),
         firstCheckedIndex: 0,//第一次出现"0未完成"数组下标
-        id: 1,
+        id: "",
         singleGood: {},
         num: 1,
         min: 1,
@@ -259,8 +259,7 @@
         currentPage: 1,
       }
     },
-    created() {
-    },
+
     mounted() {
       //获取资产包id
       this.id = JSON.parse(sessionStorage.getItem("propertyDetails")).id;

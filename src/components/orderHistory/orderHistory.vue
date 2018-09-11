@@ -31,11 +31,11 @@
       </div>
       <table>
         <tr class="img_tbody">
-          <td v-if="item.apikey!=='5a6be74a55aaf50001a5e250||5b18a5b9cff7cb000194f2f7'" @click="turnDetails(item.apikey,item.assetid,item.packageId)">
+          <td v-if="item.apikey==='5ae04522cff7cb000194f2f4'" @click="turnDetails(item.apikey,item.assetid)">
             <img :src="item.asset_url" alt="">
             <p>{{item.assetname}}</p>
           </td>
-          <td v-if="item.apikey==='5a6be74a55aaf50001a5e250||5b18a5b9cff7cb000194f2f7'" @click="turnDetails(item.apikey,item.assetid,item.packageId)">
+          <td v-if="item.apikey!=='5ae04522cff7cb000194f2f4'" @click="turnDetails(item.apikey,item.assetid)">
             <p>{{item.assetname}}</p>
           </td>
           <td>{{item.sell_type}}</td>
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-  import "../../common/stylus/paging.styl";
+  import "@/common/stylus/paging.styl";
   import axios from "axios";
   import {baseURL, cardURL} from '@/common/js/public.js';
   import utils from "@/common/js/utils.js";
@@ -130,6 +130,7 @@
           }
           this.dataList = res.data.data;
           this.total = res.data.count;
+          console.log(this.dataList)
         }).catch(error => {
           console.log(error);
         });
@@ -212,30 +213,13 @@
       getPay(val) {
         this.$store.commit("changeBuy", val);
       },
-      turnDetails(apiKey, assetId,packageId) {
-
-          /*if (apiKey === "5ae04522cff7cb000194f2f4") {
-            this.getPropertyDetails(assetId)
-            //this.$router.push("/caseDetails");
-            window.open("/transferDetails", "_blank");
-          }*/
-
-
-
-        if(packageId===""){
-          if (apiKey === "5a6be74a55aaf50001a5e250") {
-            this.getCaseDetails(assetId);
-            //this.$router.push("/caseDetails");
-            window.open("/caseDetails", "_blank");
-          } else if (apiKey === "5ae04522cff7cb000194f2f4") {
-            this.getFacilityDetails(assetId);
-            //this.$router.push("/facilityDetails");
-            window.open("/facilityDetails", "_blank");
-          }else if(apiKey === "5b18a5b9cff7cb000194f2f7"){
-            window.open("/reportDetails", "_blank");
-          }
-        }else{
-          this.getPropertyDetails(packageId)
+      turnDetails(apiKey, assetId) {
+        if (apiKey === "5ae04522cff7cb000194f2f4") {
+          let buyInfoObj=_.find(this.dataList, function (o) {
+            return o.assetid === assetId
+          });
+          buyInfoObj.id=buyInfoObj.package_id
+          this.getPropertyDetails(buyInfoObj);
         }
       },
       getCaseDetails(val) {
@@ -248,10 +232,13 @@
           return o.assetid === val
         }));
       },
-      getPropertyDetails(val){
-        this.$store.commit("changePropertyDetails", _.find(this.dataList, function (o) {
+      getReportDetails(val) {
+        this.$store.commit("changeReportDetails", _.find(this.dataList, function (o) {
           return o.assetid === val
         }));
+      },
+      getPropertyDetails(val){
+        this.$store.commit("changePropertyDetails",val);
         //this.$router.push("/transferDetails")
         window.open("/transferDetails","_blank")
       },

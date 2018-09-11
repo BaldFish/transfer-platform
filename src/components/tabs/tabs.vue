@@ -37,17 +37,12 @@
 </template>
 
 <script>
-  import myPaging from "../paging/paging"
   import {baseURL,cardURL} from '@/common/js/public.js';
   export default {
     name: "tabs",
-    components: {
-      myPaging,
-    },
+    components: {},
     data() {
-      return {
-        toggleIndex: 0,
-      }
+      return {}
     },
     created() {
     },

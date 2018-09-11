@@ -109,7 +109,7 @@
         switchover: false,
         isLogin: false,
         userName: "",
-        toggleIndex: 0,
+        toggleIndex: 1,
         isShowTopSearch: false,
         isShowLogin: false,
         isShowRegister: false,

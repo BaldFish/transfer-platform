@@ -41,8 +41,8 @@
                      layout="prev, pager, next"
                      :background=true
                      :total=total
-                     :page-size=pageSize
-                     :current-page.sync=currentPage
+                     :page-size=favoriteLimit
+                     :current-page.sync=favoritePage
                      @current-change="handleCurrentChange">
       </el-pagination>
     </div>
@@ -57,7 +57,7 @@
 </template>
 <script>
   import axios from "axios";
-  import "../../common/stylus/paging.styl";
+  import "@/common/stylus/paging.styl";
   import {baseURL, cardURL} from '@/common/js/public.js';
   import utils from "@/common/js/utils.js";
   
@@ -67,8 +67,8 @@
     data() {
       return {
         total: 10,
-        pageSize: 10,
-        currentPage: 1,
+        favoriteLimit: 10,
+        favoritePage: 1,
         favoriteList: [],
         userId: '',
         id: "",
@@ -76,14 +76,19 @@
       }
     },
     computed: {
-      caseList: function () {
+      reportList: function () {
         return this.favoriteList.filter(function (value, index, array) {
-          return value.apikey === "5a6be74a55aaf50001a5e250"
+          return value.apikey === "5b18a5b9cff7cb000194f2f7"
         })
       },
       facilityList: function () {
         return this.favoriteList.filter(function (value, index, array) {
           return value.apikey === "5ae04522cff7cb000194f2f4"
+        })
+      },
+      caseList: function () {
+        return this.favoriteList.filter(function (value, index, array) {
+          return value.apikey === "5a6be74a55aaf50001a5e250"
         })
       },
     },
@@ -96,14 +101,14 @@
     },
     methods: {
       handleCurrentChange(val) {
-        this.currentPage = val;
+        this.favoritePage = val;
         this.acquireFavoriteList();
       },
       acquireFavoriteList() {
         if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
           axios({
             method: "GET",
-            url: `${baseURL}/v1/shopcart/list/${this.userId}?page=${this.currentPage}&limit=${this.pageSize}`,
+            url: `${baseURL}/v1/shopcart/list/${this.userId}?page=${this.favoritePage}&limit=${this.favoriteLimit}`,
             headers: {
               "Content-Type": "application/json",
             }
@@ -141,12 +146,12 @@
         this.$store.commit("subtractCollection")
       },
       turnDetails(apiKey, assetId) {
-        if (apiKey === "5a6be74a55aaf50001a5e250") {
-          this.getCaseDetails(assetId);
-          this.$router.push("/caseDetails")
-        } else if (apiKey === "5ae04522cff7cb000194f2f4") {
-          this.getFacilityDetails(assetId);
-          this.$router.push("/facilityDetails")
+        if (apiKey === "5ae04522cff7cb000194f2f4") {
+          let buyInfoObj=_.find(this.facilityList, function (o) {
+            return o.assetid === assetId
+          });
+          buyInfoObj.id=buyInfoObj.package_id
+          this.getPropertyDetails(buyInfoObj);
         }
       },
       getCaseDetails(val) {
@@ -158,6 +163,16 @@
         this.$store.commit("changeFacilityDetails", _.find(this.favoriteList, function (o) {
           return o.assetid === val
         }));
+      },
+      getReportDetails(val) {
+        this.$store.commit("changeReportDetails", _.find(this.favoriteList, function (o) {
+          return o.assetid === val
+        }));
+      },
+      getPropertyDetails(val){
+        this.$store.commit("changePropertyDetails",val);
+        //this.$router.push("/transferDetails")
+        window.open("/transferDetails","_blank")
       },
     }
   }

@@ -27,7 +27,7 @@
           <td colspan="5">诊断报告</td>
         </tr>
         <tr class="content_tbody" v-for="(item,index) of reportList" :key="item.id">
-          <td @click="turnDetails(item.apikey,item.assetid,item.packageId)">{{item.assetname}}</td>
+          <td @click="turnDetails(item.apikey,item.assetid)">{{item.assetname}}</td>
           <td>{{item.sell_type}}</td>
           <td>{{item.count}}</td>
           <td>{{item.price}}</td>
@@ -51,7 +51,7 @@
           <td colspan="5">维修案例</td>
         </tr>
         <tr class="content_tbody" v-for="(item,index) of caseList" :key="item.id">
-          <td @click="turnDetails(item.apikey,item.assetid,item.packageId)">{{item.assetname}}</td>
+          <td @click="turnDetails(item.apikey,item.assetid)">{{item.assetname}}</td>
           <td>{{item.sell_type}}</td>
           <td>{{item.count}}</td>
           <td>{{item.price}}</td>
@@ -206,19 +206,13 @@
           console.log(err);
         });
       },
-      turnDetails(apiKey, assetId,packageId) {
-        if(packageId===""){
-          if (apiKey === "5a6be74a55aaf50001a5e250") {
-            this.getCaseDetails(assetId);
-            this.$router.push("/caseDetails")
-          } else if (apiKey === "5ae04522cff7cb000194f2f4") {
-            this.getFacilityDetails(assetId);
-            this.$router.push("/facilityDetails")
-          }else if(apiKey === "5b18a5b9cff7cb000194f2f7"){
-            window.open("/reportDetails", "_blank");
-          }
-        }else{
-          this.getPropertyDetails(packageId)
+      turnDetails(apiKey, assetId) {
+        if (apiKey === "5ae04522cff7cb000194f2f4") {
+          let buyInfoObj=_.find(this.facilityList, function (o) {
+            return o.assetid === assetId
+          });
+          buyInfoObj.id=buyInfoObj.package_id
+          this.getPropertyDetails(buyInfoObj);
         }
       },
       getCaseDetails(val) {
@@ -231,10 +225,13 @@
           return o.assetid === val
         }));
       },
-      getPropertyDetails(val){
-        this.$store.commit("changePropertyDetails", _.find(this.dataList, function (o) {
-          return o.packageId === val
+      getReportDetails(val) {
+        this.$store.commit("changeReportDetails", _.find(this.assetList, function (o) {
+          return o.assetid === val
         }));
+      },
+      getPropertyDetails(val){
+        this.$store.commit("changePropertyDetails",val);
         //this.$router.push("/transferDetails")
         window.open("/transferDetails","_blank")
       },
