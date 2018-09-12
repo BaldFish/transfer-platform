@@ -2,13 +2,23 @@
   <div id="app">
     <div class="head-wrap">
       <div class="head">
+        <a class="logo" href="/">
+          <p>Trusted Assets Blockchain</p>
+        </a>
+        <ul class="platform">
+          <li v-for="(item,index) of toggleParam" @click="platform(index)" :class="{active:index===toggleIndex}">{{item}}</li>
+        </ul>
         <a href="/">欢迎来到 可信链 ！</a>
+        <div class="favorite" @click="turnFavorite">
+          <span class="s_text">收藏夹</span>
+          <span class="s_num">{{this.$store.state.favoriteCount}}</span>
+        </div>
         <div class="no_login" v-if="!isLogin">
           <a href="/login">请登录</a>
           <a href="/register">免费注册</a>
         </div>
         <div class="login" v-if="isLogin" @mouseleave="leaveUl">
-          <div @click.capture="toggle">{{userName}} <img src="./down.png" alt=""></div>
+          <div @click.capture="toggle">{{userName}} <img src="./common/images/down.png" alt=""></div>
           <ul v-if="switchover">
             <li><a href="/personalAssets" target="_blank">个人中心</a></li>
             <li><a href="/securityCenter" target="_blank">安全中心</a></li>
@@ -44,8 +54,8 @@
         </p>
       </section>
     </div>
-    <my-topSearch v-if="isShowTopSearch"></my-topSearch>
-    <my-toggle :toggleIndex="toggleIndex"></my-toggle>
+    <!--<my-topSearch v-if="isShowTopSearch"></my-topSearch>
+    <my-toggle :toggleIndex="toggleIndex"></my-toggle>-->
     <div class="main_wrap">
       <router-view class="main" v-if="isRouterAlive"></router-view>
     </div>
@@ -91,6 +101,7 @@
   import {baseURL, cardURL} from '@/common/js/public.js';
   import myTopSearch from "@/components/topSearch/topSearch"
   import myToggle from "@/components/toggle/toggle"
+  import axios from "axios";
 
   export default {
     name: 'App',
@@ -109,11 +120,14 @@
         switchover: false,
         isLogin: false,
         userName: "",
-        toggleIndex: 1,
         isShowTopSearch: false,
         isShowLogin: false,
         isShowRegister: false,
         isShowForgetPassword: false,
+        toggleIndex:2,
+        toggleParam: ["搜索","交易平台", "转让平台"],
+        userId: '',
+        token: "",
       }
     },
     beforeMount() {
@@ -134,8 +148,23 @@
       }
       this.changTop()
     },
-    computed: {},
-    watch: {},
+    mounted() {
+      if (sessionStorage.getItem("loginInfo")) {
+        this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
+        this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
+        this.acquireFavoriteCount();
+      }
+    },
+    computed: {
+      favoriteCount: function () {
+        return this.$store.state.favoriteCount
+      }
+    },
+    watch: {
+      favoriteCount: function () {
+        this.acquireFavoriteCount();
+      }
+    },
     methods: {
       changTop() {
         if (this.$route.path == "/login") {
@@ -179,6 +208,59 @@
       leaveUl() {
         this.switchover = false
       },
+      platform(index) {
+        if (index === 0) {
+          window.location.href="http://47.92.98.66:5002"
+        } else if (index === 1) {
+          /*          if(JSON.parse(sessionStorage.getItem("loginInfo"))&&JSON.parse(sessionStorage.getItem("userName"))){
+                      let info={};
+                      info.loginInfo=JSON.parse(sessionStorage.getItem("loginInfo"));
+                      info.userName=JSON.parse(sessionStorage.getItem("userName"));
+                      console.log(info);
+                      let popup = window.open('http://10.0.0.123:5001',"title");
+                      setTimeout(function () {
+                        popup.postMessage(info, 'http://10.0.0.123:5001');
+                      }, 2000);
+                    }else{
+                      window.open('http://10.0.0.123:5001')
+                    }*/
+          //window.open('http://47.92.98.66:5001')
+          window.location.href="http://47.92.98.66:5000"
+        }else if (index === 2) {
+          window.location.href="http://47.92.98.66:5001"
+        }
+      },
+      open() {
+        this.$confirm('此操作需要先登录, 是否登录?', '提示', {
+          confirmButtonText: '是',
+          cancelButtonText: '否',
+          type: 'warning',
+          center: true
+        }).then(() => {
+          this.$router.push("/login")
+        }).catch(() => {
+        });
+      },
+      acquireFavoriteCount() {
+        axios({
+          method: "GET",
+          url: `${baseURL}/v1/shopcart/count/${this.userId}`,
+          headers: {
+            "Content-Type": "application/json",
+          }
+        }).then((res) => {
+          this.$store.state.favoriteCount = res.data;
+        }).catch((err) => {
+          console.log(err);
+        })
+      },
+      turnFavorite() {
+        if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
+          this.$router.push("/favorite")
+        } else {
+          this.open()
+        }
+      },
     }
   }
 </script>
@@ -193,43 +275,154 @@
   .head-wrap {
     width: 100%;
     min-width 1212px
-    height: 34px;
-    background-color: #e5e5e5;
+    height: 50px;
+    background-color: #d91e01;
     z-index: 9999;
     .head {
       box-sizing: border-box
       width: 1212px;
+      height 50px
       margin: 0 auto;
       text-align right
-      line-height 34px
+      line-height 50px
+      font-size 0
       a {
-        color: #666666;
+        color: #ffffff;
+        font-size 12px
+      }
+      .logo {
+        display inline-block
+        color #ffffff
+        background-image: url('./common/images/logo.png');
+        background-position: top left;
+        background-repeat: no-repeat;
+        width 200px
+        height 40px
+        float left
+        margin-top 5px
+        margin-left 6px
+        position relative
+        vertical-align top
+        p {
+          line-height 20px
+          font-size 12px
+          position absolute
+          left 50px
+          bottom 0
+        }
+      
+      }
+      .platform {
+        box-sizing border-box
+        display inline-block
+        text-align left
+        width 580px
+        height 50px
+        font-size 0
+        padding-left 100px
+        vertical-align top
+        padding-top 1px
+        li {
+          display inline-block
+          text-align center
+          width 106px
+          height 48px
+          line-height 48px
+          font-size: 16px;
+          color: #f3f3f3;
+          cursor pointer
+        }
+        li:active {
+          background-color #ffffff
+          color: #d91e01;
+        }
+        .active {
+          background-color #ffffff
+          color: #d91e01;
+        }
+      }
+      .favorite {
+        margin-left 20px
+        box-sizing border-box
+        display: inline-block
+        cursor pointer
+        margin-right 20px
+        width 100px
+        height 24px
+        line-height 24px
+        border 1px solid #ffffff
+        background-image: url('./common/images/like.png');
+        background-position: top 5px left 10px;
+        background-repeat: no-repeat;
+        background-color #d91e01
+        color #ffffff
+        font-size 0
+        position relative
+        text-align left
+        .s_text {
+          padding-left 30px
+          display inline-block
+          font-size 12px
+        }
+        .s_num {
+          width 16px
+          height 16px
+          line-height 16px
+          text-align center
+          display inline-block
+          color #d91e01
+          background-color #ffffff
+          border-radius 50%
+          position absolute
+          top 2px
+          right 10px
+          text-align center
+          overflow hidden
+          font-size 10px
+        }
       }
       .no_login {
+        vertical-align top
         display inline-block
         width 160px
+        height 50px
         a {
+          font-size 12px
           margin-left 28px
-          color: #666666;
+          color: #ffffff;
         }
       }
       .login {
         display inline-block
         cursor pointer
         width 160px
+        height 50px
         position relative
+        color #ffffff
+        vertical-align top
+        font-size 12px
+        img{
+          vertical-align top
+          margin-top 18px
+        }
         ul {
           background-color #ffffff
           position absolute
-          top 34
+          top 50px
           right 0
           text-align center
           width 86px
-          color #666666
-          li:hover {
-            color #c6351e
+          li {
+            height 40px
+            color #666666
             a {
-              color #c6351e
+              color #666666
+            }
+          }
+          li:hover {
+            color #d91e01
+            a {
+              color #d91e01
             }
           }
         }
