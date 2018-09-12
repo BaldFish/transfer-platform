@@ -13,6 +13,7 @@ import myOrderHistory from '@/components/orderHistory/orderHistory'
 import mySecurityCenter from '@/components/securityCenter/securityCenter'
 import myTransferPlatform from '@/components/transferPlatform/transferPlatform'
 import mySeller from '@/components/seller/seller'
+import myInfoPublicity from '@/components/infoPublicity/infoPublicity'
 import myTransferDetails from '@/components/transferDetails/transferDetails'
 Vue.use(Router);
 
@@ -87,6 +88,11 @@ export default new Router({
       path: '/transferPlatform',
       name: 'transferPlatform',
       component: myTransferPlatform
+    },
+    {
+      path: '/infoPublicity',
+      name: 'infoPublicity',
+      component: myInfoPublicity
     },
     {
       path: '/seller',
