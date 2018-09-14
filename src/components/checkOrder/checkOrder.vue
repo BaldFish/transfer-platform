@@ -210,7 +210,7 @@
                   order_id:this.order_id
                 })
               }).then((res) => {
-                if (this.value === 30 || 10 || 20) {
+                if (this.value == 30 || this.value == 10 || this.value == 20) {
                   this.paymentInfo = res.data.data;
                   window.open(this.paymentInfo.image_url, "_blank")
                 } else if (this.value === 0) {
