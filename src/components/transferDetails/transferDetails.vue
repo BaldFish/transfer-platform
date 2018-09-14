@@ -181,7 +181,7 @@
             </p>
             <p>
               <label>"交易时间" :</label>
-              <span>"{{item.updated_at}}",</span>
+              <span>"{{item.trans_at}}",</span>
             </p>
           </div>
         </div>
@@ -192,7 +192,7 @@
           <div v-for="(item,index) of usageRecord" :key="item.id">
             <p>
               <label>"资产ID" :</label>
-              <span>"{{item.assetid}}",</span>
+              <span>"{{item.asset_id}}",</span>
             </p>
             <p>
               <label>"记录名称" :</label>
@@ -438,7 +438,7 @@
       //获取弹框数据
       checkAssetsDetail(item) {
         this.dialogTableVisible = true;
-        let apiKey = item.apiKey;
+        let apiKey = item.apikey; //注意apikey中kK大小写
         let id = item.assetid;
 
         //let apiKey = "5ae04522cff7cb000194f2f4";
@@ -488,7 +488,7 @@
         }).then((res) => {
           this.assetSource = res.data.data;
           this.assetSource.forEach((record) => {
-            record.updated_at = utils.formatDate(new Date(record.updated_at), 'yyyy-MM-dd hh:mm:ss')
+            record.trans_at = utils.formatDate(new Date(record.trans_at), 'yyyy-MM-dd hh:mm:ss')
           })
         }).catch((err) => {
           console.log(err);
