@@ -55,7 +55,7 @@
     data() {
       return {
         bannerList: [
-          {link_url: 'javascript:void(0)', picture_url: require('./images/01.png')},
+          {link_url: 'javascript:void(0)', picture_url: require('./images/01.jpg')},
         ],
         tabsParam: ["最新上线", "已结束"],
         nowIndex: 0,
@@ -222,7 +222,7 @@
   .carousel {
     max-width 1920px
     //min-width 1212px
-    height 600px
+    height 400px
     margin 0 auto
     .el-carousel {
       width 100%
@@ -242,7 +242,7 @@
           a {
             img {
               width: 1920px;
-              height 600px
+              height 400px
               /*Firefox*/
               margin: 0 -moz-calc(50% - 1212px);
               /*chrome safari*/
