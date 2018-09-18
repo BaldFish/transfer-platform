@@ -18,11 +18,15 @@
       </div>
       <div class="goods-buy">
         <p class="goods-title">{{propertyDetails.name}}</p>
-        <div class="goods-logo">
-          <a href="/seller">
-            <span>LAUNCH</span>
-            <span>卖家</span>
-          </a>
+        <div class="goods-bar">
+          <div class="goods-logo">
+            <a href="/seller">
+              <span>LAUNCH</span>
+              <span>卖家</span>
+            </a>
+          </div>
+          <!-- <div :class="caseDetails.shopcart_id?'like':'dislike'" @click="toggleLike(caseDetails.id)">收藏</div>-->
+          <div class="dislike" >收藏</div>
         </div>
         <div class="goods-details">
           <ul>
@@ -493,7 +497,56 @@
         }).catch((err) => {
           console.log(err);
         });
-      }
+      },
+      //是否收藏
+      toggleLike(val){
+        if(sessionStorage.getItem("loginInfo")){
+          let likeInfo=this.singleGood;
+          this.apikey=likeInfo.apikey;
+          this.assetid=likeInfo.assetid;
+          if(likeInfo.shopcart_id===""){
+            axios({
+              method: "POST",
+              url: `${baseURL}/v1/shopcart/${this.userId}/${this.apikey}/${this.assetid}`,
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-Access-Token":this.token
+              }
+            }).then((res) => {
+              this.id=res.data.id;
+              likeInfo.shopcart_id=this.id
+              this.addCollection()
+            }).catch((err) => {
+              console.log(err);
+            });
+          }else if(likeInfo.shopcart_id!==""){
+            this.id=likeInfo.shopcart_id;
+            axios({
+              method: "DELETE",
+              url: `${baseURL}/v1/shopcart/${this.userId}/${this.id}`,
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-Access-Token":this.token
+              }
+            }).then((res) => {
+              likeInfo.shopcart_id="";
+              this.subtractCollection()
+            }).catch((err) => {
+              console.log(err);
+            });
+          }
+        }else {
+          this.open()
+        }
+      },
+      addCollection(){
+        this.$store.commit("addCollection")
+      },
+      subtractCollection(){
+        this.$store.commit("subtractCollection")
+      },
+
+
     },
     watch: {},
     computed: {},
@@ -640,8 +693,39 @@
     margin-top: 15px;
     margin-bottom: 12px;
     cursor pointer
+    float left
   }
-  
+
+  .goods-bar{
+    width:716px
+    height:47px
+  }
+
+  .dislike {
+    height 20px
+    line-height 20px
+    color: #979797;
+    cursor pointer
+    padding-left 26px
+    background-image: url('./images/dislike.png');
+    background-repeat: no-repeat;
+    background-position: top left;
+    float right
+    margin-top: 15px;
+  }
+  .like {
+    height 20px
+    line-height 20px
+    color: #c6351e;
+    cursor pointer
+    padding-left 26px
+    background-image: url('./images/like.png');
+    background-repeat: no-repeat;
+    background-position: top left;
+    float right
+    margin-top: 15px;
+  }
+
   .goods-logo span:first-child {
     font-size: 12px;
     width: 55px;
