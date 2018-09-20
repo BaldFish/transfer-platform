@@ -244,12 +244,12 @@
       acquireFavoriteCount() {
         axios({
           method: "GET",
-          url: `${baseURL}/v1/shopcart/count/${this.userId}`,
+          url: `${cardURL}/v1/assets-transfer/favorites/count/${this.userId}`,
           headers: {
             "Content-Type": "application/json",
           }
         }).then((res) => {
-          this.$store.state.favoriteCount = res.data;
+          this.$store.state.favoriteCount = res.data.count;
         }).catch((err) => {
           console.log(err);
         })

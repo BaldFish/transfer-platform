@@ -13,23 +13,18 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="classify" v-if="caseList.length!==0">
-          <td colspan="5">维修案例</td>
+        <tr class="classify">
+          <td colspan="5">可信资产</td>
         </tr>
-        <tr class="content_tbody" v-for="(item,index) of caseList" :key="item._id">
-          <td @click="turnDetails(item.apikey,item.assetid)">{{item.assetname}}</td>
-          <td>{{item.sell_type}}</td>
-          <td class="quick_buy_td" @click="cancel(item._id)">
-            <button>取消收藏</button>
+        <tr class="content_tbody" v-for="(item,index) of favoriteList" :key="item.id">
+          <td @click="turnDetails(item)">
+            <span>
+              <img :src="item.asset_url" alt="">
+            </span>
+            {{item.assetname}}
           </td>
-        </tr>
-        <tr class="classify" v-if="facilityList.length!==0">
-          <td colspan="5">维修设备</td>
-        </tr>
-        <tr class="content_tbody" v-for="(item,index) of facilityList" :key="item._id">
-          <td @click="turnDetails(item.apikey,item.assetid)"><span><img :src="item.asseturl" alt=""></span>{{item.assetname}}</td>
           <td>{{item.sell_type}}</td>
-          <td class="quick_buy_td" @click="cancel(item._id)">
+          <td class="quick_buy_td" @click="cancel(item.id)">
             <button>取消收藏</button>
           </td>
         </tr>
@@ -75,23 +70,7 @@
         token: "",
       }
     },
-    computed: {
-      reportList: function () {
-        return this.favoriteList.filter(function (value, index, array) {
-          return value.apikey === "5b18a5b9cff7cb000194f2f7"
-        })
-      },
-      facilityList: function () {
-        return this.favoriteList.filter(function (value, index, array) {
-          return value.apikey === "5ae04522cff7cb000194f2f4"
-        })
-      },
-      caseList: function () {
-        return this.favoriteList.filter(function (value, index, array) {
-          return value.apikey === "5a6be74a55aaf50001a5e250"
-        })
-      },
-    },
+    computed: {},
     mounted() {
       if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
         this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
@@ -108,7 +87,7 @@
         if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
           axios({
             method: "GET",
-            url: `${baseURL}/v1/shopcart/list/${this.userId}?page=${this.favoritePage}&limit=${this.favoriteLimit}`,
+            url: `${cardURL}/v1/assets-transfer/favorites/list/${this.userId}?page=${this.favoritePage}&limit=${this.favoriteLimit}`,
             headers: {
               "Content-Type": "application/json",
             }
@@ -130,7 +109,7 @@
         this.id = val;
         axios({
           method: "DELETE",
-          url: `${baseURL}/v1/shopcart/${this.userId}/${this.id}`,
+          url: `${cardURL}/v1/assets-transfer/favorites/delete/${this.userId}/${this.id}`,
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
             "X-Access-Token": this.token
@@ -145,35 +124,17 @@
       subtractCollection() {
         this.$store.commit("subtractCollection")
       },
-      turnDetails(apiKey, assetId) {
-        if (apiKey === "5ae04522cff7cb000194f2f4") {
-          let buyInfoObj=_.find(this.facilityList, function (o) {
-            return o.assetid === assetId
-          });
-          buyInfoObj.id=buyInfoObj.package_id
-          this.getPropertyDetails(buyInfoObj);
-        }
-      },
-      getCaseDetails(val) {
-        this.$store.commit("changeCaseDetails", _.find(this.favoriteList, function (o) {
-          return o.assetid === val
-        }));
-      },
-      getFacilityDetails(val) {
-        this.$store.commit("changeFacilityDetails", _.find(this.favoriteList, function (o) {
-          return o.assetid === val
-        }));
-      },
-      getReportDetails(val) {
-        this.$store.commit("changeReportDetails", _.find(this.favoriteList, function (o) {
-          return o.assetid === val
-        }));
+      //跳转
+      turnDetails(item) {
+        item.id = item.package_id;
+        this.getPropertyDetails(item)
       },
       getPropertyDetails(val){
         this.$store.commit("changePropertyDetails",val);
         //this.$router.push("/transferDetails")
         window.open("/transferDetails","_blank")
       },
+
     }
   }
 </script>
@@ -248,17 +209,12 @@
     width: 54px;
     height: 54px;
     vertical-align: middle;
-    border: solid 1px #bfbfbf;
     margin-right: 40px;
   }
   
   .content_tbody td span img {
-    vertical-align: middle;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    max-width: 52px;
-    max-height: 52px;
+    width: 100%;
+    height: 100%;
   }
   
   .content_tbody td:first-child {

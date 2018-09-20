@@ -25,8 +25,7 @@
               <span>卖家</span>
             </a>
           </div>
-          <!-- <div :class="caseDetails.shopcart_id?'like':'dislike'" @click="toggleLike(caseDetails.id)">收藏</div>-->
-          <div class="dislike" >收藏</div>
+           <div :class="singleGood.fav_id?'like':'dislike'" @click="toggleLike()">收藏</div>
         </div>
         <div class="goods-details">
           <ul>
@@ -250,6 +249,7 @@
         activeImg: require('./images/02.png'),
         firstCheckedIndex: 0,//第一次出现"0未完成"数组下标
         id: "",
+        fav_id:"",//收藏id
         singleGood: {},
         num: 1,
         min: 1,
@@ -267,6 +267,12 @@
     mounted() {
       //获取资产包id
       this.id = JSON.parse(sessionStorage.getItem("propertyDetails")).id;
+      //判断userId
+      if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
+        this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
+      } else {
+        this.userId = ''
+      }
       //商品标题&进度条包详情信息
       this.getPropertyDetails();
       //商品图片、商品列表
@@ -320,7 +326,7 @@
       getGoodsDetails() {
         axios({
           method: "GET",
-          url: `${cardURL}/v1/assets-transfer/asset/packid/${this.id}`,
+          url: `${cardURL}/v1/assets-transfer/asset/packid/${this.id}?userid=${this.userId}`,
           headers: {
             "Content-Type": "application/json",
           }
@@ -360,7 +366,7 @@
         val.isChecked = true;
         axios({
           method: "GET",
-          url: `${cardURL}/v1/assets-transfer/asset/detail/${val.assetid}/${val.apikey}`,
+          url: `${cardURL}/v1/assets-transfer/asset/detail/${val.assetid}/${val.apikey}?userid=${this.userId}`,
           headers: {
             "Content-Type": "application/json",
           }
@@ -371,6 +377,7 @@
         }).catch((err) => {
           console.log(err);
         })
+
       },
       buy(val) {
         if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
@@ -504,32 +511,33 @@
           let likeInfo=this.singleGood;
           this.apikey=likeInfo.apikey;
           this.assetid=likeInfo.assetid;
-          if(likeInfo.shopcart_id===""){
+          if(likeInfo.fav_id===""){
             axios({
               method: "POST",
-              url: `${baseURL}/v1/shopcart/${this.userId}/${this.apikey}/${this.assetid}`,
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                "X-Access-Token":this.token
-              }
+              url: `${cardURL}/v1/assets-transfer/favorites/insert`,
+              data: querystring.stringify({
+                userid: this.userId,
+                assetid:this.assetid,
+                apikey:this.apikey
+              })
             }).then((res) => {
-              this.id=res.data.id;
-              likeInfo.shopcart_id=this.id
+              this.fav_id=res.data.fav_id;
+              likeInfo.fav_id=this.fav_id;
               this.addCollection()
             }).catch((err) => {
               console.log(err);
             });
-          }else if(likeInfo.shopcart_id!==""){
-            this.id=likeInfo.shopcart_id;
+          }else if(likeInfo.fav_id!==""){
+            this.fav_id=likeInfo.fav_id;
             axios({
               method: "DELETE",
-              url: `${baseURL}/v1/shopcart/${this.userId}/${this.id}`,
+              url: `${cardURL}/v1/assets-transfer/favorites/delete/${this.userId}/${this.fav_id}`,
               headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
                 "X-Access-Token":this.token
               }
             }).then((res) => {
-              likeInfo.shopcart_id="";
+              likeInfo.fav_id="";
               this.subtractCollection()
             }).catch((err) => {
               console.log(err);

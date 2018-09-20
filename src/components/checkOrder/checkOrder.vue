@@ -210,7 +210,7 @@
                   order_id:this.order_id
                 })
               }).then((res) => {
-                if (_.includes(["10","20","30"]),this.value) {
+                if (_.includes(["10","20","30"],this.value)) {
                   this.paymentInfo = res.data.data;
                   window.open(this.paymentInfo.image_url, "_blank")
                 } else if (this.value ==="T1") {
