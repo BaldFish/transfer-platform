@@ -98,18 +98,13 @@
 
 <script>
   import "@/common/stylus/index.styl";
-  import {baseURL, cardURL} from '@/common/js/public.js';
-  import myTopSearch from "@/components/topSearch/topSearch"
-  import myToggle from "@/components/toggle/toggle"
+  import {baseURL, cardURL,loginPlatform,exchangePlatform,transferPlatform,searchPlatform} from '@/common/js/public.js';
   import axios from "axios";
   import utils from "@/common/js/utils.js";
-
+  
   export default {
     name: 'App',
-    components: {
-      myTopSearch,
-      myToggle,
-    },
+    components: {},
     provide() {
       return {
         reload: this.reload
@@ -125,27 +120,27 @@
         isShowLogin: false,
         isShowRegister: false,
         isShowForgetPassword: false,
-        toggleIndex:2,
-        toggleParam: ["搜索","交易平台", "转让平台"],
+        toggleIndex: 2,
+        toggleParam: ["搜索", "交易平台", "转让平台"],
         userId: '',
         token: "",
       }
     },
     beforeMount() {
-      let token=utils.getCookie("token");
-      if(token){
+      let token = utils.getCookie("token");
+      if (token) {
         axios({
           method: "GET",
           url: `${baseURL}/v1/sessions/check`,
           headers: {
-            "Access-Token":`${token}`,
+            "Access-Token": `${token}`,
           }
         }).then((res) => {
-          if(res.data.user_id){
+          if (res.data.user_id) {
             window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
-            let loginInfo={};
-            loginInfo.token=token;
-            loginInfo.user_id=res.data.user_id;
+            let loginInfo = {};
+            loginInfo.token = token;
+            loginInfo.user_id = res.data.user_id;
             window.sessionStorage.setItem("loginInfo", JSON.stringify(loginInfo));
             if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
               this.isLogin = true;
@@ -154,32 +149,32 @@
               this.isLogin = false
             }
             this.changTop()
-          }else{
+          } else {
             this.dropOut()
           }
         }).catch((err) => {
           console.log(err);
         })
-      }else{
+      } else {
         sessionStorage.removeItem('loginInfo');
         sessionStorage.removeItem('userInfo');
       }
     },
     beforeUpdate() {
-      let token=utils.getCookie("token");
-      if(token){
+      let token = utils.getCookie("token");
+      if (token) {
         axios({
           method: "GET",
           url: `${baseURL}/v1/sessions/check`,
           headers: {
-            "Access-Token":`${token}`,
+            "Access-Token": `${token}`,
           }
         }).then((res) => {
-          if(res.data.user_id){
+          if (res.data.user_id) {
             window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
-            let loginInfo={};
-            loginInfo.token=token;
-            loginInfo.user_id=res.data.user_id;
+            let loginInfo = {};
+            loginInfo.token = token;
+            loginInfo.user_id = res.data.user_id;
             window.sessionStorage.setItem("loginInfo", JSON.stringify(loginInfo));
             if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
               this.isLogin = true;
@@ -188,13 +183,13 @@
               this.isLogin = false
             }
             this.changTop()
-          }else{
+          } else {
             this.dropOut()
           }
         }).catch((err) => {
           console.log(err);
         })
-      }else{
+      } else {
         sessionStorage.removeItem('loginInfo');
         sessionStorage.removeItem('userInfo');
       }
@@ -273,11 +268,11 @@
       },
       platform(index) {
         if (index === 0) {
-          window.location.href="http://47.92.98.66:5002"
+          window.location.href = searchPlatform
         } else if (index === 1) {
-          window.location.href="http://47.92.98.66:5000"
-        }else if (index === 2) {
-          window.location.href="http://47.92.98.66:5001"
+          window.location.href = exchangePlatform
+        } else if (index === 2) {
+          window.location.href = transferPlatform
         }
       },
       open() {
@@ -321,7 +316,7 @@
     display: flex;
     flex-direction: column;
   }
-
+  
   .head-wrap {
     width: 100%;
     min-width 1212px
@@ -360,7 +355,7 @@
           left 50px
           bottom 0
         }
-      
+        
       }
       .platform {
         box-sizing border-box
@@ -451,7 +446,7 @@
         color #ffffff
         vertical-align top
         font-size 12px
-        img{
+        img {
           vertical-align top
           margin-top 18px
         }
@@ -479,7 +474,7 @@
       }
     }
   }
-
+  
   .login-header {
     width: 100%;
     height: 130px;
@@ -496,7 +491,7 @@
       }
     }
   }
-
+  
   .forget_psw_header {
     width: 100%;
     height: 130px;
@@ -516,7 +511,7 @@
       }
     }
   }
-
+  
   .main_wrap {
     flex: 1;
     box-sizing: border-box;
@@ -525,7 +520,7 @@
     min-width 1212px
     background-color #f3f3f3
   }
-
+  
   .footer-wrap {
     width 100%
     min-width 1212px
