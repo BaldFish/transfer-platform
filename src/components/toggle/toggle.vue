@@ -31,10 +31,10 @@
       toggle(index) {
         if (index === 0) {
           window.open('http://47.92.98.66:5000')
-          /*          if(JSON.parse(sessionStorage.getItem("loginInfo"))&&JSON.parse(sessionStorage.getItem("userName"))){
+          /*          if(JSON.parse(sessionStorage.getItem("loginInfo"))&&JSON.parse(sessionStorage.getItem("userInfo"))){
             let info={};
             info.loginInfo=JSON.parse(sessionStorage.getItem("loginInfo"));
-            info.userName=JSON.parse(sessionStorage.getItem("userName"));
+            info.userInfo=JSON.parse(sessionStorage.getItem("userInfo"));
             console.log(info);
             let popup = window.open('http://10.0.0.123:5000',"title");
             setTimeout(function () {

@@ -83,7 +83,7 @@
 
 <script>
   import axios from "axios";
-  import {baseURL} from '@/common/js/public.js';
+  import {baseURL,cardURL} from '@/common/js/public.js';
   import myToggle from "../toggle/toggle"
 
   const querystring = require('querystring');
@@ -141,7 +141,7 @@
       //获取错误码
       axios({
         method: 'get',
-        url: `http://wallet-api-test.launchain.org:50000/v1/errors`
+        url: `${cardURL}/v1/errors`
       }).then(res => {
         this.codeErrors = res.data
       }).catch(error => {
@@ -285,6 +285,8 @@
                   url: `${baseURL}/v1/sessions`,
                   data: querystring.stringify(loginFormData)
                 }).then(res => {
+                  document.cookie=`token=${res.data.token}`;
+                  document.cookie=`user_id=${res.data.user_id}`;
                   window.sessionStorage.setItem("loginInfo", JSON.stringify(res.data));
                   this.userId = res.data.user_id;
                   this.acquireUserInfo();
@@ -332,6 +334,8 @@
                   url: `${baseURL}/v1/sessions/phone`,
                   data: querystring.stringify(loginFormData)
                 }).then(res => {
+                  document.cookie=`token=${res.data.token}`;
+                  document.cookie=`user_id=${res.data.user_id}`;
                   window.sessionStorage.setItem("loginInfo", JSON.stringify(res.data));
                   this.userId = res.data.user_id;
                   this.acquireUserInfo();
@@ -362,7 +366,7 @@
           }
         }).then((res) => {
           res.data.phone = res.data.phone.substr(3, 3) + "***" + res.data.phone.substr(10, 4);
-          window.sessionStorage.setItem("userName", JSON.stringify(res.data));
+          window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
           this.$router.push("/transferPlatform")
         }).catch((err) => {
           console.log(err);

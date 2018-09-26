@@ -1,4 +1,4 @@
-var baseURL="http://wallet-api-test.launchain.org:50000/exchange";
-var cardURL="http://wallet-api-test.launchain.org:50000";
+let baseURL="https://wallet-api-test.launchain.org/exchange";
+let cardURL="https://wallet-api-test.launchain.org";
 export {baseURL,cardURL}
 

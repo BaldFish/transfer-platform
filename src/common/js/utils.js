@@ -104,6 +104,60 @@ let utils = {
     let replaceReg=new RegExp(searchInput, 'ig');
     let replaceString=`<span style=${attribute+":"+value}>${searchInput}</span>`;
     return string.replace(replaceReg,replaceString)
+  },
+  /*
+ 函数：创建Cookie
+ 说明：
+ 参数：
+ 调用：
+ 返回值：
+ */
+  setCookie:function(name, value, expires, path, domain, secure) {
+  let cookieText = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+  if (expires instanceof Date) {
+    cookieText += '; expires=' + expires;
   }
+  if (path) {
+    cookieText += '; expires=' + expires;
+  }
+  if (domain) {
+    cookieText += '; domain=' + domain;
+  }
+  if (secure) {
+    cookieText += '; secure';
+  }
+  document.cookie = cookieText;
+},
+  /*
+ 函数：获取Cookie
+ 说明：
+ 参数：
+ 调用：
+ 返回值：
+ */
+  getCookie:function (name) {
+  let cookieName = encodeURIComponent(name) + '=';
+  let cookieStart = document.cookie.indexOf(cookieName);
+  let cookieValue = null;
+  if (cookieStart > -1) {
+    let cookieEnd = document.cookie.indexOf(';', cookieStart);
+    if (cookieEnd == -1) {
+      cookieEnd = document.cookie.length;
+    }
+    cookieValue = decodeURIComponent(
+      document.cookie.substring(cookieStart + cookieName.length, cookieEnd));
+  }
+  return cookieValue;
+},
+  /*
+ 函数：删除Cookie
+ 说明：
+ 参数：
+ 调用：
+ 返回值：
+ */
+  unsetCookie:function (name) {
+  document.cookie = name + "= ; expires=" + new Date(0);
+}
 };
 export default utils
