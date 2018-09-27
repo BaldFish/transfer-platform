@@ -252,8 +252,8 @@
         }).then(res => {
           sessionStorage.removeItem('loginInfo');
           sessionStorage.removeItem('userInfo');
-          utils.unsetCookie("token");
-          utils.unsetCookie("user_id");
+          document.cookie = `token=;expires=${new Date(0)};domain=.launchain.org`;
+          document.cookie = `user_id=;expires=${new Date(0)};domain=.launchain.org`;
           this.switchover = false;
           location.reload()
         }).catch(error => {
