@@ -17,14 +17,14 @@
           <div class="content-right">
             <div class="right-details">
               <ul class="content-nav">
-                <li @click="tabChange" :class="{'nav-avtive': loginWay,'nav-unavtive': !loginWay}">账户登陆</li>
-                <li @click="tabChange" :class="{'nav-avtive': !loginWay,'nav-unavtive':loginWay }">手机登录</li>
+                <li @click="tabChange" :class="{'nav-avtive': loginWay,'nav-unavtive': !loginWay}">手机登陆</li>
+                <li @click="tabChange" :class="{'nav-avtive': !loginWay,'nav-unavtive':loginWay }">免密登录</li>
               </ul>
               <section class="account-login" v-show="loginWay">
                 <ul>
                   <li>
                     <i></i>
-                    <input type="text" placeholder="请输入账号" v-model="phoneLeft" v-validate="'required|mobile'" name='mobile'>
+                    <input type="text" placeholder="请输入手机号" v-model="phoneLeft" v-validate="'required|mobile'" name='mobile'>
                     <span v-show="errors.has('mobile')" class="error" style="width: 200px">{{errors.first('mobile')}}</span>
                   </li>
                   <li>
@@ -83,7 +83,7 @@
 
 <script>
   import axios from "axios";
-  import {baseURL,cardURL} from '@/common/js/public.js';
+  import {baseURL} from '@/common/js/public.js';
   import myToggle from "../toggle/toggle"
 
   const querystring = require('querystring');
@@ -141,7 +141,7 @@
       //获取错误码
       axios({
         method: 'get',
-        url: `${cardURL}/v1/errors`
+        url: `http://wallet-api-test.launchain.org:50000/v1/errors`
       }).then(res => {
         this.codeErrors = res.data
       }).catch(error => {
@@ -285,8 +285,6 @@
                   url: `${baseURL}/v1/sessions`,
                   data: querystring.stringify(loginFormData)
                 }).then(res => {
-                  document.cookie=`token=${res.data.token};domain=.launchain.org`;
-                  document.cookie=`user_id=${res.data.user_id};domain=.launchain.org`;
                   window.sessionStorage.setItem("loginInfo", JSON.stringify(res.data));
                   this.userId = res.data.user_id;
                   this.acquireUserInfo();
@@ -334,8 +332,6 @@
                   url: `${baseURL}/v1/sessions/phone`,
                   data: querystring.stringify(loginFormData)
                 }).then(res => {
-                  document.cookie=`token=${res.data.token};domain=.launchain.org`;
-                  document.cookie=`user_id=${res.data.user_id};domain=.launchain.org`;
                   window.sessionStorage.setItem("loginInfo", JSON.stringify(res.data));
                   this.userId = res.data.user_id;
                   this.acquireUserInfo();
@@ -366,7 +362,7 @@
           }
         }).then((res) => {
           res.data.phone = res.data.phone.substr(3, 3) + "***" + res.data.phone.substr(10, 4);
-          window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
+          window.sessionStorage.setItem("userName", JSON.stringify(res.data));
           this.$router.push("/transferPlatform")
         }).catch((err) => {
           console.log(err);
