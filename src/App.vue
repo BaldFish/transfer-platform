@@ -143,8 +143,11 @@
             loginInfo.user_id = res.data.user_id;
             window.sessionStorage.setItem("loginInfo", JSON.stringify(loginInfo));
             if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
-              this.isLogin = true;
+              this.userId=JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
+              this.token=JSON.parse(sessionStorage.getItem("loginInfo")).token;
               this.userName = JSON.parse(sessionStorage.getItem("userInfo")).phone
+              this.isLogin = true;
+              this.acquireFavoriteCount();
             } else {
               this.isLogin = false
             }
@@ -158,6 +161,13 @@
       } else {
         sessionStorage.removeItem('loginInfo');
         sessionStorage.removeItem('userInfo');
+      }
+    },
+    /*mounted() {
+      if (sessionStorage.getItem("loginInfo")) {
+        this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
+        this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
+        this.acquireFavoriteCount();
       }
     },
     beforeUpdate() {
@@ -193,14 +203,7 @@
         sessionStorage.removeItem('loginInfo');
         sessionStorage.removeItem('userInfo');
       }
-    },
-    mounted() {
-      if (sessionStorage.getItem("loginInfo")) {
-        this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
-        this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
-        this.acquireFavoriteCount();
-      }
-    },
+    },*/
     computed: {
       favoriteCount: function () {
         return this.$store.state.favoriteCount
