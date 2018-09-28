@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="head-wrap">
+    <div class="head-wrap" v-if="isShowTopSearch">
       <div class="head">
         <a class="logo" href="/">
           <p>Trusted Assets Blockchain</p>
@@ -142,17 +142,13 @@
             loginInfo.token = token;
             loginInfo.user_id = res.data.user_id;
             window.sessionStorage.setItem("loginInfo", JSON.stringify(loginInfo));
-            if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
-              this.userId=JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
-              this.token=JSON.parse(sessionStorage.getItem("loginInfo")).token;
-              this.userName = JSON.parse(sessionStorage.getItem("userInfo")).phone
-              this.isLogin = true;
-              this.acquireFavoriteCount();
-            } else {
-              this.isLogin = false
-            }
-            this.changTop()
+            this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
+            this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
+            this.userName = JSON.parse(sessionStorage.getItem("userInfo")).phone
+            this.isLogin = true;
+            this.acquireFavoriteCount();
           } else {
+            this.isLogin = false;
             this.dropOut()
           }
         }).catch((err) => {
@@ -162,6 +158,7 @@
         sessionStorage.removeItem('loginInfo');
         sessionStorage.removeItem('userInfo');
       }
+      this.changTop()
     },
     /*mounted() {
       if (sessionStorage.getItem("loginInfo")) {
@@ -204,6 +201,40 @@
         sessionStorage.removeItem('userInfo');
       }
     },*/
+    beforeUpdate(){
+      let token = utils.getCookie("token");
+      if (token) {
+        axios({
+          method: "GET",
+          url: `${baseURL}/v1/sessions/check`,
+          headers: {
+            "Access-Token": `${token}`,
+          }
+        }).then((res) => {
+          if (res.data.user_id) {
+            window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
+            let loginInfo = {};
+            loginInfo.token = token;
+            loginInfo.user_id = res.data.user_id;
+            window.sessionStorage.setItem("loginInfo", JSON.stringify(loginInfo));
+            this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
+            this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
+            this.userName = JSON.parse(sessionStorage.getItem("userInfo")).phone
+            this.isLogin = true;
+            this.acquireFavoriteCount();
+          } else {
+            this.isLogin = false;
+            this.dropOut()
+          }
+        }).catch((err) => {
+          console.log(err);
+        })
+      } else {
+        sessionStorage.removeItem('loginInfo');
+        sessionStorage.removeItem('userInfo');
+      }
+      this.changTop()
+    },
     computed: {
       favoriteCount: function () {
         return this.$store.state.favoriteCount
@@ -231,7 +262,12 @@
           this.isShowLogin = false;
           this.isShowRegister = false;
           this.isShowForgetPassword = true;
-        } else {
+        } else if (this.$route.path == "/contract") {
+          this.isShowTopSearch = false;
+          this.isShowLogin = false;
+          this.isShowRegister = false;
+          this.isShowForgetPassword = false;
+        }else {
           this.isShowTopSearch = true;
           this.isShowLogin = false;
           this.isShowRegister = false;
