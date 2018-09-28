@@ -285,10 +285,10 @@
                   url: `${baseURL}/v1/sessions`,
                   data: querystring.stringify(loginFormData)
                 }).then(res => {
-                  document.cookie=`token=${res.data.token}`;
-                  document.cookie=`user_id=${res.data.user_id}`;
-                  /*document.cookie=`token=${res.data.token};domain=.launchain.org`;
-                  document.cookie=`user_id=${res.data.user_id};domain=.launchain.org`;*/
+                  /*document.cookie=`token=${res.data.token}`;
+                  document.cookie=`user_id=${res.data.user_id}`;*/
+                  document.cookie=`token=${res.data.token};domain=.launchain.org`;
+                  document.cookie=`user_id=${res.data.user_id};domain=.launchain.org`;
                   window.sessionStorage.setItem("loginInfo", JSON.stringify(res.data));
                   this.userId = res.data.user_id;
                   this.acquireUserInfo();
@@ -336,10 +336,10 @@
                   url: `${baseURL}/v1/sessions/phone`,
                   data: querystring.stringify(loginFormData)
                 }).then(res => {
-                  document.cookie=`token=${res.data.token}`;
-                  document.cookie=`user_id=${res.data.user_id}`;
-                  /*document.cookie=`token=${res.data.token};domain=.launchain.org`;
-                  document.cookie=`user_id=${res.data.user_id};domain=.launchain.org`;*/
+                  /*document.cookie=`token=${res.data.token}`;
+                  document.cookie=`user_id=${res.data.user_id}`;*/
+                  document.cookie=`token=${res.data.token};domain=.launchain.org`;
+                  document.cookie=`user_id=${res.data.user_id};domain=.launchain.org`;
                   window.sessionStorage.setItem("loginInfo", JSON.stringify(res.data));
                   this.userId = res.data.user_id;
                   this.acquireUserInfo();
