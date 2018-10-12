@@ -41,7 +41,8 @@
           <td>{{item.sell_type}}</td>
           <td>{{item.count}}</td>
           <td>
-            <img src="./images/currency.png" alt="" class="icon_currency">
+            <!--<img src="./images/currency.png" alt="" class="icon_currency">-->
+            <span style="color: #c6351e;font-size: 18px;">￥</span>
             {{item.price}}
           </td>
           <td class="img_lastTd" v-if="item.order_status === 2">
