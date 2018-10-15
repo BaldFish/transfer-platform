@@ -83,12 +83,12 @@
                 <p>Android版</p>
               </a>
             </li>
-            <li>
+            <!--<li>
               <a href="javascript:void(0)">
                 <img class="ft_code" src="./common/images/IOS.png" alt="IOS">
                 <p>IOS版</p>
               </a>
-            </li>
+            </li>-->
           </ul>
         </div>
       </div>
