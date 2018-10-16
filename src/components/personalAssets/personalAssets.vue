@@ -165,28 +165,39 @@
             console.log(err);
           });
       },
-      acquireBalance(){
+      acquireBalance() {
+        //获取可信币余额
         axios({
+          method:"GET",
+          url:`${cardURL}/v1/token/TSD/balance?address=${this.walletAddress}`,
+        }).then((res)=>{
+          res.data.result="0x"+res.data.result;
+          this.balance = new BigNumber(Number(res.data.result)).dividedBy(1e+18).toFormat(2);
+        }).catch((err)=>{
+          console.log(err)
+        });
+        //获取Gas余额
+        /*axios({
           method: "POST",
           url: `${cardURL}/`,
           headers: {
             "Content-Type": "application/json",
           },
-          data:{
-            "jsonrpc":"2.0",
-            "method":"eth_getBalance",
-            "params":[this.walletAddress,"latest"],
-            "id":1
+          data: {
+            "jsonrpc": "2.0",
+            "method": "eth_getBalance",
+            "params": [this.walletAddress, "latest"],
+            "id": 1
           },
         }).then((res) => {
-          if(res.data.error){
-            this.balance=0
-          }else{
-            this.balance=new BigNumber(Number(res.data.result)).dividedBy(1e+18).toFormat(2);
+          if (res.data.error) {
+            this.balance = 0
+          } else {
+            this.balance = new BigNumber(Number(res.data.result)).dividedBy(1e+18).toFormat(2);
           }
         }).catch((err) => {
           console.log(err);
-        });
+        });*/
       },
       acquireAssetList() {
         axios({

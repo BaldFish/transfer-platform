@@ -280,7 +280,18 @@
       },
       //获取钱包地址余额
       acquireBalance() {
+        //获取可信币余额
         axios({
+          method:"GET",
+          url:`${cardURL}/v1/token/TSD/balance?address=${this.walletAddress}`,
+        }).then((res)=>{
+          res.data.result="0x"+res.data.result;
+          this.balance = new BigNumber(Number(res.data.result)).dividedBy(1e+18).toFormat(2);
+        }).catch((err)=>{
+          console.log(err)
+        });
+        //获取Gas余额
+        /*axios({
           method: "POST",
           url: `${cardURL}/`,
           headers: {
@@ -300,7 +311,7 @@
           }
         }).catch((err) => {
           console.log(err);
-        });
+        });*/
       },
       //提示框
       open() {
