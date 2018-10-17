@@ -7,7 +7,7 @@
 </template>
 
 <script>
-  import {baseURL, cardURL,loginPlatform,exchangePlatform,transferPlatform,searchPlatform} from '@/common/js/public.js';
+  import {baseURL,loginPlatform,exchangePlatform,transferPlatform,searchPlatform} from '@/common/js/public.js';
   
   export default {
     name: "toggle",

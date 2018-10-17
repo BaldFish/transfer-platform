@@ -53,7 +53,7 @@
 <script>
   import axios from "axios";
   import "@/common/stylus/paging.styl";
-  import {baseURL, cardURL} from '@/common/js/public.js';
+  import {baseURL} from '@/common/js/public.js';
   import utils from "@/common/js/utils.js";
   
   export default {
@@ -87,7 +87,7 @@
         if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
           axios({
             method: "GET",
-            url: `${cardURL}/v1/assets-transfer/favorites/list/${this.userId}?page=${this.favoritePage}&limit=${this.favoriteLimit}`,
+            url: `${baseURL}/v1/assets-transfer/favorites/list/${this.userId}?page=${this.favoritePage}&limit=${this.favoriteLimit}`,
             headers: {
               "Content-Type": "application/json",
             }
@@ -109,7 +109,7 @@
         this.id = val;
         axios({
           method: "DELETE",
-          url: `${cardURL}/v1/assets-transfer/favorites/delete/${this.userId}/${this.id}`,
+          url: `${baseURL}/v1/assets-transfer/favorites/delete/${this.userId}/${this.id}`,
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
             "X-Access-Token": this.token

@@ -35,7 +35,7 @@
 
 <script>
   import axios from "axios";
-  import {baseURL, cardURL} from '@/common/js/public.js';
+  import {baseURL} from '@/common/js/public.js';
   import myTopSearch from "../topSearch/topSearch"
   import myToggle from "../toggle/toggle"
   

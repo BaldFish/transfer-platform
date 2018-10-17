@@ -121,7 +121,7 @@
 
 <script>
   import axios from "axios";
-  import {baseURL, cardURL} from '@/common/js/public.js';
+  import {baseURL} from '@/common/js/public.js';
   import {BigNumber} from 'bignumber.js';
 
   const querystring = require('querystring');
@@ -173,7 +173,7 @@
       acquireOrderInfo() {
         axios({
           method: "GET",
-          url: `${cardURL}/v1/assets-transfer/record/detail/${this.order_id}`,
+          url: `${baseURL}/v1/assets-transfer/record/detail/${this.order_id}`,
           headers: {
             "Content-Type": "application/json",
           }
@@ -193,7 +193,7 @@
           //防止长时间未点击确认支付或在其它浏览器支付完成，支付前获取订单最新支付状态
           axios({
             method: "GET",
-            url: `${cardURL}/v1/assets-transfer/record/detail/${this.order_id}`,
+            url: `${baseURL}/v1/assets-transfer/record/detail/${this.order_id}`,
             headers: {
               "Content-Type": "application/json",
             }
@@ -204,7 +204,7 @@
               //如果支付状态是未支付，根据支付方式请求支付信息
               axios({
                 method: "POST",
-                url: `${cardURL}/v1/assets-transfer/record/pay`,
+                url: `${baseURL}/v1/assets-transfer/record/pay`,
                 data: querystring.stringify({
                   pay_method: this.value,
                   order_id:this.order_id
@@ -236,7 +236,7 @@
       acquireOrderStatus() {
         axios({
           method: "GET",
-          url: `${cardURL}/v1/assets-transfer/record/detail/${this.order_id}`,
+          url: `${baseURL}/v1/assets-transfer/record/detail/${this.order_id}`,
           headers: {
             "Content-Type": "application/json",
           }
@@ -283,7 +283,7 @@
         //获取可信币余额
         axios({
           method:"GET",
-          url:`${cardURL}/v1/token/TSD/balance?address=${this.walletAddress}`,
+          url:`${baseURL}/v1/token/TSD/balance?address=${this.walletAddress}`,
         }).then((res)=>{
           res.data.result="0x"+res.data.result;
           this.balance = new BigNumber(Number(res.data.result)).dividedBy(1e+18).toFormat(2);
@@ -293,7 +293,7 @@
         //获取Gas余额
         /*axios({
           method: "POST",
-          url: `${cardURL}/`,
+          url: `${baseURL}/`,
           headers: {
             "Content-Type": "application/json",
           },

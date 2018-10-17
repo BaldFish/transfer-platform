@@ -37,7 +37,7 @@
 </template>
 
 <script>
-  import {baseURL,cardURL} from '@/common/js/public.js';
+  import {baseURL} from '@/common/js/public.js';
   export default {
     name: "tabs",
     components: {},

@@ -98,7 +98,7 @@
 
 <script>
   import "@/common/stylus/index.styl";
-  import {baseURL, cardURL,loginPlatform,exchangePlatform,transferPlatform,searchPlatform} from '@/common/js/public.js';
+  import {baseURL,loginPlatform,exchangePlatform,transferPlatform,searchPlatform} from '@/common/js/public.js';
   import axios from "axios";
   import utils from "@/common/js/utils.js";
   
@@ -328,7 +328,7 @@
       acquireFavoriteCount() {
         axios({
           method: "GET",
-          url: `${cardURL}/v1/assets-transfer/favorites/count/${this.userId}`,
+          url: `${baseURL}/v1/assets-transfer/favorites/count/${this.userId}`,
           headers: {
             "Content-Type": "application/json",
           }

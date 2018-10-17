@@ -36,7 +36,7 @@
 <script>
   import axios from "axios";
   import _ from "lodash";
-  import {baseURL, cardURL} from '@/common/js/public.js';
+  import {baseURL} from '@/common/js/public.js';
   import utils from "@/common/js/utils.js";
   import myProgressBar from "../progressBar/progressBar"
   
@@ -65,7 +65,7 @@
       acquireAllList() {
         axios({
           method: "GET",
-          url: `${cardURL}/v1/assets-transfer/package?page=${this.page}&limit=${this.limit}`,
+          url: `${baseURL}/v1/assets-transfer/package?page=${this.page}&limit=${this.limit}`,
           headers: {
             "Content-Type": "application/json",
             "charset":"UTF-8",

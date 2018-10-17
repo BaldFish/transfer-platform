@@ -43,7 +43,7 @@
 <script>
   import axios from "axios";
   import _ from "lodash";
-  import {baseURL, cardURL} from '@/common/js/public.js';
+  import {baseURL} from '@/common/js/public.js';
   import utils from "@/common/js/utils.js";
   import myProgressBar from "../progressBar/progressBar"
   
@@ -82,7 +82,7 @@
       acquirePropertyList() {
         axios({
           method: "GET",
-          url: `${cardURL}/v1/assets-transfer/package/status?status=0`,
+          url: `${baseURL}/v1/assets-transfer/package/status?status=0`,
           headers: {
             "Content-Type": "application/json",
             "charset":"UTF-8",
@@ -101,7 +101,7 @@
       acquireFinishedList() {
         axios({
           method: "GET",
-          url: `${cardURL}/v1/assets-transfer/package/status?status=1`,
+          url: `${baseURL}/v1/assets-transfer/package/status?status=1`,
           headers: {
             "Content-Type": "application/json",
             "charset":"UTF-8",

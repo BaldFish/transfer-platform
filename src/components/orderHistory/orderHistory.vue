@@ -72,7 +72,7 @@
 <script>
   import "@/common/stylus/paging.styl";
   import axios from "axios";
-  import {baseURL, cardURL} from '@/common/js/public.js';
+  import {baseURL} from '@/common/js/public.js';
   import utils from "@/common/js/utils.js";
 
   const querystring = require('querystring');
@@ -123,7 +123,7 @@
         let loginInfo = JSON.parse(sessionStorage.getItem("loginInfo"));
         axios({
           method: 'get',
-          url: `${cardURL}/v1/assets-transfer/record/orderlist/${loginInfo.user_id}?page=${this.currentPage}&limit=${this.limit}&begin=${this.begin}&end=${this.end}`,
+          url: `${baseURL}/v1/assets-transfer/record/orderlist/${loginInfo.user_id}?page=${this.currentPage}&limit=${this.limit}&begin=${this.begin}&end=${this.end}`,
         }).then(res => {
           for (let v of res.data.data) {
             v.created_at = utils.formatDate(new Date(v.created_at), "yyyy-MM-dd hh:mm:ss");

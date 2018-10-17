@@ -226,7 +226,7 @@
 
 <script>
   import axios from "axios";
-  import {baseURL, cardURL} from '@/common/js/public.js';
+  import {baseURL} from '@/common/js/public.js';
   import myProgressBar from "../progressBar/progressBar"
   import utils from "@/common/js/utils.js";
   
@@ -311,7 +311,7 @@
       getPropertyDetails() {
         axios({
           method: "GET",
-          url: `${cardURL}/v1/assets-transfer/package/${this.id}`,
+          url: `${baseURL}/v1/assets-transfer/package/${this.id}`,
           headers: {
             "Content-Type": "application/json",
           }
@@ -326,7 +326,7 @@
       getGoodsDetails() {
         axios({
           method: "GET",
-          url: `${cardURL}/v1/assets-transfer/asset/packid/${this.id}?userid=${this.userId}`,
+          url: `${baseURL}/v1/assets-transfer/asset/packid/${this.id}?userid=${this.userId}`,
           headers: {
             "Content-Type": "application/json",
           }
@@ -366,7 +366,7 @@
         val.isChecked = true;
         axios({
           method: "GET",
-          url: `${cardURL}/v1/assets-transfer/asset/detail/${val.assetid}/${val.apikey}?userid=${this.userId}`,
+          url: `${baseURL}/v1/assets-transfer/asset/detail/${val.assetid}/${val.apikey}?userid=${this.userId}`,
           headers: {
             "Content-Type": "application/json",
           }
@@ -392,7 +392,7 @@
           data.count = this.num;
           axios({
             method: "POST",
-            url: `${cardURL}/v1/assets-transfer/record/insert`,
+            url: `${baseURL}/v1/assets-transfer/record/insert`,
             data: querystring.stringify(data),
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
@@ -432,7 +432,7 @@
       getRecordList() {
         axios({
           method: "GET",
-          url: `${cardURL}/v1/assets-transfer/record/${this.id}/2?page=${this.currentPage}&limit=${this.pageSize}`,
+          url: `${baseURL}/v1/assets-transfer/record/${this.id}/2?page=${this.currentPage}&limit=${this.pageSize}`,
           headers: {
             "Content-Type": "application/json",
           }
@@ -476,7 +476,7 @@
       acquireUsageRecord(apiKey, id) {
         axios({
           method: "GET",
-          url: `${cardURL}/v1/used-asset/${id}/apikey/${apiKey}?page=0&limit=1000000`,
+          url: `${baseURL}/v1/used-asset/${id}/apikey/${apiKey}?page=0&limit=1000000`,
           headers: {
             "Content-Type": "application/json",
           }
@@ -492,7 +492,7 @@
       acquireAssetSource(apiKey, id) {
         axios({
           method: "GET",
-          url: `${cardURL}/v1/transed-asset/${id}/apikey/${apiKey}?page=0&limit=1000000`,
+          url: `${baseURL}/v1/transed-asset/${id}/apikey/${apiKey}?page=0&limit=1000000`,
           headers: {
             "Content-Type": "application/json",
           }
@@ -514,7 +514,7 @@
           if(likeInfo.fav_id===""){
             axios({
               method: "POST",
-              url: `${cardURL}/v1/assets-transfer/favorites/insert`,
+              url: `${baseURL}/v1/assets-transfer/favorites/insert`,
               data: querystring.stringify({
                 userid: this.userId,
                 assetid:this.assetid,
@@ -531,7 +531,7 @@
             this.fav_id=likeInfo.fav_id;
             axios({
               method: "DELETE",
-              url: `${cardURL}/v1/assets-transfer/favorites/delete/${this.userId}/${this.fav_id}`,
+              url: `${baseURL}/v1/assets-transfer/favorites/delete/${this.userId}/${this.fav_id}`,
               headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
                 "X-Access-Token":this.token
