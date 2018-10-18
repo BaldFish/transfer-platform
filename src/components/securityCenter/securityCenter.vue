@@ -185,6 +185,7 @@
         captcha:"./images/code.png", //图形验证码--图片
         phone:'',
         userInfo:'',
+        token:"",
         errorMsg:'',
         errorMsgCaptcha:'',//图形验证码
         errorMsgCode:'',//短信验证码
@@ -261,23 +262,18 @@
       }
     },
     mounted: function() {
-      let loginInfo = JSON.parse(sessionStorage.getItem("loginInfo"));
-      axios({
-        method: 'get',
-        url: `${baseURL}/v1/users/${loginInfo.user_id}`,
-      }).then(res => {
-        this.userInfo = res.data;
-        sessionStorage.setItem("userInfo",JSON.stringify(res.data));
-        this.phone = `${res.data.phone.substring(3,6)}*****${res.data.phone.substring(11,14)}`
-      }).catch(error => {
-        console.log(error);
-      });
+      if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
+        this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
+        this.userInfo=JSON.parse(sessionStorage.getItem("userInfo"))
+      }
     },
     methods: {
       //清除modal旧数据
       openModalPwd(){
         this.modifyPassword = true;
-        this.$refs.formPwd.resetFields();
+        if(this.$refs.formPwd!==undefined){
+          this.$refs.formPwd.resetFields();
+        }
         this.formPwd ={
           old:'',
           new:'',
@@ -286,7 +282,9 @@
       },
       openModalModifyWallet(){
         this.dialogFormVisible2 = true;
-        this.$refs.formModifyWallet.resetFields();
+        if(this.$refs.formModifyWallet!==undefined){
+          this.$refs.formModifyWallet.resetFields();
+        }
         this.getCaptcha();
         this.formModifyWallet = {
           wallet_address:'',
@@ -296,7 +294,9 @@
       },
       openModalBindWallet(){
         this.dialogFormVisible = true;
-        this.$refs.formBindWallet.resetFields();
+        if(this.$refs.formBindWallet!==undefined){
+          this.$refs.formBindWallet.resetFields();
+        }
         this.getCaptcha();
         this.formBindWallet = {
           wallet_address:'',
@@ -306,7 +306,9 @@
       },
       openModalRealNameAuth(){
         this.realNameAuthentication = true;
-        this.$refs.formAuth.resetFields();
+        if(this.$refs.formAuth!==undefined){
+          this.$refs.formAuth.resetFields();
+        }
         this.formAuth = {
           type:1,
           realname: '',
@@ -320,7 +322,10 @@
             axios({
               method: 'put',
               url: `${baseURL}/v1/users/${this.userInfo._id}/password`,
-              data: querystring.stringify(this.formPwd)
+              data: querystring.stringify(this.formPwd),
+              headers: {
+                "Access-Token": `${this.token}`,
+              }
             }).then(res => {
               this.modifyPassword = false
             }).catch(error => {
@@ -340,7 +345,10 @@
             axios({
               method: 'post',
               url: `${baseURL}/v1/users/${this.userInfo._id}/authentication`,
-              data: querystring.stringify(this.formAuth)
+              data: querystring.stringify(this.formAuth),
+              headers: {
+                "Access-Token": `${this.token}`,
+              }
             }).then(res => {
               this.userInfo.authentication = 2;
               this.realNameAuthentication = false
@@ -413,7 +421,9 @@
         this.phoneVerification = true;
         this.bindPhone =  true;
         this.getCaptcha();
-        this.$refs.formPhone.resetFields();
+        if(this.$refs.formPhone!=undefined){
+          this.$refs.formPhone.resetFields();
+        }
         this.formPhone = {
           phone: '',
           code:'',
@@ -469,10 +479,10 @@
           }
         })
       },
+      //修改手机号
       submitPhone(){
         this.formPhone.phone = this.userInfo.phone;
         this.formPhone.new_phone = '+86'+this.formPhone.inputPhone;
-
         this.$refs.formPhone.validate((valid) => {
           if (valid) {
             //校验图形验证码正确
@@ -490,7 +500,10 @@
                 axios({
                   method: 'post',
                   url: `${baseURL}/v1/users/${this.userInfo._id}/phone`,
-                  data: querystring.stringify(this.formPhone)
+                  data: querystring.stringify(this.formPhone),
+                  headers: {
+                    "Access-Token": `${this.token}`,
+                  }
                 }).then(res => {
                   this.phoneVerification = false;
                   this.reload()
@@ -526,7 +539,10 @@
               axios({
                 method: 'post',
                 url: `${baseURL}/v1/users/${this.userInfo._id}/wallet_address/${this.formBindWallet.wallet_address}`,
-                data: querystring.stringify(this.formBindWallet)
+                data: querystring.stringify(this.formBindWallet),
+                headers: {
+                  "Access-Token": `${this.token}`,
+                }
               }).then(res => {
                 this.dialogFormVisible = false;
                 this.reload()
@@ -559,7 +575,10 @@
               axios({
                 method: 'post',
                 url: `${baseURL}/v1/users/${this.userInfo._id}/wallet_address/${this.formModifyWallet.wallet_address}`,
-                data: querystring.stringify(this.formModifyWallet)
+                data: querystring.stringify(this.formModifyWallet),
+                headers: {
+                  "Access-Token": `${this.token}`,
+                }
               }).then(res => {
                 this.dialogFormVisible2 = false;
                 this.reload()

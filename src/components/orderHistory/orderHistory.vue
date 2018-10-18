@@ -104,19 +104,10 @@
       }
     },
     mounted() {
-      //获取用户信息
-      let logInfo = JSON.parse(sessionStorage.getItem("loginInfo"));
-      axios({
-        method: 'get',
-        url: `${baseURL}/v1/users/${logInfo.user_id}`,
-      }).then(res => {
-        this.userInfo = res.data;
-        sessionStorage.setItem("userInfo", JSON.stringify(res.data))
-      }).catch(error => {
-        console.log(error);
-      });
-      //获取表格数据
-      this.getData()
+      if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
+        //获取表格数据
+        this.getData()
+      }
     },
     methods: {
       getData() {
