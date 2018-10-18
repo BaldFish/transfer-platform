@@ -1,7 +1,8 @@
-let baseURL="https://wallet-api-test.launchain.org";
-let loginPlatform="https://login-test.launchain.org";
-let exchangePlatform="https://exchange-test.launchain.org";
-let transferPlatform="https://transfer-test.launchain.org";
-let searchPlatform="https://search-test.launchain.org";
+let baseURL="https://wallet-api.launchain.cn";
+let loginPlatform="https://login.launchain.cn";
+let exchangePlatform="https://exchange.launchain.cn";
+let transferPlatform="https://transfer.launchain.cn";
+let searchPlatform="https://search.launchain.cn";
+let bigDataURL="https://search-api.launchain.cn";
 export {baseURL,loginPlatform,exchangePlatform,transferPlatform,searchPlatform}
 
