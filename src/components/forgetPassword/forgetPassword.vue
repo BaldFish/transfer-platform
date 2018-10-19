@@ -199,7 +199,7 @@
             this.captchaNotice = true
           });
         } else {
-          this.captchaNotice = true
+          this.captchaNotice = false
         }
       },
       //校验短信验证码
@@ -215,7 +215,7 @@
             this.codeNotice = true
           });
         } else {
-          this.codeNotice = true
+          this.codeNotice = false
         }
       },
       nextStep(id) {
@@ -228,8 +228,8 @@
               //校验input输入值
               if (result) {
                 //进入下一步
-                this.stepTwo = true;
                 this.stepOne = false;
+                this.stepTwo = true;
               }
             }
           })
