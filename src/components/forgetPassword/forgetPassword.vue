@@ -21,19 +21,19 @@
           </div>
           <div class="sec_input">
             <ul>
-              <li>
+              <li ref="box">
                 <i></i>
                 <input type="text" placeholder="请输入手机号" v-model="phone" v-validate="'required|mobile'" name='mobile'>
                 <span v-show="errors.has('mobile')" class="error" style="width: 200px">{{errors.first('mobile')}}</span>
               </li>
-              <li>
+              <li ref="box">
                 <i></i>
                 <input type="text" placeholder="请输入验证码" v-model="captcha_number" v-validate="'required'" name='captcha_number' @blur="captchaError">
                 <img class="img_change_img" @click="getCaptcha" :src="captcha">
                 <span v-show="errors.has('captcha_number')" class="error">{{errors.first('captcha_number')}}</span>
                 <span v-show="captchaNotice" class="error">图形验证码错误</span>
               </li>
-              <li>
+              <li ref="box">
                 <i></i>
                 <input type="text" placeholder="请输入手机验证码" v-model="code" v-validate="'required'" name='code' @blur="codeError">
                 <div class="img_change_img get_code" @click="getCode" v-if="codeValue">获取验证码</div>
@@ -242,7 +242,10 @@
             new: this.password, //新密码
             renew: this.repassword, //新密码
           };
-          this.$validator.validateAll().then((result) => {
+          this.$validator.validateAll({
+            password:this.password,
+            repassword:this.repassword
+          }).then((result) => {
             if (result) {
               axios({
                 method: 'post',
