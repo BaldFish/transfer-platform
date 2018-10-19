@@ -324,7 +324,7 @@
               url: `${baseURL}/v1/users/${this.userInfo._id}/password`,
               data: querystring.stringify(this.formPwd),
               headers: {
-                "Access-Token": `${this.token}`,
+                "X-Access-Token": `${this.token}`,
               }
             }).then(res => {
               this.modifyPassword = false
@@ -347,7 +347,7 @@
               url: `${baseURL}/v1/users/${this.userInfo._id}/authentication`,
               data: querystring.stringify(this.formAuth),
               headers: {
-                "Access-Token": `${this.token}`,
+                "X-Access-Token": `${this.token}`,
               }
             }).then(res => {
               this.userInfo.authentication = 2;
@@ -502,7 +502,7 @@
                   url: `${baseURL}/v1/users/${this.userInfo._id}/phone`,
                   data: querystring.stringify(this.formPhone),
                   headers: {
-                    "Access-Token": `${this.token}`,
+                    "X-Access-Token": `${this.token}`,
                   }
                 }).then(res => {
                   this.phoneVerification = false;
@@ -541,7 +541,7 @@
                 url: `${baseURL}/v1/users/${this.userInfo._id}/wallet_address/${this.formBindWallet.wallet_address}`,
                 data: querystring.stringify(this.formBindWallet),
                 headers: {
-                  "Access-Token": `${this.token}`,
+                  "X-Access-Token": `${this.token}`,
                 }
               }).then(res => {
                 this.dialogFormVisible = false;
@@ -577,7 +577,7 @@
                 url: `${baseURL}/v1/users/${this.userInfo._id}/wallet_address/${this.formModifyWallet.wallet_address}`,
                 data: querystring.stringify(this.formModifyWallet),
                 headers: {
-                  "Access-Token": `${this.token}`,
+                  "X-Access-Token": `${this.token}`,
                 }
               }).then(res => {
                 this.dialogFormVisible2 = false;
