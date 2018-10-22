@@ -98,7 +98,7 @@
 
 <script>
   import "@/common/stylus/index.styl";
-  import {baseURL,loginPlatform,exchangePlatform,transferPlatform,searchPlatform} from '@/common/js/public.js';
+  import {baseURL, loginPlatform, exchangePlatform, transferPlatform, searchPlatform} from '@/common/js/public.js';
   import axios from "axios";
   import utils from "@/common/js/utils.js";
   
@@ -133,7 +133,7 @@
           method: "GET",
           url: `${baseURL}/v1/sessions/check`,
           headers: {
-            "X-Access-Token": `${token}`,
+            "Access-Token": `${token}`,
           }
         }).then((res) => {
           if (res.data.user_id) {
@@ -144,12 +144,14 @@
             window.sessionStorage.setItem("loginInfo", JSON.stringify(loginInfo));
             this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
             this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
-            this.userName = JSON.parse(sessionStorage.getItem("userInfo")).phone
+            this.userName = JSON.parse(sessionStorage.getItem("userInfo")).phone;
             this.isLogin = true;
             this.acquireFavoriteCount();
           } else {
             this.isLogin = false;
-            this.dropOut()
+            sessionStorage.removeItem('loginInfo');
+            sessionStorage.removeItem('userInfo');
+            //this.dropOut()
           }
         }).catch((err) => {
           console.log(err);
@@ -174,7 +176,7 @@
           method: "GET",
           url: `${baseURL}/v1/sessions/check`,
           headers: {
-            "X-Access-Token": `${token}`,
+            "Access-Token": `${token}`,
           }
         }).then((res) => {
           if (res.data.user_id) {
@@ -201,14 +203,14 @@
         sessionStorage.removeItem('userInfo');
       }
     },*/
-    beforeUpdate(){
+    beforeUpdate() {
       let token = utils.getCookie("token");
       if (token) {
         axios({
           method: "GET",
           url: `${baseURL}/v1/sessions/check`,
           headers: {
-            "X-Access-Token": `${token}`,
+            "Access-Token": `${token}`,
           }
         }).then((res) => {
           if (res.data.user_id) {
@@ -219,12 +221,14 @@
             window.sessionStorage.setItem("loginInfo", JSON.stringify(loginInfo));
             this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
             this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
-            this.userName = JSON.parse(sessionStorage.getItem("userInfo")).phone
+            this.userName = JSON.parse(sessionStorage.getItem("userInfo")).phone;
             this.isLogin = true;
             this.acquireFavoriteCount();
           } else {
             this.isLogin = false;
-            this.dropOut()
+            sessionStorage.removeItem('loginInfo');
+            sessionStorage.removeItem('userInfo');
+            //this.dropOut()
           }
         }).catch((err) => {
           console.log(err);
@@ -267,7 +271,7 @@
           this.isShowLogin = false;
           this.isShowRegister = false;
           this.isShowForgetPassword = false;
-        }else {
+        } else {
           this.isShowTopSearch = true;
           this.isShowLogin = false;
           this.isShowRegister = false;
@@ -289,8 +293,10 @@
             "Content-Type": "application/x-www-form-urlencoded",
           }
         }).then(res => {
-          /*sessionStorage.removeItem('loginInfo');
-          sessionStorage.removeItem('userInfo');*/
+          sessionStorage.removeItem('loginInfo');
+          sessionStorage.removeItem('userInfo');
+          //document.cookie = `token=;expires=${new Date(0)}`;
+          //document.cookie = `user_id=;expires=${new Date(0)}`;
           document.cookie = `token=;expires=${new Date(0)};domain=.launchain.cn`;
           document.cookie = `user_id=;expires=${new Date(0)};domain=.launchain.cn`;
           this.switchover = false;

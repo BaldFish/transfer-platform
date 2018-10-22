@@ -123,6 +123,7 @@
   import axios from "axios";
   import {baseURL} from '@/common/js/public.js';
   import {BigNumber} from 'bignumber.js';
+  import utils from "@/common/js/utils.js";
 
   const querystring = require('querystring');
 
@@ -132,7 +133,7 @@
     data() {
       return {
         paymentInfo: {},
-        order_id: "",
+        orderNum:"",
         userId: "",
         token: "",
         id: "",
@@ -147,16 +148,51 @@
         value: "T1",
       }
     },
-    mounted() {
-      if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
-        this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
-        this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
-        if (JSON.parse(sessionStorage.getItem("buyInfoObj"))) {
-          this.order_id = JSON.parse(sessionStorage.getItem("buyInfoObj")).id
-        }
-        this.acquireOrderInfo();
-        this.acquireUserInfo();
+    beforeMount() {
+      let token = utils.getCookie("token");
+      if (token) {
+        axios({
+          method: "GET",
+          url: `${baseURL}/v1/sessions/check`,
+          headers: {
+            "Access-Token": `${token}`,
+          }
+        }).then((res) => {
+          if (res.data.user_id) {
+            window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
+            let loginInfo = {};
+            loginInfo.token = token;
+            loginInfo.user_id = res.data.user_id;
+            window.sessionStorage.setItem("loginInfo", JSON.stringify(loginInfo));
+            this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
+            this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
+            this.walletAddress=JSON.parse(sessionStorage.getItem("userInfo")).wallet_address;
+            this.acquireBalance();
+          } else {
+            alert("登录失效")
+          }
+        }).catch((err) => {
+          console.log(err);
+        })
+      } else {
+        sessionStorage.removeItem('loginInfo');
+        sessionStorage.removeItem('userInfo');
       }
+    },
+    mounted() {
+      let url = location.search;
+      if (url.indexOf("?") != -1) {
+        let theRequest = new Object();
+        let str = url.substr(1);
+        let strs = str.split("&");
+        for (let i = 0; i < strs.length; i++) {
+          theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+        }
+        this.orderNum = theRequest.order_id;
+      } else {
+        this.orderNum = JSON.parse(sessionStorage.getItem("buyInfoObj")).orderNum
+      }
+      this.acquireOrderInfo();
     },
     beforeRouteLeave(to, from, next) {
       clearTimeout(this.timer);
@@ -173,13 +209,13 @@
       acquireOrderInfo() {
         axios({
           method: "GET",
-          url: `${baseURL}/v1/assets-transfer/record/detail/${this.order_id}`,
+          url: `${baseURL}/v1/assets-transfer/record/detail/${this.orderNum}`,
           headers: {
             "Content-Type": "application/json",
           }
         }).then((res) => {
           this.buyInfoObj = res.data;
-          this.order_id = this.buyInfoObj.id;
+          this.orderNum = this.buyInfoObj.orderNum;
           if (this.buyInfoObj.order_status === 2) {
             this.next = 3
           }
@@ -193,7 +229,7 @@
           //防止长时间未点击确认支付或在其它浏览器支付完成，支付前获取订单最新支付状态
           axios({
             method: "GET",
-            url: `${baseURL}/v1/assets-transfer/record/detail/${this.order_id}`,
+            url: `${baseURL}/v1/assets-transfer/record/detail/${this.orderNum}`,
             headers: {
               "Content-Type": "application/json",
             }
@@ -204,10 +240,9 @@
               //如果支付状态是未支付，根据支付方式请求支付信息
               axios({
                 method: "POST",
-                url: `${baseURL}/v1/assets-transfer/record/pay`,
+                url: `${baseURL}/v1/order/pay/${this.orderNum}`,
                 data: querystring.stringify({
                   pay_method: this.value,
-                  order_id:this.order_id
                 })
               }).then((res) => {
                 if (_.includes(["10","20","30"],this.value)) {
@@ -236,7 +271,7 @@
       acquireOrderStatus() {
         axios({
           method: "GET",
-          url: `${baseURL}/v1/assets-transfer/record/detail/${this.order_id}`,
+          url: `${baseURL}/v1/assets-transfer/record/detail/${this.orderNum}`,
           headers: {
             "Content-Type": "application/json",
           }
@@ -259,7 +294,7 @@
         });
       },
       //获取用户信息
-      acquireUserInfo() {
+      /*acquireUserInfo() {
         axios({
           method: "GET",
           url: `${baseURL}/v1/users/${this.userId}`,
@@ -277,7 +312,7 @@
         }).catch((err) => {
           console.log(err);
         });
-      },
+      },*/
       //获取钱包地址余额
       acquireBalance() {
         //获取可信币余额

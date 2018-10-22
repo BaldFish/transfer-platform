@@ -68,11 +68,9 @@
                   </li>
                 </ul>
               </section>
-
               <router-link to="/forgetPassword" class="to_forget"><p>忘记密码？</p></router-link>
               <router-link to="" class="to_login"><span @click="login">登录</span></router-link>
               <router-link to="/register" class="to_register"><p>还没有账号，立即注册</p></router-link>
-
             </div>
           </div>
         </div>
@@ -291,7 +289,8 @@
                   document.cookie=`user_id=${res.data.user_id};domain=.launchain.cn`;
                   window.sessionStorage.setItem("loginInfo", JSON.stringify(res.data));
                   this.userId = res.data.user_id;
-                  this.acquireUserInfo();
+                  this.$router.back(-1)
+                  //this.acquireUserInfo();
                 }).catch(error => {
                   console.log(error);
                   //错误提示
@@ -342,7 +341,8 @@
                   document.cookie=`user_id=${res.data.user_id};domain=.launchain.cn`;
                   window.sessionStorage.setItem("loginInfo", JSON.stringify(res.data));
                   this.userId = res.data.user_id;
-                  this.acquireUserInfo();
+                  this.$router.back(-1)
+                  //this.acquireUserInfo();
                 }).catch(error => {
                   console.log(error);
                   //错误提示
@@ -361,7 +361,7 @@
           })
         }
       },
-      acquireUserInfo() {
+      /*acquireUserInfo() {
         axios({
           method: "GET",
           url: `${baseURL}/v1/users/${this.userId}`,
@@ -375,7 +375,7 @@
         }).catch((err) => {
           console.log(err);
         });
-      },
+      },*/
     }
   }
 </script>

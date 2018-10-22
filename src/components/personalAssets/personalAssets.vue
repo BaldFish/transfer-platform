@@ -126,7 +126,12 @@
       if(JSON.parse(sessionStorage.getItem("loginInfo"))){
         this.userId=JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
         this.token=JSON.parse(sessionStorage.getItem("loginInfo")).token;
-        this.acquireUserInfo();
+        this.walletAddress=JSON.parse(sessionStorage.getItem("userInfo")).wallet_address;
+        if (this.walletAddress) {
+          this.acquireBalance()
+        } else {
+          this.balance = 0
+        }
         this.acquireAssetList();
       }
     },
@@ -146,7 +151,7 @@
         this.currentPage = val;
         this.acquireAssetList();
       },
-      acquireUserInfo(){
+      /*acquireUserInfo(){
           axios({
             method: "GET",
             url: `${baseURL}/v1/users/${this.userId}`,
@@ -164,7 +169,7 @@
           }).catch((err) => {
             console.log(err);
           });
-      },
+      },*/
       acquireBalance() {
         //获取可信币余额
         axios({
