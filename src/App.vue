@@ -3,12 +3,12 @@
     <div class="head-wrap" v-if="isShowTopSearch">
       <div class="head">
         <a class="logo" href="/">
-          <p>Trusted Assets Blockchain</p>
+          <!--<p>Trusted Assets Blockchain</p>-->
         </a>
         <ul class="platform">
           <li v-for="(item,index) of toggleParam" @click="platform(index)" :class="{active:index===toggleIndex}">{{item}}</li>
         </ul>
-        <a href="/">欢迎来到 可信链 ！</a>
+        <a href="/">欢迎来到 ENGINE ！</a>
         <div class="favorite" @click="turnFavorite">
           <span class="s_text">收藏夹</span>
           <span class="s_num">{{this.$store.state.favoriteCount}}</span>
@@ -63,7 +63,7 @@
       <div class="footer">
         <div class="ft-box">
           <a href="/">
-            <p>Trusted Assets Blockchain</p>
+            <!--<p>Trusted Assets Blockchain</p>-->
           </a>
         </div>
         <div class="ft-box">
@@ -384,12 +384,12 @@
         display inline-block
         color #ffffff
         background-image: url('./common/images/logo.png');
-        background-position: top left;
+        background-position: top center;
         background-repeat: no-repeat;
-        width 200px
-        height 40px
+        width 100px
+        height 44px
         float left
-        margin-top 5px
+        margin-top 2px
         margin-left 6px
         position relative
         vertical-align top
@@ -406,10 +406,10 @@
         box-sizing border-box
         display inline-block
         text-align left
-        width 580px
+        width 680px
         height 50px
         font-size 0
-        padding-left 100px
+        //padding-left 100px
         vertical-align top
         padding-top 1px
         li {
@@ -633,7 +633,7 @@
           background-image: url('./common/images/logo_footer.png');
           background-position: top left;
           background-repeat: no-repeat;
-          width 240px
+          width 82px
           height 82px
           position relative
           p {
