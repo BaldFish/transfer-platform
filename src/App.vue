@@ -386,8 +386,8 @@
         background-image: url('./common/images/logo.png');
         background-position: top center;
         background-repeat: no-repeat;
-        width 100px
-        height 44px
+        width 150px
+        height 46px
         float left
         margin-top 2px
         margin-left 6px
@@ -406,7 +406,7 @@
         box-sizing border-box
         display inline-block
         text-align left
-        width 680px
+        width 630px
         height 50px
         font-size 0
         //padding-left 100px
