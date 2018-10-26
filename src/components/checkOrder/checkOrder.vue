@@ -36,7 +36,7 @@
             <router-link to="/securityCenter" class="to_bind">去绑定 ></router-link>
           </p>
           <p v-if="walletAddress!==''">钱包地址：{{walletAddress}}</p>
-          <p>可信积分：{{balance}}</p>
+          <p>数据豆：{{balance}}</p>
         </div>
       </div>
       <div class="check_code">
@@ -53,7 +53,7 @@
             </label>
             <label class="pay_label">
               <input class="pay_radio" type="radio" name="pay" value='T1' v-model="value">
-              <span class="pay_radioInput"></span>可信积分
+              <span class="pay_radioInput"></span>数据豆
             </label>
             <!--<label class="pay_label">
               <input class="pay_radio" type="radio" name="pay" value="20" v-model="value">
@@ -61,7 +61,7 @@
             </label>-->
           </span>
         </div>
-        <p>可使用可信积分，进行等价交易。</p>
+        <p>可使用数据豆，进行等价交易。</p>
         <p class="tip">提示：可用其它钱包地址支付</p>
         <button @click="acquireIntegralInfo">确认支付</button>
       </div>
@@ -74,11 +74,11 @@
             <router-link to="/securityCenter" class="to_bind">去绑定 ></router-link>
           </p>
           <p v-if="walletAddress!==''">钱包地址：{{walletAddress}}</p>
-          <p>可信积分：{{balance}}</p>
+          <p>数据豆：{{balance}}</p>
         </div>
       </div>
       <div class="check_code">
-        <p>可使用可信积分，进行等价交易。</p>
+        <p>可使用数据豆，进行等价交易。</p>
         <p class="tip">提示：可用其它钱包地址支付</p>
         <img class="check_code_img" :src="`data:image/png;base64,${paymentInfo.png}`" alt="" v-if="value==='T1'">
         <a class="check_code_a" :href="paymentInfo.image_url" target="_blank" v-if="value!=='T1'">去支付</a>
@@ -92,7 +92,7 @@
             <router-link to="/securityCenter" class="to_bind">去绑定 ></router-link>
           </p>
           <p v-if="walletAddress!==''">钱包地址：{{walletAddress}}</p>
-          <p>可信积分：{{balance}}</p>
+          <p>数据豆：{{balance}}</p>
         </div>
       </div>
       <div class="check_code">
