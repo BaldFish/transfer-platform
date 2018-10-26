@@ -55,7 +55,7 @@
     data() {
       return {
         bannerList: [
-          {link_url: 'javascript:void(0)', picture_url: require('./images/01.jpg')},
+          {link_url: 'javascript:void(0)', picture_url: require('./images/01.png')},
         ],
         tabsParam: ["最新上线", "已结束"],
         nowIndex: 0,

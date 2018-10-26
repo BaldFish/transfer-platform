@@ -1,7 +1,7 @@
 {
-  "name": "exchange",
+  "name": "transfer-platform",
   "version": "1.0.0",
-  "description": "exchange",
+  "description": "transfer-platform",
   "author": "lwc <wence.lv@cnlaunch.com>",
   "private": true,
   "scripts": {
