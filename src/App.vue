@@ -62,33 +62,30 @@
     <div class="footer-wrap">
       <div class="footer">
         <div class="ft-box">
-          <a href="/">
-            <!--<p>Trusted Assets Blockchain</p>-->
+          <a href="javascript:void(0)">
+            <img src="./common/images/logo_footer.png" alt="">
           </a>
         </div>
         <div class="ft-box">
-          <span>资产服务</span>
           <ul class="text">
-            <li><a href="javascript:void(0)">维修案例</a></li>
-            <li><a href="javascript:void(0)">维修设备</a></li>
-            <li><a href="javascript:void(0)">汽车资产</a></li>
-            <li><a href="javascript:void(0)">汽车零部件</a></li>
+            <li>工作时间：08:30-17:30</li>
+            <li>服务电话：010-58205388</li>
           </ul>
         </div>
         <div class="ft-box">
           <ul class="code">
             <li>
               <a href="javascript:void(0)">
-                <img class="ft_code" src="./common/images/Android.png" alt="Android">
-                <p>Android版</p>
+                <img class="ft_code" src="./common/images/weixin.png" alt="weixin">
+                <p>微信号</p>
               </a>
             </li>
-            <!--<li>
+            <li>
               <a href="javascript:void(0)">
-                <img class="ft_code" src="./common/images/IOS.png" alt="IOS">
-                <p>IOS版</p>
+                <img class="ft_code" src="./common/images/Android.png" alt="Android">
+                <p>Android钱包</p>
               </a>
-            </li>-->
+            </li>
           </ul>
         </div>
       </div>
@@ -573,42 +570,32 @@
     .footer {
       box-sizing: border-box
       width 1212px
-      height 156px
+      height 160px
       margin 0 auto
       font-size 0
-      text-align center
       .ft-box {
         display inline-block
         font-size 16px
         vertical-align top
-        margin-right 66px
-        span {
-          padding-top 45px
-          display block
-          color #ffffff
-          text-align left
-        }
         .text {
-          font-size 0
+          height 48px
+          margin-top 56px
           li {
-            padding-top 25px
-            display inline-block
             font-size 14px
-            margin-right 77px
-            a {
-              color #ffffff
-            }
+            color #ffffff
           }
           li:last-child {
-            margin-right 0
+            margin-top 20px
           }
         }
         .code {
           font-size 0
+          padding-right 15px
           li {
-            padding 30px 16px 0
+            padding-top 10px
             display inline-block
             font-size 14px
+            text-align center
             a {
               color #ffffff
               p {
@@ -618,30 +605,36 @@
               }
             }
           }
+          li:first-child{
+            margin-right 36px
+          }
+        }
+      }
+      .ft-box:first-child {
+        margin-left 12px
+        margin-right 146px
+        padding-top 5px
+        a {
+          box-sizing border-box
+          font-size: 0px;
+          color: #c6351e;
+          display: table-cell;
+          width: 150px;
+          height: 150px;
+          vertical-align: top;
+          text-align: center;
+          img {
+            vertical-align: top;
+            max-width 150px
+            max-height 150px
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+          }
         }
       }
       .ft-box:last-child {
-        margin-right -16px
-      }
-      .ft-box:first-child {
-        margin-right 42px
-        a {
-          display inline-block
-          color #d92000
-          font-size 10px
-          margin-top 38px
-          background-image: url('./common/images/logo_footer.png');
-          background-position: top left;
-          background-repeat: no-repeat;
-          width 82px
-          height 82px
-          position relative
-          p {
-            position absolute
-            left 90px
-            bottom 0
-          }
-        }
+        float right
       }
     }
   }
