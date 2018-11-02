@@ -159,47 +159,13 @@
       }
       //this.changTop()
     },
-    /*mounted() {
-      if (sessionStorage.getItem("loginInfo")) {
-        this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
-        this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
-        this.acquireFavoriteCount();
+    mounted() {
+      if(this.pathname==="/developer"){
+        this.toggleIndex=3
+      }else{
+        this.toggleIndex=0
       }
     },
-    beforeUpdate() {
-      let token = utils.getCookie("token");
-      if (token) {
-        axios({
-          method: "GET",
-          url: `${baseURL}/v1/sessions/check`,
-          headers: {
-            "Access-Token": `${token}`,
-          }
-        }).then((res) => {
-          if (res.data.user_id) {
-            window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
-            let loginInfo = {};
-            loginInfo.token = token;
-            loginInfo.user_id = res.data.user_id;
-            window.sessionStorage.setItem("loginInfo", JSON.stringify(loginInfo));
-            if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
-              this.isLogin = true;
-              this.userName = JSON.parse(sessionStorage.getItem("userInfo")).phone
-            } else {
-              this.isLogin = false
-            }
-            this.changTop()
-          } else {
-            this.dropOut()
-          }
-        }).catch((err) => {
-          console.log(err);
-        })
-      } else {
-        sessionStorage.removeItem('loginInfo');
-        sessionStorage.removeItem('userInfo');
-      }
-    },*/
     beforeUpdate() {
       let token = utils.getCookie("token");
       if (token) {
@@ -237,11 +203,24 @@
       //this.changTop()
     },
     computed: {
+      pathname:{
+        get:function () {
+          return document.location.pathname
+        },
+        set:function () {}
+      },
       favoriteCount: function () {
         return this.$store.state.favoriteCount
       }
     },
     watch: {
+      $route(to,from) {
+        if (to.path === "/developer") {
+          this.toggleIndex = 3
+        } else {
+          this.toggleIndex = 0
+        }
+      },
       favoriteCount: function () {
         this.acquireFavoriteCount();
       }
@@ -327,7 +306,6 @@
           window.location.href = transferPlatform
         }else if (index === 3) {
           this.$router.push("/developer");
-          this.toggleIndex=3;
         }
       },
       open() {
