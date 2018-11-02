@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import myLogin from '@/components/login/login'
+/*import myLogin from '@/components/login/login'
 import myForgetPassword from '@/components/forgetPassword/forgetPassword'
 import myRegister from '@/components/register/register'
-import myContract from '@/components/register/contract'
+import myContract from '@/components/register/contract'*/;
 import myTabs from '@/components/tabs/tabs'
 import myFavorite from '@/components/favorite/favorite'
 import myPersonalAssets from '@/components/personalAssets/personalAssets'
@@ -15,6 +15,7 @@ import myTransferPlatform from '@/components/transferPlatform/transferPlatform'
 import mySeller from '@/components/seller/seller'
 import myInfoPublicity from '@/components/infoPublicity/infoPublicity'
 import myTransferDetails from '@/components/transferDetails/transferDetails'
+import myDeveloper from '@/components/developer/developer'
 Vue.use(Router);
 
 export default new Router({
@@ -24,7 +25,7 @@ export default new Router({
       path: "/",
       redirect: "/transferPlatform"
     },
-    {
+    /*{
       path: '/login',
       name: 'login',
       component: myLogin
@@ -43,7 +44,7 @@ export default new Router({
       path: '/contract',
       name: 'contract',
       component: myContract
-    },
+    },*/
     {
       path: '/tabs',
       component: myTabs,
@@ -103,6 +104,11 @@ export default new Router({
       path: '/transferDetails',
       name: 'transferDetails',
       component: myTransferDetails
+    },
+    {
+      path:'/developer',
+      name:'developer',
+      component: myDeveloper
     },
   ]
 })

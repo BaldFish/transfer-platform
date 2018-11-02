@@ -29,7 +29,7 @@
 
 <script>
   import axios from "axios";
-  import {baseURL} from '@/common/js/public.js';
+  import {baseURL,loginPlatform} from '@/common/js/public.js';
 
   export default {
     name: "topSearch",
@@ -71,6 +71,11 @@
       }
     },
     methods: {
+      login() {
+        let redirectURL = window.location.href;
+        let url=`?redirectURL=${redirectURL}`;
+        window.location.href=`${loginPlatform}${url}`;
+      },
       open() {
         this.$confirm('此操作需要先登录, 是否登录?', '提示', {
           confirmButtonText: '是',
@@ -78,7 +83,7 @@
           type: 'warning',
           center: true
         }).then(() => {
-          this.$router.push("/login")
+          this.login();
         }).catch(() => {
         });
       },
