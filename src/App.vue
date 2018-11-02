@@ -163,7 +163,7 @@
       if(this.pathname==="/developer"){
         this.toggleIndex=3
       }else{
-        this.toggleIndex=0
+        this.toggleIndex=2
       }
     },
     beforeUpdate() {
@@ -218,7 +218,7 @@
         if (to.path === "/developer") {
           this.toggleIndex = 3
         } else {
-          this.toggleIndex = 0
+          this.toggleIndex = 2
         }
       },
       favoriteCount: function () {
