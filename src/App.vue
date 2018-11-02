@@ -229,12 +229,12 @@
       login() {
         let redirectURL = window.location.href;
         let url=`?redirectURL=${redirectURL}`;
-        window.location.href=`${loginPlatform}${url}`;
+        window.location.href=`${loginPlatform}/login${url}`;
       },
       register() {
         let redirectURL = window.location.href;
         let url=`?redirectURL=${redirectURL}`;
-        window.location.href=`${loginPlatform}${url}`;
+        window.location.href=`${loginPlatform}/register${url}`;
       },
       /*changTop() {
         if (this.$route.path == "/login") {
