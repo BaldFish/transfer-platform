@@ -283,8 +283,8 @@
           sessionStorage.removeItem('userInfo');
           //document.cookie = `token=;expires=${new Date(0)}`;
           //document.cookie = `user_id=;expires=${new Date(0)}`;
-          document.cookie = `token=;expires=${new Date(0)};domain=.launchain.cn`;
-          document.cookie = `user_id=;expires=${new Date(0)};domain=.launchain.cn`;
+          document.cookie = `token=;expires=${new Date(0)};domain=.datajs.com.cn`;
+          document.cookie = `user_id=;expires=${new Date(0)};domain=.datajs.com.cn`;
           this.switchover = false;
           location.reload()
         }).catch(error => {

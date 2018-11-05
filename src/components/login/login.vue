@@ -139,7 +139,7 @@
       //获取错误码
       axios({
         method: 'get',
-        url: `http://wallet-api-test.launchain.org:50000/v1/errors`
+        url: `http://wallet-api-test.launchain.org/v1/errors`
       }).then(res => {
         this.codeErrors = res.data
       }).catch(error => {
@@ -283,10 +283,17 @@
                   url: `${baseURL}/v1/sessions`,
                   data: querystring.stringify(loginFormData)
                 }).then(res => {
+<<<<<<< HEAD
                   /*document.cookie=`token=${res.data.token}`;
                   document.cookie=`user_id=${res.data.user_id}`;*/
                   document.cookie=`token=${res.data.token};domain=.launchain.cn`;
                   document.cookie=`user_id=${res.data.user_id};domain=.launchain.cn`;
+=======
+                  //document.cookie=`token=${res.data.token}`;
+                  //document.cookie=`user_id=${res.data.user_id}`;
+                  document.cookie=`token=${res.data.token};domain=.datajs.com.cn`;
+                  document.cookie=`user_id=${res.data.user_id};domain=.datajs.com.cn`;
+>>>>>>> develop
                   window.sessionStorage.setItem("loginInfo", JSON.stringify(res.data));
                   this.userId = res.data.user_id;
                   this.$router.back(-1)
@@ -335,10 +342,17 @@
                   url: `${baseURL}/v1/sessions/phone`,
                   data: querystring.stringify(loginFormData)
                 }).then(res => {
+<<<<<<< HEAD
                   /*document.cookie=`token=${res.data.token}`;
                   document.cookie=`user_id=${res.data.user_id}`;*/
                   document.cookie=`token=${res.data.token};domain=.launchain.cn`;
                   document.cookie=`user_id=${res.data.user_id};domain=.launchain.cn`;
+=======
+                  //document.cookie=`token=${res.data.token}`;
+                  //document.cookie=`user_id=${res.data.user_id}`;
+                  document.cookie=`token=${res.data.token};domain=.datajs.com.cn`;
+                  document.cookie=`user_id=${res.data.user_id};domain=.datajs.com.cn`;
+>>>>>>> develop
                   window.sessionStorage.setItem("loginInfo", JSON.stringify(res.data));
                   this.userId = res.data.user_id;
                   this.$router.back(-1)
