@@ -5,7 +5,7 @@
       <p>未绑定钱包地址
         <router-link to="" class="to_bind">去绑定 ></router-link>
       </p>
-      <p>可信币：0.00</p>
+      <p>数据豆：0.00</p>
     </div>
 
     <div class="nav_content_title">

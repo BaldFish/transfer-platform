@@ -31,7 +31,7 @@
         <tr v-if="!userInfo.wallet_address">
           <td><img src="./images/not.png" alt=""></td>
           <td>钱包地址</td>
-          <td>绑定您的钱包地址后，可信币才能显示出来</td>
+          <td>绑定您的钱包地址后，数据豆才能显示出来</td>
           <td class="red_set" @click="openModalBindWallet">设置</td>
         </tr>
         <tr v-else>
