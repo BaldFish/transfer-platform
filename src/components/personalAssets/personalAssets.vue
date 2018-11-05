@@ -6,7 +6,7 @@
         <router-link to="/securityCenter" class="to_bind">去绑定 ></router-link>
       </p>
       <p v-if="walletAddress!==''">钱包地址：{{walletAddress}}</p>
-      <p>可信币：{{balance}}</p>
+      <p>数据豆：{{balance}}</p>
     </div>
     <div class="nav_content_title">
       <span>已购资产</span>
@@ -176,7 +176,7 @@
           });
       },*/
       acquireBalance() {
-        //获取可信币余额
+        //获取数据豆余额
         axios({
           method:"GET",
           url:`${baseURL}/v1/token/TSD/balance?address=${this.walletAddress}`,

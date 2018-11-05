@@ -315,7 +315,7 @@
       },*/
       //获取钱包地址余额
       acquireBalance() {
-        //获取可信币余额
+        //获取数据豆余额
         axios({
           method:"GET",
           url:`${baseURL}/v1/token/TSD/balance?address=${this.walletAddress}`,
