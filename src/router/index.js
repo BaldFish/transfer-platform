@@ -1,9 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-/*import myLogin from '@/components/login/login'
-import myForgetPassword from '@/components/forgetPassword/forgetPassword'
-import myRegister from '@/components/register/register'
-import myContract from '@/components/register/contract'*/;
 import myTabs from '@/components/tabs/tabs'
 import myFavorite from '@/components/favorite/favorite'
 import myPersonalAssets from '@/components/personalAssets/personalAssets'
@@ -11,7 +7,7 @@ import myNoAssets from '@/components/noAssets/noAssets'
 import myCheckOrder from '@/components/checkOrder/checkOrder'
 import myOrderHistory from '@/components/orderHistory/orderHistory'
 import mySecurityCenter from '@/components/securityCenter/securityCenter'
-import myTransferPlatform from '@/components/transferPlatform/transferPlatform'
+import myHome from '@/components/home/home'
 import mySeller from '@/components/seller/seller'
 import myInfoPublicity from '@/components/infoPublicity/infoPublicity'
 import myTransferDetails from '@/components/transferDetails/transferDetails'
@@ -23,28 +19,8 @@ export default new Router({
   routes: [
     {
       path: "/",
-      redirect: "/transferPlatform"
+      redirect: "/home"
     },
-    /*{
-      path: '/login',
-      name: 'login',
-      component: myLogin
-    },
-    {
-      path: '/forgetPassword',
-      name: 'forgetPassword',
-      component: myForgetPassword
-    },
-    {
-      path: '/register',
-      name: 'register',
-      component: myRegister
-    },
-    {
-      path: '/contract',
-      name: 'contract',
-      component: myContract
-    },*/
     {
       path: '/tabs',
       component: myTabs,
@@ -86,9 +62,9 @@ export default new Router({
       ]
     },
     {
-      path: '/transferPlatform',
-      name: 'transferPlatform',
-      component: myTransferPlatform
+      path: '/home',
+      name: 'home',
+      component: myHome
     },
     {
       path: '/infoPublicity',

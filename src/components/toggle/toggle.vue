@@ -34,7 +34,7 @@
         if (index === 0) {
           window.open(exchangePlatform)
         } else if (index === 1) {
-          this.$router.push("/transferPlatform")
+          this.$router.push("/home")
         }
       }
     },
