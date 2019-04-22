@@ -1,7 +1,6 @@
 <template>
-  <div class="transferPlatform">
+  <div class="home">
     <div class="carousel">
-      <!--<el-carousel :interval="3000" arrow="never" indicator-position="none">-->
       <el-carousel :interval="3000" arrow="always">
         <el-carousel-item v-for="item in bannerList" :key="item.link_url">
           <a :href="item.link_url"><img :src="item.picture_url" alt=""></a>
@@ -48,7 +47,7 @@
   import myProgressBar from "../progressBar/progressBar"
   
   export default {
-    name: "transferPlatform",
+    name: "home",
     components: {
       myProgressBar,
     },
@@ -129,7 +128,7 @@
 </script>
 
 <style scoped lang="stylus">
-  .transferPlatform {
+  .home {
     .tabs_nav {
       width 1212px
       margin 0 auto
