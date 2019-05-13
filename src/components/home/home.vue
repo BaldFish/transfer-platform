@@ -19,20 +19,61 @@
             <img :src="item.url" alt="">
           </div>
           <h4 class="content_title">{{item.name}}</h4>
-          <my-progressBar :percentage="item.percentage"></my-progressBar>
-          <p class="price">&yen;{{item.total_amount}}&nbsp;<span>起</span></p>
+          <!--<my-progressBar :percentage="item.percentage"></my-progressBar>-->
+          <p class="price">&yen;<label>{{item.total_amount}}</label>&nbsp;<!--<span>起</span>--></p>
+          <div class="img-notice"><p>餐厅</p></div>
         </li>
       </ul>
     </div>
     <div class="tabs_content" v-show="nowIndex===1">
       <ul class="content">
-        <li v-for="item of finishedList" :key="item.id">
+        <li v-for="item of finishedList" :key="item.id"  @click="getPropertyDetails(item.id)">
           <div class="content_img">
             <img :src="item.url" alt="">
           </div>
           <h4 class="content_title">{{item.name}}</h4>
-          <my-progressBar :percentage="item.percentage"></my-progressBar>
-          <p class="price">&yen;{{item.total_amount}}&nbsp;<span>起</span></p>
+          <!--<my-progressBar :percentage="item.percentage"></my-progressBar>-->
+          <p class="price">&yen;<label>{{item.total_amount}}</label>&nbsp;<!--<span>起</span>--></p>
+          <div class="img-notice"><p>餐厅</p></div>
+        </li>
+      </ul>
+    </div>
+    <div class="tabs_content" v-show="nowIndex===2">
+      <ul class="content">
+        <li v-for="item of finishedList" :key="item.id"  @click="getPropertyDetails(item.id)">
+          <div class="content_img">
+            <img :src="item.url" alt="">
+          </div>
+          <h4 class="content_title">{{item.name}}</h4>
+          <!--<my-progressBar :percentage="item.percentage"></my-progressBar>-->
+          <p class="price">&yen;<label>{{item.total_amount}}</label>&nbsp;<!--<span>起</span>--></p>
+          <div class="img-notice"><p>咖啡厅</p></div>
+        </li>
+      </ul>
+    </div>
+    <div class="tabs_content" v-show="nowIndex===3">
+      <ul class="content">
+        <li v-for="item of finishedList" :key="item.id"  @click="getPropertyDetails(item.id)">
+          <div class="content_img">
+            <img :src="item.url" alt="">
+          </div>
+          <h4 class="content_title">{{item.name}}</h4>
+          <!--<my-progressBar :percentage="item.percentage"></my-progressBar>-->
+          <p class="price">&yen;<label>{{item.total_amount}}</label>&nbsp;<!--<span>起</span>--></p>
+          <div class="img-notice"><p>水果店</p></div>
+        </li>
+      </ul>
+    </div>
+    <div class="tabs_content" v-show="nowIndex===4">
+      <ul class="content">
+        <li v-for="item of finishedList" :key="item.id"  @click="getPropertyDetails(item.id)">
+          <div class="content_img">
+            <img :src="item.url" alt="">
+          </div>
+          <h4 class="content_title">{{item.name}}</h4>
+          <!--<my-progressBar :percentage="item.percentage"></my-progressBar>-->
+          <p class="price">&yen;<label>{{item.total_amount}}</label>&nbsp;<!--<span>起</span>--></p>
+          <div class="img-notice"><p class="out-text">维修资料</p></div>
         </li>
       </ul>
     </div>
@@ -45,7 +86,7 @@
   import {baseURL} from '@/common/js/public.js';
   import utils from "@/common/js/utils.js";
   import myProgressBar from "../progressBar/progressBar"
-  
+
   export default {
     name: "home",
     components: {
@@ -56,7 +97,7 @@
         bannerList: [
           {link_url: 'javascript:void(0)', picture_url: require('./images/01.png')},
         ],
-        tabsParam: ["最新上线", "已结束"],
+        tabsParam: ["全部", "餐厅", "咖啡厅", "水果店", "维修资料"],
         nowIndex: 0,
         percentage: 75,
         propertyList: [],
@@ -121,7 +162,7 @@
           return o.id === val
         }));
         //this.$router.push("/transferDetails")
-        window.open("/transferDetails","_blank")
+        window.open("/homeDetails","_blank")
       },
     },
   }
@@ -207,6 +248,26 @@
             span {
               font-size: 12px;
               color: #666666;
+            }
+            label{
+              font-size: 22px;
+            }
+          }
+          .img-notice{
+            width: 130px;
+            height: 130px;
+            background-color: rgba(0,0,0,0.51);
+            opacity: 0.8;
+            border-radius: 50%;
+            margin-left: 65px;
+            font-size: 34px;
+            color: #fff;
+            text-align: center;
+            margin-top: -270px;
+            line-height 130px;
+            .out-text{
+              line-height normal
+              padding-top 30px
             }
           }
         }
