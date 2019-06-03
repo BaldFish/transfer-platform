@@ -12,14 +12,14 @@
     </div>
     <div class="goods-container">
       <div class="goods-banner">
-        <img src="./images/lock.png" alt="">
+        <img :src="assetsDetails.store_picture" alt="">
       </div>
       <div class="goods-buy">
-        <p class="goods-title">{{propertyDetails.name}}</p>
-        <div class="attestation">
-          <span class="merchant">认证商家</span>
-          <span class="person">认证个人</span>
-          <span class="trust">未认证</span>
+        <p class="goods-title" :class="{'is-benefit':!assetsDetails.benefit}">{{assetsDetails.name}}</p>
+        <div class="attestation" v-if="assetsDetails.benefit">
+          <span class="merchant">{{assetsDetails.benefit}}</span>
+          <!--<span class="person">认证个人</span>
+          <span class="trust">未认证</span>-->
           <!--<span class="trust" v-if="reportDetails.creditlevel!=='未认证'">{{reportDetails.creditlevel}}</span>-->
         </div>
         <div class="goods-details">
@@ -27,7 +27,7 @@
             <li class="price">
               <span class="triangle_border_nw"></span>
               <label>此资产价格：</label>
-              <span class="money">{{singleGood.price}}</span>
+              <span class="money">{{assetsDetails.price}}</span>
             </li>
           </ul>
           <div style="clear: both"></div>
@@ -37,15 +37,15 @@
               <ul>
                 <li>
                   <label>创建时间</label>
-                  <span>：{{"资产所属人"}}</span>
+                  <span>：{{assetsDetails.created_at}}</span>
                 </li>
                 <li>
                   <label>员工人数</label>
-                  <span>：{{"资产所属人"}}</span>
+                  <span>：{{assetsDetails.employee_number}}</span>
                 </li>
                 <li>
                   <label>资产所属人</label>
-                  <span>：{{"资产所属人"}}</span>
+                  <span class="owner">：{{assetsDetails.owner_address}}</span>
                 </li>
               </ul>
             </div>
@@ -54,15 +54,15 @@
               <ul>
                 <li>
                   <label>位置</label>
-                  <span>：{{"资产所属人"}}</span>
+                  <span>：{{assetsDetails.location}}</span>
                 </li>
                 <li>
                   <label>具体地址</label>
-                  <span>：{{"资产所属人"}}</span>
+                  <span>：{{assetsDetails.address}}</span>
                 </li>
                 <li>
                   <label>面积</label>
-                  <span>：{{"资产所属人"}}</span>
+                  <span>：{{assetsDetails.area}}</span>
                 </li>
               </ul>
             </div>
@@ -76,13 +76,13 @@
       <span class="title-text">设备简介</span>
     </div>
     <div class="transfer-record">
-      <p>m ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridi</p>
+      <p>{{assetsDetails.description}}</p>
     </div>
 
     <div class="title">
       <span class="title-source"></span>
       <span class="title-text">可信溯源</span>
-      <span class="check-more">显示更多</span>
+      <!--<span class="check-more">显示更多</span>-->
   <!--    <span class="check-more" v-if="!isShow" @click="reportSource != ''?isShow = true:isShow = false">显示更多</span>
       <span class="check-more" v-if="isShow" @click="reportSource != ''?isShow = false:isShow = true">收起更多</span>-->
     </div>
@@ -95,37 +95,19 @@
         <ul>
           <li>
             <label>"交易发起方"</label>
-            <span>："交易发起方",</span>
+            <span>：{{assetsChains.from}},</span>
           </li>
           <li>
             <label>"交易接收方"</label>
-            <span>："交易接收方",</span>
+            <span>：{{assetsChains.to}},</span>
           </li>
           <li>
-            <label>"交易价格"</label>
-            <span>："交易价格",</span>
-          </li>
-          <li>
-            <label>"交易时间"</label>
-            <span>："交易时间"</span>
-          </li>
-        </ul>
-        <ul>
-          <li>
-            <label>"交易发起方"</label>
-            <span>："交易发起方",</span>
-          </li>
-          <li>
-            <label>"交易接收方"</label>
-            <span>："交易接收方",</span>
-          </li>
-          <li>
-            <label>"交易价格"</label>
-            <span>："交易价格",</span>
+            <label>"交易哈希"</label>
+            <span>：{{assetsChains.hash}},</span>
           </li>
           <li>
             <label>"交易时间"</label>
-            <span>："交易时间"</span>
+            <span>：{{assetsChains.created_at}},</span>
           </li>
         </ul>
       </div>
@@ -136,16 +118,12 @@
       <span class="title-text">交易流水</span>
       <div class="notice">
         <div class="block">
-          <span class="demonstration">时间范围：</span>
-          <el-date-picker
-            v-model="value6"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期">
-          </el-date-picker>
+          <span>时间范围：</span>
+          <span>{{flowList.start_time}}</span>
+          <span>&nbsp;~&nbsp;</span>
+          <span>{{flowList.end_time}}</span>
         </div>
-        <p>月平均收益：<span>￥519.00</span></p>
+        <p>月平均收益：<span>￥{{flowList.revenue}}</span></p>
       </div>
     </div>
     <div class="transfer-record">
@@ -153,25 +131,31 @@
         :data="tableData"
         style="width: 100%">
         <el-table-column
-          prop="date"
+          prop="id"
           label="订单号"
-          width="180">
+          align="center"
+          width="100">
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="created_at"
           label="创建时间"
-          width="180">
+          align="center"
+          width="310">
         </el-table-column>
         <el-table-column
-          prop="address"
-          label="名称">
+          prop="company_name"
+          label="名称"
+          align="center"
+          width="240">
         </el-table-column>
         <el-table-column
-          prop="address"
+          prop="pay_way"
+          align="center"
           label="支付方式">
         </el-table-column>
         <el-table-column
-          prop="address"
+          prop="price"
+          align="center"
           label="金额">
         </el-table-column>
       </el-table>
@@ -202,348 +186,83 @@
     name: "transferDetails",
     data() {
       return {
-        userId: "",
-        apiKey: "",
-        assetId: "",
-        propertyDetails: {},
-        percentage: 75,
+        assetsDetails: {},
+        assetsChains: {},
+        flowList: {},
         isShow: true,
-        dialogTableVisible: false,
-        toRight: 0,
-        bannerList: [],
-        goodsList: [],
-        activeImg: "",
-        firstCheckedIndex: 0,//第一次出现"0未完成"数组下标
-        id: "",
-        fav_id:"",//收藏id
-        singleGood: {},
-        num: 1,
-        min: 1,
-        max: 1,
-        recordList: [],
-        assetSource: [],
-        usageRecord: [],
-        facilityDetails: {},
         total: 10,
         pageSize: 10,
         currentPage: 1,
-        value6:'',
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
+        tableData: []
       }
     },
 
     mounted() {
-      //获取资产包id
-      this.id = JSON.parse(sessionStorage.getItem("propertyDetails")).id;
-      //判断userId
-      if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
-        this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
-      } else {
-        this.userId = ''
-      }
-      //商品标题&进度条包详情信息
-      this.getPropertyDetails();
-      //商品图片、商品列表
-      this.getGoodsDetails();
-      //获取认购列表
-      this.getRecordList();
+      this.getAssetsDetails();
+      this.getAssetsChains();
+      this.getFlow();
     },
     methods: {
       handleChange(value) {
         console.log(value);
       },
-      tabChange() {
+      /*tabChange() {
         this.isShow = !this.isShow
-      },
-      //上一张图
-      prevImg() {
-        if (this.toRight === (this.goodsList.length - 4) * 60 || this.goodsList.length <= 4) {
-          return false
-        } else {
-          this.toRight = this.toRight + 60
-        }
-      },
-      //下一张图
-      nextImg() {
-        if (this.toRight == 0) {
-          return false
-        } else {
-          this.toRight = this.toRight - 60
-        }
-      },
-      //展示大图
-      showImg(item) {
-        this.activeImg = item
-      },
-      //商品标题&进度条
-      getPropertyDetails() {
+      },*/
+      //获取资产详情信息
+      getAssetsDetails(){
         axios({
           method: "GET",
-          url: `${baseURL}/v1/assets-transfer/package/${this.id}`,
+          url: `${baseURL}/v1/asset-show/assets/${this.$route.query.asset_id}/desc?type=${this.$route.query.type_id}`,
           headers: {
             "Content-Type": "application/json",
           }
         }).then((res) => {
-          res.data.percentage = utils.divide(res.data.complete_amount, res.data.total_amount) * 100;
-          this.propertyDetails = res.data;
+          this.assetsDetails = res.data.data;
         }).catch((err) => {
           console.log(err);
         })
       },
-      //商品图片、商品列表
-      getGoodsDetails() {
+      //获取资产上链的信息
+      getAssetsChains(){
         axios({
           method: "GET",
-          url: `${baseURL}/v1/assets-transfer/asset/packid/${this.id}?userid=${this.userId}`,
+          url: `${baseURL}/v1/asset-show/assets/${this.$route.query.asset_id}/chain-info`,
           headers: {
             "Content-Type": "application/json",
           }
         }).then((res) => {
-          //获取轮播数据
-          this.bannerList = res.data.data;
-          this.activeImg = res.data.data[0].url;
-          //获取商品数据
-          this.goodsList = res.data.data;
-          //判断首次出现"0未完成"位置，并添加isChecked属性
-          let unDoneList = [];
-          this.goodsList.forEach((value) => {
-            value.isChecked = false;
-            if (value.total_number - value.complete_number === 0) {
-              value.status = 1
-            }
-            if (value.status === 0) {
-              unDoneList.push(value)
-            }
+          this.assetsChains = res.data.data;
+        }).catch((err) => {
+          console.log(err);
+        })
+      },
+      //获取餐厅类资产的交易流水
+      getFlow(){
+        axios({
+          method: "GET",
+          url: `${baseURL}/v1/asset-show/assets/${this.$route.query.asset_id}/records?page=${this.currentPage}&limit=${this.pageSize}`,
+          headers: {
+            "Content-Type": "application/json",
+          }
+        }).then((res) => {
+          res.data.data.start_time = utils.formatDate(new Date(res.data.data.start_time), 'yyyy-MM-dd hh:mm:ss');
+          res.data.data.end_time = utils.formatDate(new Date(res.data.data.end_time), 'yyyy-MM-dd hh:mm:ss');
+          res.data.data.lists.forEach((item) => {
+            item.created_at = utils.formatDate(new Date(item.created_at), 'yyyy-MM-dd hh:mm:ss')
           });
-          for (let i = 0; i < this.goodsList.length; i++) {
-            if (this.goodsList[i].id === unDoneList[0].id) {
-              this.firstCheckedIndex = i;
-            }
-          }
-          this.goodsList[this.firstCheckedIndex].isChecked = true;
-          this.getSingleGood(this.goodsList[this.firstCheckedIndex])
+          this.total = res.data.data.count;
+          this.flowList = res.data.data;
+          this.tableData = res.data.data.lists;
         }).catch((err) => {
           console.log(err);
         })
-      },
-      //点击单个商品
-      getSingleGood(val) {
-        this.goodsList.forEach((good) => {
-          good.isChecked = false;
-        });
-        val.isChecked = true;
-        axios({
-          method: "GET",
-          url: `${baseURL}/v1/assets-transfer/asset/detail/${val.assetid}/${val.apikey}?userid=${this.userId}`,
-          headers: {
-            "Content-Type": "application/json",
-          }
-        }).then((res) => {
-          this.num = 1;
-          this.max = res.data.total_number - res.data.complete_number;
-          this.singleGood = res.data;
-        }).catch((err) => {
-          console.log(err);
-        })
-
-      },
-      buy(val) {
-        if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
-          let buyInfoObj = val;
-          this.apiKey = buyInfoObj.apikey;
-          this.assetId = buyInfoObj.assetid;
-          this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
-          let data = {};
-          data.userid = this.userId;
-          data.apikey = this.apiKey;
-          data.assetid = this.assetId;
-          data.count = this.num;
-          axios({
-            method: "POST",
-            url: `${baseURL}/v1/assets-transfer/record/insert`,
-            data: querystring.stringify(data),
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              "X-Access-Token": this.token,
-            }
-          }).then((res) => {
-            buyInfoObj = res.data;
-            this.getBuy(buyInfoObj);
-            this.$router.push("/checkOrder")
-          }).catch((err) => {
-            console.log(err);
-          })
-        } else {
-          this.open()
-        }
-      },
-      login() {
-        let redirectURL = window.location.href;
-        let url=`?redirectURL=${redirectURL}`;
-        window.location.href=`${loginPlatform}${url}`;
-      },
-      open() {
-        this.$confirm('此操作需要先登录, 是否登录?', '提示', {
-          confirmButtonText: '是',
-          cancelButtonText: '否',
-          type: 'warning',
-          center: true
-        }).then(() => {
-          this.login()
-        }).catch(() => {
-        });
-      },
-      getBuy(val) {
-        this.$store.commit("changeBuy", val);
       },
       //分页变化
       handleCurrentChange(val) {
         this.currentPage = val;
-        this.getRecordList();
+        this.getFlow();
       },
-      //获取认购列表
-      getRecordList() {
-        axios({
-          method: "GET",
-          url: `${baseURL}/v1/assets-transfer/record/${this.id}/2?page=${this.currentPage}&limit=${this.pageSize}`,
-          headers: {
-            "Content-Type": "application/json",
-          }
-        }).then((res) => {
-          this.recordList = res.data.data;
-          this.total = res.data.count;
-          this.recordList.forEach((record) => {
-            record.updated_at = utils.formatDate(new Date(record.updated_at), 'yyyy-MM-dd hh:mm:ss')
-          })
-        }).catch((err) => {
-          console.log(err);
-        })
-      },
-      //获取弹框数据
-      checkAssetsDetail(item) {
-        this.dialogTableVisible = true;
-        let apiKey = item.apikey; //注意apikey中kK大小写
-        let id = item.assetid;
-
-        //let apiKey = "5ae04522cff7cb000194f2f4";
-        //let id = "9f93a461-4ece-46ea-8ff3-2b921289ab74";
-        this.acquireAssetDetails(apiKey, id);
-        this.acquireUsageRecord(apiKey, id);
-        this.acquireAssetSource(apiKey, id);
-      },
-      acquireAssetDetails(apiKey, id) {
-        axios({
-          method: "GET",
-          url: `${baseURL}/v1/asset/${apiKey}/${id}/detail`,
-          headers: {
-            "Content-Type": "application/json",
-          }
-        }).then((res) => {
-          res.data.sell_at = utils.formatDate(new Date(res.data.sell_at), "yyyy-MM-dd hh:mm:ss");
-          res.data.assetowner = res.data.assetowner.substr(0, 13) + "..." + res.data.assetowner.substr(res.data.assetowner.length - 14, 13);
-          this.facilityDetails = res.data
-        }).catch((err) => {
-          console.log(err);
-        });
-      },
-      acquireUsageRecord(apiKey, id) {
-        axios({
-          method: "GET",
-          url: `${baseURL}/v1/used-asset/${id}/apikey/${apiKey}?page=0&limit=1000000`,
-          headers: {
-            "Content-Type": "application/json",
-          }
-        }).then((res) => {
-          this.usageRecord = res.data.data;
-          this.usageRecord.forEach((record) => {
-            record.updated_at = utils.formatDate(new Date(record.updated_at), 'yyyy-MM-dd hh:mm:ss')
-          })
-        }).catch((err) => {
-          console.log(err);
-        });
-      },
-      acquireAssetSource(apiKey, id) {
-        axios({
-          method: "GET",
-          url: `${baseURL}/v1/transed-asset/${id}/apikey/${apiKey}?page=0&limit=1000000`,
-          headers: {
-            "Content-Type": "application/json",
-          }
-        }).then((res) => {
-          this.assetSource = res.data.data;
-          this.assetSource.forEach((record) => {
-            record.trans_at = utils.formatDate(new Date(record.trans_at), 'yyyy-MM-dd hh:mm:ss')
-          })
-        }).catch((err) => {
-          console.log(err);
-        });
-      },
-      //是否收藏
-      toggleLike(val){
-        if(sessionStorage.getItem("loginInfo")){
-          let likeInfo=this.singleGood;
-          this.apikey=likeInfo.apikey;
-          this.assetid=likeInfo.assetid;
-          if(likeInfo.fav_id===""){
-            axios({
-              method: "POST",
-              url: `${baseURL}/v1/assets-transfer/favorites/insert`,
-              data: querystring.stringify({
-                userid: this.userId,
-                assetid:this.assetid,
-                apikey:this.apikey
-              })
-            }).then((res) => {
-              this.fav_id=res.data.fav_id;
-              likeInfo.fav_id=this.fav_id;
-              this.addCollection()
-            }).catch((err) => {
-              console.log(err);
-            });
-          }else if(likeInfo.fav_id!==""){
-            this.fav_id=likeInfo.fav_id;
-            axios({
-              method: "DELETE",
-              url: `${baseURL}/v1/assets-transfer/favorites/delete/${this.userId}/${this.fav_id}`,
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                "X-Access-Token":this.token
-              }
-            }).then((res) => {
-              likeInfo.fav_id="";
-              this.subtractCollection()
-            }).catch((err) => {
-              console.log(err);
-            });
-          }
-        }else {
-          this.open()
-        }
-      },
-      addCollection(){
-        this.$store.commit("addCollection")
-      },
-      subtractCollection(){
-        this.$store.commit("subtractCollection")
-      },
-
-
     },
     watch: {},
     computed: {},
@@ -594,7 +313,6 @@
 
   .attestation {
     width 850px
-    height 62px
     font-size 0px
     span {
       text-align center
@@ -605,8 +323,7 @@
       height 30px
       line-height 30px
       margin-right 14px
-      margin-top 16px
-      margin-bottom 30px
+      margin-bottom 16px
     }
     .trust {
       background-color #99c7ff
@@ -659,10 +376,8 @@
       .block{
         float left
         margin-right 80px
-        .demonstration{
-          font-size 16px
-          color: #666
-        }
+        font-size 16px
+        color: #666
       }
       p{
         float right
@@ -760,6 +475,14 @@
     float left
   }
 
+  .owner{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 260px
+    display inline-block
+  }
+
   .details-right {
     float right
   }
@@ -784,9 +507,12 @@
     font-size: 20px;
     color: #222;
     font-weight: bold;
+    margin-bottom 16px
   }
 
-
+  .is-benefit{
+    margin-top 20px
+  }
 
   .goods-logo span:first-child {
     font-size: 12px;

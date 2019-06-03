@@ -9,71 +9,84 @@
     </div>
     <div class="tabs_nav">
       <ul class="tabs">
-        <li class="tabs_li" v-for="(item,index) of tabsParam" @click="toggleTabs(index)" :class="{active:index!=nowIndex}">{{item}}</li>
+        <li class="tabs_li" v-for="(item,index) of tabsParam" @click="toggleTabs(index,item)" :class="{active:index!=nowIndex}">{{item.name}}</li>
       </ul>
     </div>
-    <div class="tabs_content" v-show="nowIndex===0">
+    <div class="tabs_content" v-if="nowIndex===0">
       <ul class="content">
-        <li v-for="item of propertyList" :key="item.packageId" @click="getPropertyDetails(item.id)">
+        <li v-for="item of assetsList" :key="item.id" @click="getPropertyDetails(item)">
           <div class="content_img">
-            <img :src="item.url" alt="">
+            <img :src="item.img" alt="">
           </div>
           <h4 class="content_title">{{item.name}}</h4>
           <!--<my-progressBar :percentage="item.percentage"></my-progressBar>-->
-          <p class="price">&yen;<label>{{item.total_amount}}</label>&nbsp;<!--<span>起</span>--></p>
-          <div class="img-notice"><p>餐厅</p></div>
+          <p class="price">&yen;<label>{{item.price}}</label>&nbsp;<!--<span>起</span>--></p>
+          <div class="img-notice"><p>{{item.typeName}}</p></div>
         </li>
       </ul>
     </div>
-    <div class="tabs_content" v-show="nowIndex===1">
+    <div class="tabs_content" v-if="nowIndex===1">
       <ul class="content">
-        <li v-for="item of finishedList" :key="item.id"  @click="getPropertyDetails(item.id)">
+        <li v-for="item of assetsList" :key="item.id"  @click="getPropertyDetails(item)">
           <div class="content_img">
-            <img :src="item.url" alt="">
+            <img :src="item.img" alt="">
           </div>
           <h4 class="content_title">{{item.name}}</h4>
           <!--<my-progressBar :percentage="item.percentage"></my-progressBar>-->
-          <p class="price">&yen;<label>{{item.total_amount}}</label>&nbsp;<!--<span>起</span>--></p>
-          <div class="img-notice"><p>餐厅</p></div>
+          <p class="price">&yen;<label>{{item.price}}</label>&nbsp;<!--<span>起</span>--></p>
+          <div class="img-notice"><p>{{item.typeName}}</p></div>
         </li>
       </ul>
     </div>
-    <div class="tabs_content" v-show="nowIndex===2">
+    <div class="tabs_content" v-if="nowIndex===2">
       <ul class="content">
-        <li v-for="item of finishedList" :key="item.id"  @click="getPropertyDetails(item.id)">
+        <li v-for="item of assetsList" :key="item.id"  @click="getPropertyDetails(item)">
           <div class="content_img">
-            <img :src="item.url" alt="">
+            <img :src="item.img" alt="">
           </div>
           <h4 class="content_title">{{item.name}}</h4>
           <!--<my-progressBar :percentage="item.percentage"></my-progressBar>-->
-          <p class="price">&yen;<label>{{item.total_amount}}</label>&nbsp;<!--<span>起</span>--></p>
-          <div class="img-notice"><p>咖啡厅</p></div>
+          <p class="price">&yen;<label>{{item.price}}</label>&nbsp;<!--<span>起</span>--></p>
+          <div class="img-notice"><p>{{item.typeName}}</p></div>
         </li>
       </ul>
     </div>
-    <div class="tabs_content" v-show="nowIndex===3">
+    <div class="tabs_content" v-if="nowIndex===3">
       <ul class="content">
-        <li v-for="item of finishedList" :key="item.id"  @click="getPropertyDetails(item.id)">
+        <li v-for="item of assetsList" :key="item.id"  @click="getPropertyDetails(item)">
           <div class="content_img">
-            <img :src="item.url" alt="">
+            <img :src="item.img" alt="">
           </div>
           <h4 class="content_title">{{item.name}}</h4>
           <!--<my-progressBar :percentage="item.percentage"></my-progressBar>-->
-          <p class="price">&yen;<label>{{item.total_amount}}</label>&nbsp;<!--<span>起</span>--></p>
-          <div class="img-notice"><p>水果店</p></div>
+          <p class="price">&yen;<label>{{item.price}}</label>&nbsp;<!--<span>起</span>--></p>
+          <div class="img-notice"><p>{{item.typeName}}</p></div>
         </li>
       </ul>
     </div>
-    <div class="tabs_content" v-show="nowIndex===4">
+    <div class="tabs_content" v-if="nowIndex===4">
       <ul class="content">
-        <li v-for="item of finishedList" :key="item.id"  @click="getPropertyDetails(item.id)">
+        <li v-for="item of assetsList" :key="item.id"  @click="getPropertyDetails(item)">
           <div class="content_img">
-            <img :src="item.url" alt="">
+            <img :src="item.img" alt="">
           </div>
           <h4 class="content_title">{{item.name}}</h4>
           <!--<my-progressBar :percentage="item.percentage"></my-progressBar>-->
-          <p class="price">&yen;<label>{{item.total_amount}}</label>&nbsp;<!--<span>起</span>--></p>
-          <div class="img-notice"><p class="out-text">维修资料</p></div>
+          <p class="price">&yen;<label>{{item.price}}</label>&nbsp;<!--<span>起</span>--></p>
+          <div class="img-notice"><p class="out-text">{{item.typeName}}</p></div>
+        </li>
+      </ul>
+    </div>
+    <div class="tabs_content" v-if="nowIndex===5">
+      <ul class="content">
+        <li v-for="item of assetsList" :key="item.id"  @click="getPropertyDetails(item)">
+          <div class="content_img">
+            <img :src="item.img" alt="">
+          </div>
+          <h4 class="content_title">{{item.name}}</h4>
+          <!--<my-progressBar :percentage="item.percentage"></my-progressBar>-->
+          <p class="price">&yen;<label>{{item.price}}</label>&nbsp;<!--<span>起</span>--></p>
+          <div class="img-notice"><p class="out-text">{{item.typeName}}</p></div>
         </li>
       </ul>
     </div>
@@ -97,12 +110,21 @@
         bannerList: [
           {link_url: 'javascript:void(0)', picture_url: require('./images/01.png')},
         ],
-        tabsParam: ["全部", "餐厅", "咖啡厅", "水果店", "维修资料"],
+        tabsParam: [
+          {type_id:"",name:"全部"},
+          {type_id:"101",name:"餐厅"},
+          {type_id:"102",name:"水果店"},
+          {type_id:"103",name:"咖啡厅"},
+          {type_id:"201",name:"维修站"},
+          {type_id:"202",name:"维修设备"}
+        ],
         nowIndex: 0,
         percentage: 75,
         propertyList: [],
         propertySum: 0,
         finishedList:[],
+        assetsList:[],
+        type_id:"",
         finishedSum: 0,
         toggleIndex:1,
       }
@@ -110,16 +132,47 @@
     created() {
     },
     mounted() {
-      this.acquirePropertyList();
-      this.acquireFinishedList();
+      //this.acquirePropertyList();
+      //this.acquireFinishedList();
+      this.getAssetsList();
     },
     watch: {},
     computed: {},
     methods: {
-      toggleTabs(index) {
+      toggleTabs(index,item) {
         this.nowIndex = index;
+        this.type_id = item.type_id;
+        this.getAssetsList();
       },
-      acquirePropertyList() {
+      getAssetsList() {
+        axios({
+          method: "GET",
+          url: `${baseURL}/v1/asset-show/assets?type=${this.type_id}&page=&limit=`,
+          headers: {
+            "Content-Type": "application/json",
+            "charset":"UTF-8",
+          }
+        }).then((res) => {
+          if (res.data.data.list){
+            res.data.data.list.forEach(function (data) {
+              if (data.type == "101"){
+                data.typeName = "餐厅"
+              } else if (data.type == "102"){
+                data.typeName = "水果店"
+              } else if (data.type == "103"){
+                data.typeName = "咖啡店"
+              } else if (data.type == "201"){
+                data.typeName = "维修站"
+              } else if (data.type == "202"){
+                data.typeName = "维修设备"
+              }
+            });
+          }
+          this.assetsList = res.data.data.list;
+        }).catch((err) => {
+        })
+      },
+      /*acquirePropertyList() {
         axios({
           method: "GET",
           url: `${baseURL}/v1/assets-transfer/package/status?status=0`,
@@ -156,13 +209,14 @@
           this.finishedSum = res.data.count
         }).catch((err) => {
         })
-      },
+      },*/
       getPropertyDetails(val){
-        this.$store.commit("changePropertyDetails", _.find(this.propertyList, function (o) {
+        /*this.$store.commit("changePropertyDetails", _.find(this.propertyList, function (o) {
           return o.id === val
         }));
-        //this.$router.push("/transferDetails")
-        window.open("/homeDetails","_blank")
+        this.$router.push("/transferDetails")*/
+        let routeData = this.$router.resolve({ path: '/homeDetails', query: {asset_id: val.id,type_id: val.type} });
+        window.open(routeData.href, '_blank')
       },
     },
   }
