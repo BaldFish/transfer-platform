@@ -144,14 +144,16 @@
       }
     },
     beforeMount() {
-      let username = encodeURIComponent(this.getQuery("username"));
-      let uutoken = this.getQuery("uutoken");
-      if(uutoken){
+      let token = utils.getCookie("token") || this.getQuery("uutoken");
+      if (token) {
         axios({
           method: "GET",
-          url: `${baseURL}/v1/saas/uutoken?phone=${username}&uutoken=${uutoken}`,
+          url: `${baseURL}/v1/sessions/check`,
+          headers: {
+            "Access-Token": `${token}`,
+          }
         }).then((res) => {
-          if (res.data.code == 200) {
+          if (res.data.user_id) {
             window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
             let loginInfo = {};
             loginInfo.token = token;
@@ -171,38 +173,8 @@
           console.log(err);
         })
       } else {
-        let token = utils.getCookie("token");
-        if (token) {
-          axios({
-            method: "GET",
-            url: `${baseURL}/v1/sessions/check`,
-            headers: {
-              "Access-Token": `${token}`,
-            }
-          }).then((res) => {
-            if (res.data.user_id) {
-              window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
-              let loginInfo = {};
-              loginInfo.token = token;
-              loginInfo.user_id = res.data.user_id;
-              window.sessionStorage.setItem("loginInfo", JSON.stringify(loginInfo));
-              this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
-              this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
-              this.userName = JSON.parse(sessionStorage.getItem("userInfo")).phone;
-              this.isLogin = true;
-              this.acquireFavoriteCount();
-            } else {
-              this.isLogin = false;
-              sessionStorage.removeItem('loginInfo');
-              sessionStorage.removeItem('userInfo');
-            }
-          }).catch((err) => {
-            console.log(err);
-          })
-        } else {
-          sessionStorage.removeItem('loginInfo');
-          sessionStorage.removeItem('userInfo');
-        }
+        sessionStorage.removeItem('loginInfo');
+        sessionStorage.removeItem('userInfo');
       }
     },
     mounted() {
@@ -213,14 +185,16 @@
       }
     },
     beforeUpdate() {
-      let username = encodeURIComponent(this.getQuery("username"));
-      let uutoken = this.getQuery("uutoken");
-      if(uutoken){
+      let token = utils.getCookie("token") || this.getQuery("uutoken");
+      if (token) {
         axios({
           method: "GET",
-          url: `${baseURL}/v1/saas/uutoken?phone=${username}&uutoken=${uutoken}`,
+          url: `${baseURL}/v1/sessions/check`,
+          headers: {
+            "Access-Token": `${token}`,
+          }
         }).then((res) => {
-          if (res.data.code == 200) {
+          if (res.data.user_id) {
             window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
             let loginInfo = {};
             loginInfo.token = token;
@@ -235,44 +209,14 @@
             this.isLogin = false;
             sessionStorage.removeItem('loginInfo');
             sessionStorage.removeItem('userInfo');
+            //this.dropOut()
           }
         }).catch((err) => {
           console.log(err);
         })
       } else {
-        let token = utils.getCookie("token");
-        if (token) {
-          axios({
-            method: "GET",
-            url: `${baseURL}/v1/sessions/check`,
-            headers: {
-              "Access-Token": `${token}`,
-            }
-          }).then((res) => {
-            if (res.data.user_id) {
-              window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
-              let loginInfo = {};
-              loginInfo.token = token;
-              loginInfo.user_id = res.data.user_id;
-              window.sessionStorage.setItem("loginInfo", JSON.stringify(loginInfo));
-              this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
-              this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
-              this.userName = JSON.parse(sessionStorage.getItem("userInfo")).phone;
-              this.isLogin = true;
-              this.acquireFavoriteCount();
-            } else {
-              this.isLogin = false;
-              sessionStorage.removeItem('loginInfo');
-              sessionStorage.removeItem('userInfo');
-              //this.dropOut()
-            }
-          }).catch((err) => {
-            console.log(err);
-          })
-        } else {
-          sessionStorage.removeItem('loginInfo');
-          sessionStorage.removeItem('userInfo');
-        }
+        sessionStorage.removeItem('loginInfo');
+        sessionStorage.removeItem('userInfo');
       }
     },
     computed: {
