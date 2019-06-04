@@ -63,9 +63,9 @@ export default new Router({
       ]
     },
     {
-      path: '/home',
-      name: 'home',
-      component: myHome
+      path:'/home',
+      name:'home',
+      component:myHome
     },
     {
       path: '/infoPublicity',
