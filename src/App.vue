@@ -144,12 +144,12 @@
       }
     },
     beforeMount() {
-      let phone = this.getQuery("phone");
+      let username = encodeURIComponent(this.getQuery("username"));
       let uutoken = this.getQuery("uutoken");
       if(uutoken){
         axios({
           method: "GET",
-          url: `${baseURL}/v1/saas/uutoken?phone=${phone}&uutoken=${uutoken}`,
+          url: `${baseURL}/v1/saas/uutoken?phone=${username}&uutoken=${uutoken}`,
         }).then((res) => {
           if (res.data.code == 200) {
             window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
@@ -213,12 +213,12 @@
       }
     },
     beforeUpdate() {
-      let phone = this.getQuery("phone");
+      let username = encodeURIComponent(this.getQuery("username"));
       let uutoken = this.getQuery("uutoken");
       if(uutoken){
         axios({
           method: "GET",
-          url: `${baseURL}/v1/saas/uutoken?phone=${phone}&uutoken=${uutoken}`,
+          url: `${baseURL}/v1/saas/uutoken?phone=${username}&uutoken=${uutoken}`,
         }).then((res) => {
           if (res.data.code == 200) {
             window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
