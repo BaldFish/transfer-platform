@@ -113,7 +113,7 @@
   import {baseURL, loginPlatform, exchangePlatform, transferPlatform, searchPlatform} from '@/common/js/public.js';
   import axios from "axios";
   import utils from "@/common/js/utils.js";
-  
+
   export default {
     name: 'App',
     components: {},
@@ -144,16 +144,14 @@
       }
     },
     beforeMount() {
-      let token = utils.getCookie("token");
-      if (token) {
+      let phone = this.getQuery("phone");
+      let uutoken = this.getQuery("uutoken");
+      if(uutoken){
         axios({
           method: "GET",
-          url: `${baseURL}/v1/sessions/check`,
-          headers: {
-            "Access-Token": `${token}`,
-          }
+          url: `${baseURL}/v1/saas/uutoken?phone=${phone}&uutoken=${uutoken}`,
         }).then((res) => {
-          if (res.data.user_id) {
+          if (res.data.code == 200) {
             window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
             let loginInfo = {};
             loginInfo.token = token;
@@ -173,8 +171,38 @@
           console.log(err);
         })
       } else {
-        sessionStorage.removeItem('loginInfo');
-        sessionStorage.removeItem('userInfo');
+        let token = utils.getCookie("token");
+        if (token) {
+          axios({
+            method: "GET",
+            url: `${baseURL}/v1/sessions/check`,
+            headers: {
+              "Access-Token": `${token}`,
+            }
+          }).then((res) => {
+            if (res.data.user_id) {
+              window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
+              let loginInfo = {};
+              loginInfo.token = token;
+              loginInfo.user_id = res.data.user_id;
+              window.sessionStorage.setItem("loginInfo", JSON.stringify(loginInfo));
+              this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
+              this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
+              this.userName = JSON.parse(sessionStorage.getItem("userInfo")).phone;
+              this.isLogin = true;
+              this.acquireFavoriteCount();
+            } else {
+              this.isLogin = false;
+              sessionStorage.removeItem('loginInfo');
+              sessionStorage.removeItem('userInfo');
+            }
+          }).catch((err) => {
+            console.log(err);
+          })
+        } else {
+          sessionStorage.removeItem('loginInfo');
+          sessionStorage.removeItem('userInfo');
+        }
       }
     },
     mounted() {
@@ -185,16 +213,14 @@
       }
     },
     beforeUpdate() {
-      let token = utils.getCookie("token");
-      if (token) {
+      let phone = this.getQuery("phone");
+      let uutoken = this.getQuery("uutoken");
+      if(uutoken){
         axios({
           method: "GET",
-          url: `${baseURL}/v1/sessions/check`,
-          headers: {
-            "Access-Token": `${token}`,
-          }
+          url: `${baseURL}/v1/saas/uutoken?phone=${phone}&uutoken=${uutoken}`,
         }).then((res) => {
-          if (res.data.user_id) {
+          if (res.data.code == 200) {
             window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
             let loginInfo = {};
             loginInfo.token = token;
@@ -209,14 +235,44 @@
             this.isLogin = false;
             sessionStorage.removeItem('loginInfo');
             sessionStorage.removeItem('userInfo');
-            //this.dropOut()
           }
         }).catch((err) => {
           console.log(err);
         })
       } else {
-        sessionStorage.removeItem('loginInfo');
-        sessionStorage.removeItem('userInfo');
+        let token = utils.getCookie("token");
+        if (token) {
+          axios({
+            method: "GET",
+            url: `${baseURL}/v1/sessions/check`,
+            headers: {
+              "Access-Token": `${token}`,
+            }
+          }).then((res) => {
+            if (res.data.user_id) {
+              window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
+              let loginInfo = {};
+              loginInfo.token = token;
+              loginInfo.user_id = res.data.user_id;
+              window.sessionStorage.setItem("loginInfo", JSON.stringify(loginInfo));
+              this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
+              this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
+              this.userName = JSON.parse(sessionStorage.getItem("userInfo")).phone;
+              this.isLogin = true;
+              this.acquireFavoriteCount();
+            } else {
+              this.isLogin = false;
+              sessionStorage.removeItem('loginInfo');
+              sessionStorage.removeItem('userInfo');
+              //this.dropOut()
+            }
+          }).catch((err) => {
+            console.log(err);
+          })
+        } else {
+          sessionStorage.removeItem('loginInfo');
+          sessionStorage.removeItem('userInfo');
+        }
       }
     },
     computed: {
@@ -243,6 +299,16 @@
       }
     },
     methods: {
+      //获取URL参数
+      getQuery(name){
+        let reg=new RegExp('(^|&)'+name+'=([^&]*)(&|$)');
+        let r=window.location.search.substr(1).match(reg);
+        if(r!=null){
+          return unescape(r[2]);
+        } else{
+          return null
+        }
+      },
       advise(){
         this.name="";
         this.phone="";
@@ -392,7 +458,7 @@
     display: flex;
     flex-direction: column;
   }
-  
+
   .head-wrap {
     width: 100%;
     min-width 1212px
@@ -587,7 +653,7 @@
           left 50px
           bottom 0
         }
-        
+
       }
       .platform {
         box-sizing border-box
@@ -715,7 +781,7 @@
     min-width 1212px
     background-color #f3f3f3
   }
-  
+
   .footer-wrap {
     width 100%
     min-width 1212px
