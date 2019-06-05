@@ -11,6 +11,7 @@ import myHome from '@/components/home/home'
 import mySeller from '@/components/seller/seller'
 import myInfoPublicity from '@/components/infoPublicity/infoPublicity'
 import myTransferDetails from '@/components/transferDetails/transferDetails'
+import myHomeDetails from '@/components/homeDetails/homeDetails'
 import myDeveloper from '@/components/developer/developer'
 Vue.use(Router);
 
@@ -62,9 +63,9 @@ export default new Router({
       ]
     },
     {
-      path: '/home',
-      name: 'home',
-      component: myHome
+      path:'/home',
+      name:'home',
+      component:myHome
     },
     {
       path: '/infoPublicity',
@@ -80,6 +81,11 @@ export default new Router({
       path: '/transferDetails',
       name: 'transferDetails',
       component: myTransferDetails
+    },
+    {
+      path: '/homeDetails',
+      name: 'homeDetails',
+      component: myHomeDetails
     },
     {
       path:'/developer',

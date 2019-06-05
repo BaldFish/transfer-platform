@@ -113,7 +113,7 @@
   import {baseURL, loginPlatform, exchangePlatform, transferPlatform, searchPlatform} from '@/common/js/public.js';
   import axios from "axios";
   import utils from "@/common/js/utils.js";
-  
+
   export default {
     name: 'App',
     components: {},
@@ -144,7 +144,7 @@
       }
     },
     beforeMount() {
-      let token = utils.getCookie("token");
+      let token = utils.getCookie("token") || this.getQuery("uutoken");
       if (token) {
         axios({
           method: "GET",
@@ -185,7 +185,7 @@
       }
     },
     beforeUpdate() {
-      let token = utils.getCookie("token");
+      let token = utils.getCookie("token") || this.getQuery("uutoken");
       if (token) {
         axios({
           method: "GET",
@@ -243,6 +243,16 @@
       }
     },
     methods: {
+      //获取URL参数
+      getQuery(name){
+        let reg=new RegExp('(^|&)'+name+'=([^&]*)(&|$)');
+        let r=window.location.search.substr(1).match(reg);
+        if(r!=null){
+          return unescape(r[2]);
+        } else{
+          return null
+        }
+      },
       advise(){
         this.name="";
         this.phone="";
@@ -392,7 +402,7 @@
     display: flex;
     flex-direction: column;
   }
-  
+
   .head-wrap {
     width: 100%;
     min-width 1212px
@@ -587,7 +597,7 @@
           left 50px
           bottom 0
         }
-        
+
       }
       .platform {
         box-sizing border-box
@@ -715,7 +725,7 @@
     min-width 1212px
     background-color #f3f3f3
   }
-  
+
   .footer-wrap {
     width 100%
     min-width 1212px
