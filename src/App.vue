@@ -222,7 +222,7 @@
           if (res.data.code == 200) {
             this.autoLogin(token)
           } else {
-            console.log("UUToken无效6666")
+            console.log("UUToken无效")
           }
         }).catch((err) => {
           console.log(err);
