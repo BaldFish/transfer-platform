@@ -157,20 +157,14 @@
             "Access-Token": `${token}`,
           }
         }).then((res) => {
-
-          console.log(res.data.code)
-
           if (res.data.code == 200) {
-            this.autoLogin(username,token)
+            this.autoLogin(token)
           } else {
             console.log("UUToken无效")
           }
-
         }).catch((err) => {
           console.log(err);
         })
-
-
       } else {
         let token = utils.getCookie("token");
         if (token) {
@@ -214,38 +208,59 @@
       }
     },
     beforeUpdate() {
-      let token = utils.getCookie("token") || this.getQuery("uutoken");
-      if (token) {
+      if (this.getQuery("uutoken")){
+        //验证 UUToken 有效性接口
+        let username = this.getQuery("username");
+        let token = this.getQuery("uutoken");
         axios({
           method: "GET",
-          url: `${baseURL}/v1/sessions/check`,
+          url: `${baseURL}/v1/saas/uutoken?phone=${encodeURIComponent(username)}&uutoken=${token}`,
           headers: {
             "Access-Token": `${token}`,
           }
         }).then((res) => {
-          if (res.data.user_id) {
-            window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
-            let loginInfo = {};
-            loginInfo.token = token;
-            loginInfo.user_id = res.data.user_id;
-            window.sessionStorage.setItem("loginInfo", JSON.stringify(loginInfo));
-            this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
-            this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
-            this.userName = JSON.parse(sessionStorage.getItem("userInfo")).phone;
-            this.isLogin = true;
-            this.acquireFavoriteCount();
+          if (res.data.code == 200) {
+            this.autoLogin(token)
           } else {
-            this.isLogin = false;
-            sessionStorage.removeItem('loginInfo');
-            sessionStorage.removeItem('userInfo');
-            //this.dropOut()
+            console.log("UUToken无效")
           }
         }).catch((err) => {
           console.log(err);
         })
       } else {
-        sessionStorage.removeItem('loginInfo');
-        sessionStorage.removeItem('userInfo');
+        let token = utils.getCookie("token");
+        if (token) {
+          axios({
+            method: "GET",
+            url: `${baseURL}/v1/sessions/check`,
+            headers: {
+              "Access-Token": `${token}`,
+            }
+          }).then((res) => {
+            if (res.data.user_id) {
+              window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
+              let loginInfo = {};
+              loginInfo.token = token;
+              loginInfo.user_id = res.data.user_id;
+              window.sessionStorage.setItem("loginInfo", JSON.stringify(loginInfo));
+              this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
+              this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
+              this.userName = JSON.parse(sessionStorage.getItem("userInfo")).phone;
+              this.isLogin = true;
+              this.acquireFavoriteCount();
+            } else {
+              this.isLogin = false;
+              sessionStorage.removeItem('loginInfo');
+              sessionStorage.removeItem('userInfo');
+              //this.dropOut()
+            }
+          }).catch((err) => {
+            console.log(err);
+          })
+        } else {
+          sessionStorage.removeItem('loginInfo');
+          sessionStorage.removeItem('userInfo');
+        }
       }
     },
     computed: {
@@ -296,35 +311,33 @@
         return deviceId;
       },
       //SaaS平台过来自动登录
-      autoLogin(username,token){
+      autoLogin(token){
         let loginFormData = {
-          phone: username,//手机号
+          uutoken: token,//uutoken
           device_id: this.deviceId(),//设备唯一识别码，可以用UUID生成
           platform: 1,//1-web,2-安卓,3-iOS,4-大数据 5-公众号
         };
         axios({
           method: "POST",
-          url: `${baseURL}/v1/sessions/phone/internal`,
-          headers: {
-            "Access-Token": `${token}`,
-          },
+          url: `${baseURL}/v1/sessions/phone/auto-login`,
           data: querystring.stringify(loginFormData)
         }).then((res) => {
-
-          console.log(res.data,"res.data")
-          console.log(res.data.data,"res.data.data")
-
-         /* window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
-          let loginInfo = {};
-          loginInfo.token = token;
-          loginInfo.user_id = res.data.user_id;
-          window.sessionStorage.setItem("loginInfo", JSON.stringify(loginInfo));
-          this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
-          this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
-          this.userName = JSON.parse(sessionStorage.getItem("userInfo")).phone;
-          this.isLogin = true;
-          this.acquireFavoriteCount();*/
-
+          if (res.data.user_id) {
+            window.sessionStorage.setItem("userInfo", JSON.stringify(res.data));
+            let loginInfo = {};
+            loginInfo.token = token;
+            loginInfo.user_id = res.data.user_id;
+            window.sessionStorage.setItem("loginInfo", JSON.stringify(loginInfo));
+            this.userId = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
+            this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
+            this.userName = JSON.parse(sessionStorage.getItem("userInfo")).phone.substring(3).replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+            this.isLogin = true;
+            this.acquireFavoriteCount();
+          } else {
+            this.isLogin = false;
+            sessionStorage.removeItem('loginInfo');
+            sessionStorage.removeItem('userInfo');
+          }
         }).catch((err) => {
           console.log(err);
         })
