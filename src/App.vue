@@ -146,25 +146,30 @@
       }
     },
     beforeMount() {
-      if (this.getQuery("uutoken")){
-        //验证 UUToken 有效性接口
+      if (this.getQuery("username")){
         let username = this.getQuery("username");
         let token = this.getQuery("uutoken");
-        axios({
-          method: "GET",
-          url: `${baseURL}/v1/saas/uutoken?phone=${encodeURIComponent(username)}&uutoken=${token}`,
-          headers: {
-            "Access-Token": `${token}`,
-          }
-        }).then((res) => {
-          if (res.data.code == 200) {
-            this.autoLogin(token)
-          } else {
-            console.log("UUToken无效")
-          }
-        }).catch((err) => {
-          console.log(err);
-        })
+        let guest_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjA4MjgxNjMsInVzZXJfaWQiOiI1YmZmNzY5Yzk1ZmM3NTAwMDExYTY4MzYiLCJwaG9uZSI6Iis4NjE4ODg4ODg4ODg4In0.i_5aWwEy8HFIvJcfXiZwnUeL-DARIsI9ZXd1MYCx81o";
+        if(username == "guest"){
+          this.autoLogin(guest_token)
+        } else {
+          //验证 UUToken 有效性接口
+          axios({
+            method: "GET",
+            url: `${baseURL}/v1/saas/uutoken?phone=${encodeURIComponent(username)}&uutoken=${token}`,
+            headers: {
+              "Access-Token": `${token}`,
+            }
+          }).then((res) => {
+            if (res.data.code == 200) {
+              this.autoLogin(token)
+            } else {
+              console.log("UUToken无效")
+            }
+          }).catch((err) => {
+            console.log(err);
+          })
+        }
       } else {
         let token = utils.getCookie("token");
         if (token) {
@@ -208,25 +213,30 @@
       }
     },
     beforeUpdate() {
-      if (this.getQuery("uutoken")){
-        //验证 UUToken 有效性接口
+      if (this.getQuery("username")){
         let username = this.getQuery("username");
         let token = this.getQuery("uutoken");
-        axios({
-          method: "GET",
-          url: `${baseURL}/v1/saas/uutoken?phone=${encodeURIComponent(username)}&uutoken=${token}`,
-          headers: {
-            "Access-Token": `${token}`,
-          }
-        }).then((res) => {
-          if (res.data.code == 200) {
-            this.autoLogin(token)
-          } else {
-            console.log("UUToken无效")
-          }
-        }).catch((err) => {
-          console.log(err);
-        })
+        let guest_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjA4MjgxNjMsInVzZXJfaWQiOiI1YmZmNzY5Yzk1ZmM3NTAwMDExYTY4MzYiLCJwaG9uZSI6Iis4NjE4ODg4ODg4ODg4In0.i_5aWwEy8HFIvJcfXiZwnUeL-DARIsI9ZXd1MYCx81o";
+        if(username == "guest"){
+          this.autoLogin(guest_token)
+        } else {
+          //验证 UUToken 有效性接口
+          axios({
+            method: "GET",
+            url: `${baseURL}/v1/saas/uutoken?phone=${encodeURIComponent(username)}&uutoken=${token}`,
+            headers: {
+              "Access-Token": `${token}`,
+            }
+          }).then((res) => {
+            if (res.data.code == 200) {
+              this.autoLogin(token)
+            } else {
+              console.log("UUToken无效")
+            }
+          }).catch((err) => {
+            console.log(err);
+          })
+        }
       } else {
         let token = utils.getCookie("token");
         if (token) {
