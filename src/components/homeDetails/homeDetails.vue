@@ -271,12 +271,8 @@
         axios({
           method: "POST",
           url: `http://39.108.80.66:20018/api/v1/finance/monthly_average_income`,
-          /*headers: {
-            "Content-Type": "application/json",
-          },*/
           data: querystring.stringify(postData)
         }).then((res) => {
-          console.log(res.data.data.monthly_average_income)
           this.monthly_average_income = res.data.data.monthly_average_income;
         }).catch((err) => {
           console.log(err);
