@@ -123,7 +123,7 @@
           <span>&nbsp;~&nbsp;</span>
           <span>{{flowList.end_time}}</span>
         </div>
-        <p>月平均收益：<span>￥{{flowList.revenue}}</span></p>
+        <p>月平均收益：<span>￥{{monthly_average_income}}</span></p>
       </div>
     </div>
     <div class="transfer-record">
@@ -193,7 +193,8 @@
         total: 10,
         pageSize: 10,
         currentPage: 1,
-        tableData: []
+        tableData: [],
+        monthly_average_income: 0
       }
     },
 
@@ -254,6 +255,29 @@
           this.total = res.data.data.count;
           this.flowList = res.data.data;
           this.tableData = res.data.data.lists;
+          //获取获取月平均收入
+          this.getMonthlyAvgIncome();
+        }).catch((err) => {
+          console.log(err);
+        })
+      },
+      //获取获取月平均收入
+      getMonthlyAvgIncome(){
+        let postData = {
+          asset_id: this.$route.query.asset_id.toString(),
+          begin_date: Number(parseInt(new Date(this.flowList.start_time).getTime()/1000)),
+          end_date: Number(parseInt(new Date(this.flowList.end_time).getTime()/1000)),
+        };
+        axios({
+          method: "POST",
+          url: `http://39.108.80.66:20018/api/v1/finance/monthly_average_income`,
+          /*headers: {
+            "Content-Type": "application/json",
+          },*/
+          data: querystring.stringify(postData)
+        }).then((res) => {
+          console.log(res.data)
+          this.monthly_average_income = res.data.monthly_average_income;
         }).catch((err) => {
           console.log(err);
         })
