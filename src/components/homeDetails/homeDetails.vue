@@ -276,8 +276,8 @@
           },*/
           data: querystring.stringify(postData)
         }).then((res) => {
-          console.log(res.data)
-          this.monthly_average_income = res.data.monthly_average_income;
+          console.log(res.data.data.monthly_average_income)
+          this.monthly_average_income = res.data.data.monthly_average_income;
         }).catch((err) => {
           console.log(err);
         })
