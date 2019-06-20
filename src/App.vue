@@ -79,6 +79,7 @@
         <div class="ft-box">
           <ul class="text">
             <li @click="advise">意见和建议</li>
+            <li><a href="http://www.beian.miit.gov.cn/" target="_blank">粤ICP备19004762号-3</a></li>
           </ul>
         </div>
         <div class="ft-box">
@@ -897,11 +898,16 @@
         }
       }
       .ft-box:nth-child(3){
-        margin-left 130px
-        li{
+        margin-left 100px
+        li:first-child{
           cursor pointer
-          border 1px solid #ffffff
-          padding 4px
+          //border 1px solid #ffffff
+          //padding 4px
+        }
+        li:last-child{
+          a{
+            color #ffffff
+          }
         }
       }
       .ft-box:last-child {
