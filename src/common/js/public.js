@@ -1,4 +1,4 @@
-let baseURL="https://wallet-api.launchain.cn";
+let baseURL="https://wallet-api-test.launchain.org";
 let loginPlatform="https://login.datajs.com.cn";
 let exchangePlatform="https://exchange.datajs.com.cn";
 let transferPlatform="https://transfer.datajs.com.cn";
