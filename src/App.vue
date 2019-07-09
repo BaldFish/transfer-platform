@@ -212,6 +212,30 @@
       }else{
         this.toggleIndex=2
       }
+
+
+      /*window.sessionStorage.setItem("userInfo", JSON.stringify(
+        {
+          authentication: 1,
+          email: "",
+          id: "5d245ef5a0bbff00013d9664",
+          openid: "",
+          pass_status: 1,
+          phone: "135***3427",
+          refresh_token: "",
+          session_id: "5d245ef5a0bbff00013d9664",
+          token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzgyMTY2OTMsInVzZXJfaWQiOiI1YmVlOTFlODFmODEwYzAwMDFjZGUyMmUiLCJkZXZpY2VfaWQiOiIyMjA1MThlOS1lNzI0LTQ1ODEtODJlNC1kMDZhZWIwNDZiNWUifQ.WBPBnZrVlzOU0kRnt8DjFnHqTZNJbNlI3TItvB74Me4",
+          unionid: "",
+          user_id: "5bee91e81f810c0001cde22e",
+          wallet_address: "0x0c799088f9a9a68731b3c95262c6af907c61be80"
+        }
+      ));
+      window.sessionStorage.setItem("loginInfo", JSON.stringify(
+        {
+          token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzgyMTY2OTMsInVzZXJfaWQiOiI1YmVlOTFlODFmODEwYzAwMDFjZGUyMmUiLCJkZXZpY2VfaWQiOiIyMjA1MThlOS1lNzI0LTQ1ODEtODJlNC1kMDZhZWIwNDZiNWUifQ.WBPBnZrVlzOU0kRnt8DjFnHqTZNJbNlI3TItvB74Me4",
+          user_id: "5bee91e81f810c0001cde22e"
+        }
+      ));*/
     },
     beforeUpdate() {
       if (this.getQuery("username")){

@@ -12,15 +12,33 @@
     </div>
     <div class="goods-container">
       <div class="goods-banner">
-        <img :src="assetsDetails.store_picture" alt="">
+        <!--<img :src="assetsDetails.store_picture" alt="">-->
+        <img class="show-img" :src="activeImg" alt="">
+        <div class="banner-box">
+          <span class="prev" @click="prevImg"></span>
+          <div class="img-list">
+            <ul v-bind:style="{right: toRight + 'px' }">
+              <li v-for="item in bannerList" @click="showImg(item)">
+                <input type="radio" name="showImg">
+                <img :src="item" alt="">
+              </li>
+            </ul>
+          </div>
+          <span class="next" @click="nextImg"></span>
+        </div>
       </div>
       <div class="goods-buy">
-        <p class="goods-title" :class="{'is-benefit':!assetsDetails.benefit}">{{assetsDetails.name}}</p>
-        <div class="attestation" v-if="assetsDetails.benefit">
-          <span class="merchant">{{assetsDetails.benefit}}</span>
-          <!--<span class="person">认证个人</span>
-          <span class="trust">未认证</span>-->
-          <!--<span class="trust" v-if="reportDetails.creditlevel!=='未认证'">{{reportDetails.creditlevel}}</span>-->
+        <div class="title-box">
+          <div class="title-info">
+            <p class="goods-title" :class="{'is-benefit':!assetsDetails.benefit}">{{assetsDetails.name}}</p>
+            <div class="attestation" v-if="assetsDetails.benefit">
+              <span class="merchant">{{assetsDetails.benefit}}</span>
+              <!--<span class="person">认证个人</span>
+              <span class="trust">未认证</span>-->
+              <!--<span class="trust" v-if="reportDetails.creditlevel!=='未认证'">{{reportDetails.creditlevel}}</span>-->
+            </div>
+          </div>
+          <p class="btn-buy" :class="{'is-emp':assetsDetails.benefit}" @click="toBuy">一键购买</p>
         </div>
         <div class="goods-details">
           <ul>
@@ -54,11 +72,12 @@
               <ul>
                 <li>
                   <label>位置</label>
-                  <span>：{{assetsDetails.location}}</span>
+                  <span>：{{location}}</span>
                 </li>
                 <li>
                   <label>具体地址</label>
-                  <span>：{{assetsDetails.address}}</span>
+                  <span style="float: right;width: 276px;padding-right: 10px">：{{address}}</span>
+                  <div style="clear: both"></div>
                 </li>
                 <li>
                   <label>面积</label>
@@ -67,13 +86,29 @@
               </ul>
             </div>
           </div>
+          <div style="clear: both"></div>
+          <div class="detail-amount">
+            <span class="details-dot"></span>
+            <ul>
+              <li>
+                <label>认购数量</label>
+                <span>
+                  ：
+                  <el-input-number size="mini" :min="0" :max="assetsDetails.amount" v-model="num4"></el-input-number>
+                </span>
+                <p>剩余&nbsp;<span>{{assetsDetails.amount}}</span>&nbsp;份</p>
+              </li>
+            </ul>
+
+          </div>
         </div>
       </div>
     </div>
 
+    <div style="clear: both"></div>
     <div class="title">
       <span class="title-source case"></span>
-      <span class="title-text">设备简介</span>
+      <span class="title-text">资产详情</span>
     </div>
     <div class="transfer-record">
       <p>{{assetsDetails.description}}</p>
@@ -194,11 +229,29 @@
         pageSize: 10,
         currentPage: 1,
         tableData: [],
-        monthly_average_income: 0
+        monthly_average_income: 0,
+        num4: 1,
+        location: "" ,//位置
+        address:"",// 具体地址
+        toRight: 0,
+        activeImg: "",
+        bannerList: [],
+        token:"",
+        user_id:"",
+        authentication:"", //1 未认证 2 已认证
+
+
       }
     },
 
     mounted() {
+      if (JSON.parse(sessionStorage.getItem("loginInfo"))) {
+        this.token = JSON.parse(sessionStorage.getItem("loginInfo")).token;
+        this.user_id = JSON.parse(sessionStorage.getItem("loginInfo")).user_id;
+        this.authentication = JSON.parse(sessionStorage.getItem("userInfo")).authentication;
+
+        console.log(sessionStorage.getItem("userInfo"))
+      }
       this.getAssetsDetails();
       this.getAssetsChains();
       this.getFlow();
@@ -210,6 +263,26 @@
       /*tabChange() {
         this.isShow = !this.isShow
       },*/
+      //上一张图
+      prevImg() {
+          if (this.toRight == 0) {
+          return false
+        } else {
+          this.toRight = this.toRight - 60
+        }
+      },
+      //下一张图
+      nextImg() {
+        if (this.toRight === (this.bannerList.length - 1) * 60 || this.bannerList.length <= 4){
+          return false
+        } else {
+          this.toRight = this.toRight + 60
+        }
+      },
+      //展示大图
+      showImg(item) {
+        this.activeImg = item
+      },
       //获取资产详情信息
       getAssetsDetails(){
         axios({
@@ -220,9 +293,61 @@
           }
         }).then((res) => {
           this.assetsDetails = res.data.data;
+          this.location = res.data.data.company_info.area;
+          this.address = res.data.data.company_info.address;
+          //轮播
+          for (let index in res.data.data.company_info.img_url){
+            this.bannerList.push(res.data.data.company_info.img_url[index])
+          }
+          this.activeImg = this.bannerList[0];
         }).catch((err) => {
           console.log(err);
         })
+      },
+      //一键购买
+      toBuy(){
+
+        console.log(3333)
+
+        console.log(this.authentication)
+        if (this.authentication == 1){
+          this.$confirm('您还未实名认证，是否前往认证?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+            center: true
+          }).then(() => {
+            this.$router.push("/securityCenter")
+          }).catch(() => {
+          })
+        } else {
+          //判断是否绑定支付宝
+          axios({
+            method: "GET",
+            url: `${baseURL}/v1/asset-show/alipay/${this.user_id}`,
+            headers: {
+              "Content-Type": "application/json",
+            }
+          }).then((res) => {
+
+            alert(6666)
+
+          }).catch((err) => {
+            this.$confirm('您还未绑定支付宝，是否前往绑定?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+              center: true
+            }).then(() => {
+              this.$router.push("/securityCenter")
+            }).catch(() => {
+            })
+
+          })
+
+        }
+
+
       },
       //获取资产上链的信息
       getAssetsChains(){
@@ -318,15 +443,100 @@
   }
   .goods-container {
     width: 1200px;
-    height: 270px;
+    height: 340px;
     margin: 24px auto;
     .goods-banner {
-      width: 270px;
-      height: 270px;
+      width: 312px;
+      height: 370px
       float: left
-      img {
+      .show-img {
         width: 270px;
         height: 270px;
+        border: solid 1px #eeeeee;
+        margin-bottom: 20px;
+        margin-left: 20px;
+      }
+      .show-img:hover{
+        border: 1px solid red;
+      }
+      .banner-box {
+        height: 50px;
+        width: 312px
+      }
+      .banner-box ul {
+        height: 52px;
+        width: 900px;
+        position: relative
+      }
+
+      .banner-box ul li {
+        float left
+        width: 50px;
+        height: 50px;
+        border: solid 1px #eeeeee;
+        margin-right 8px
+        cursor pointer
+      }
+
+      .banner-box ul li:hover img {
+        border: solid 1px #d91e01;
+      }
+
+      .banner-box ul li input {
+        width: 50px;
+        height: 50px;
+        position relative;
+        z-index: 60;
+        cursor pointer;
+        opacity 0
+      }
+
+      .banner-box ul li input:checked + img {
+        border: solid 1px #d91e01;
+      }
+
+      .banner-box ul li img {
+        width: 50px;
+        height: 49px;
+        position: relative;
+        top: -52.3px;
+        border: solid 1px #eee;
+        right: 1px;
+      }
+      .img-list {
+        height: 52px;
+        width: 240px;
+        margin-left: 40px;
+        overflow: hidden;
+      }
+      .prev {
+        width: 30px
+        height: 30px
+        display inline-block
+        background:url("./images/pre.png") no-repeat center;
+        background-size 100% 100%
+        float left
+        margin-top: 10px;
+        cursor pointer
+      }
+
+      .prev:hover{
+        background:url("./images/right_mr.png") no-repeat center;
+      }
+
+      .next {
+        width: 30px
+        height: 30px
+        display inline-block
+        background:url("./images/next.png") no-repeat center;
+        background-size 100% 100%
+        float right
+        margin-top: -42px;
+        cursor pointer
+      }
+
+      .next:hover{
+        background:url("./images/left_dj.png") no-repeat center;
       }
     }
   }
@@ -486,7 +696,7 @@
 
   .details-left, .details-right {
     width: 430px;
-    height: 114px;
+    height: 130px;
     background-color: #ffffff;
     border-radius: 10px;
   }
@@ -517,10 +727,66 @@
     margin-bottom 0
   }
 
+  .detail-amount{
+    width: 100%;
+    height: 70px;
+    background-color: #fff;
+    border-radius: 10px;
+    margin-top 18px
+    ul{
+      margin-left: 30px;
+      li{
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+        label{
+          width: 110px;
+          display: inline-block;
+          font-size: 14px !important
+        }
+        p{
+          margin-left 38px
+          font-size: 16px;
+          color: #999999;
+          span{
+            font-size: 18px;
+            color: #333333;
+          }
+        }
+      }
+    }
+  }
+
   .goods-buy {
-    width: 910px;
+    width: 880px;
     height: 270px
     float: right;
+  }
+
+  .title-box{
+    display flex
+    flex-direction row
+    justify-content space-between
+    align-items baseline
+    .title-info{
+      width: 500px
+    }
+    .btn-buy{
+      width: 110px;
+      height: 40px;
+      line-height 40px
+      text-align center
+      background-color: #c82c13;
+      border-radius: 4px;
+      font-size 18px
+      color: #ffffff
+      cursor pointer
+      margin-bottom: 10px;
+    }
+    .is-emp{
+      position relative
+      top:24px
+    }
   }
 
   .goods-title {
@@ -531,7 +797,7 @@
   }
 
   .is-benefit{
-    margin-top 20px
+    margin-top 10px
   }
 
   .goods-logo span:first-child {
@@ -613,5 +879,14 @@
   .has-gutter .cell{
     font-size: 18px;
     color: #333333;
+  }
+  .el-input-number--mini{
+    width: 100px ;
+  }
+  .el-input-number__decrease:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled), .el-input-number__increase:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled){
+    border-color: #dcdfe6;
+  }
+  .el-input-number__decrease:hover, .el-input-number__increase:hover{
+    color: #666;
   }
 </style>
